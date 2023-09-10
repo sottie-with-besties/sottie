@@ -17,13 +17,13 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI openAPI() {
 		Server server = new Server()
-			.url("http://sottie.com/")
+			.url("http://localhost:8080/")
 			.description("server description");
 
 		Contact contact = new Contact()
 			.email("sottie@sottie.com")
 			.name("sottie")
-			.url("http://sottie.com/");
+			.url("http://localhost:8080/");
 
 		License mitLicense = new License()
 			.name("MIT License")
@@ -34,7 +34,7 @@ public class SwaggerConfig {
 			.version("1.0")
 			.contact(contact)
 			.description("info description")
-			.termsOfService("https://sottie.com/terms")
+			.termsOfService("https://localhost:8080/terms")
 			.license(mitLicense);
 
 		return new OpenAPI().info(info).servers(List.of(server));
