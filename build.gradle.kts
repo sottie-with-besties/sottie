@@ -28,6 +28,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3")
 	implementation("com.okta.spring:okta-spring-boot-starter:3.0.5")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	compileOnly("org.projectlombok:lombok")

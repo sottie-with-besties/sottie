@@ -7,13 +7,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SnsLoginController {
 
-	@GetMapping(value = "snsLogin")
-	public String snsLogin(Model model) {
-		return "snsLogin";
+	@GetMapping(value = "naverLogin")
+	public String naverLogin(Model model) {
+		return "naverLogin";
 	}
 
-	@GetMapping(value = "snsLoginCallback")
-	public String snsLoginCallback(Model model) {
-		return "snsLoginCallback";
+	@GetMapping(value = "naverLoginCallback")
+	public String naverLoginCallback(Model model) {
+		return "naverLoginCallback";
 	}
+
+	@GetMapping(value = "kakaoLogin")
+	public String kakaoLogin(Model model) {
+		return "kakaoLogin";
+	}
+
+	@GetMapping(value = "kakaoLoginCallback")
+	public String kakaoLoginCallback(Model model) {
+		return "kakaoLoginCallback";
+	}
+
 }
