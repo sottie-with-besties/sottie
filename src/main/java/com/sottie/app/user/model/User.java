@@ -5,6 +5,7 @@ import com.sottie.app.base.domain.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
+@Table(name = "st_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class User extends BaseEntity {
@@ -27,6 +29,7 @@ public class User extends BaseEntity {
 	private String password;
 
 	private String phoneNumber;
+
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 

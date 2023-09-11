@@ -25,9 +25,9 @@ public abstract class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@CreationTimestamp
-	private LocalDateTime registerDate;
+	private LocalDateTime createdDate;
 	@UpdateTimestamp
-	private LocalDateTime modifyDate;
+	private LocalDateTime modifiedDate;
 	@Builder.Default
 	private String registeredBy = "system";
 	@Builder.Default
