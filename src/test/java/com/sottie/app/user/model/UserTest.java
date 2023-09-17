@@ -7,8 +7,8 @@ public class UserTest {
 			.name("name")
 			.nickName("nickName")
 			.gender(Gender.FEMALE)
-			.email("email")
-			.password("passwords")
+			.email("test@gmail.com")
+			.password("test123!!")
 			.build();
 	}
 }

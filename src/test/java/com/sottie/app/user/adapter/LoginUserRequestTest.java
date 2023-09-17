@@ -17,19 +17,19 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
 @ExtendWith(MockitoExtension.class)
-public class GetUserRequestTest {
+public class LoginUserRequestTest {
 	@ParameterizedTest
 	@MethodSource("invalidBody")
 	void 생성자테스트(String email, String password) {
 		ValidatorFactory validatorFactory = buildDefaultValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		GetUserRequest getUserRequest = GetUserRequest.builder()
+		LoginUserRequest loginUserRequest = LoginUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
 
-		Set<ConstraintViolation<GetUserRequest>> violations = validator.validate(getUserRequest);
+		Set<ConstraintViolation<LoginUserRequest>> violations = validator.validate(loginUserRequest);
 
 		assertThat(violations.size() > 0).isEqualTo(true);
 	}
@@ -38,7 +38,7 @@ public class GetUserRequestTest {
 		return List.of(
 			Arguments.of("abc.com", "password"), //invalid email
 			Arguments.of("", " "),  //blank test
-			Arguments.of("abc@com", "") //invalid password
+			Arguments.of("abc@com", "test123") //invalid password
 		);
 	}
 }

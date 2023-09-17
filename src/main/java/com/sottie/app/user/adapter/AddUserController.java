@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.sottie.app.user.application.GetUserService;
+import com.sottie.app.user.application.AddUserService;
 import com.sottie.app.user.model.User;
 
 import jakarta.validation.Valid;
@@ -12,12 +12,13 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-class GetUserController {
+class AddUserController {
 
-	private final GetUserService userService;
+	private final AddUserService addUserService;
 
-	@PostMapping("/sottie/login/users")
-	public User loginUser(@RequestBody @Valid LoginUserRequest loginUserRequest) {
-		return userService.getUserForLogin(loginUserRequest.email(), loginUserRequest.password());
+	@PostMapping("/sottie/signup/users")
+	public User signUpUser(@RequestBody @Valid SignUpUserRequest signUpUserRequest) {
+		return addUserService.addUserForSignUp(signUpUserRequest.to());
 	}
+
 }

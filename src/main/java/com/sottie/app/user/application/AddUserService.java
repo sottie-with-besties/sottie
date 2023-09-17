@@ -12,13 +12,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class GetUserService {
+@Transactional
+public class AddUserService {
 
 	private final UserRepository userRepository;
 
-	public User getUserForLogin(String email, String password) {
-		return userRepository.findByEmailAndPassword(email, password)
-			.orElseThrow(() -> CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build());
+	public User addUserForSignUp(User newUser) {
+		if (userRepository.existsByEmail(newUser.getEmail())) {
+			throw CommonException.builder(UserErrorCode.USER_ALREADY_EXISTS).build();
+		}
+		return userRepository.save(newUser);
 	}
 }

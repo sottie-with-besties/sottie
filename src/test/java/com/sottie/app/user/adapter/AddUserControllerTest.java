@@ -20,17 +20,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sottie.app.user.application.GetUserService;
+import com.sottie.app.user.application.AddUserService;
 import com.sottie.errors.GlobalExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
-public class GetUserControllerTest {
+public class AddUserControllerTest {
 
 	@InjectMocks
-	private GetUserController controller;
+	private AddUserController controller;
 
 	@Mock
-	private GetUserService service;
+	private AddUserService service;
 
 	private MockMvc mockMvc;
 
@@ -38,7 +38,7 @@ public class GetUserControllerTest {
 
 	@BeforeEach
 	void init() {
-		this.url = "/sottie/login/users";
+		this.url = "/sottie/signup/users";
 		mockMvc = MockMvcBuilders.standaloneSetup(controller)
 			.setControllerAdvice(new GlobalExceptionHandler())
 			.setValidator(new LocalValidatorFactoryBean())
@@ -47,9 +47,9 @@ public class GetUserControllerTest {
 
 	@ParameterizedTest
 	@MethodSource("invalidBody")
-	void 사용자조회실패_invalidBody(String email, String password) throws Exception {
+	void 사용자추가실패_invalidBody(String email, String password) throws Exception {
 		//given
-		LoginUserRequest loginUserRequest = LoginUserRequest.builder()
+		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
@@ -58,18 +58,47 @@ public class GetUserControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(loginUserRequest))
+				.content(new ObjectMapper().writeValueAsString(signUpUserRequest))
 		);
 
 		//then
 		result.andExpect(status().isBadRequest());
 	}
 
+	@ParameterizedTest
+	@MethodSource("validBody")
+	void 사용자추가성공_validBody(String email, String password) throws Exception {
+		//given
+		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
+			.email(email)
+			.password(password)
+			.build();
+
+		//when
+		ResultActions result = mockMvc.perform(
+			post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(signUpUserRequest))
+		);
+
+		//then
+		result.andExpect(status().isOk());
+	}
+
 	private static List<Arguments> invalidBody() {
 		return List.of(
 			Arguments.of("abc.com", "password"), //invalid email
 			Arguments.of("", " "),  //blank test
-			Arguments.of("abc@com", "") //invalid password
+			Arguments.of("abc@com", "test1!"), //invalid password
+			Arguments.of("abc@gmail.com", "test232")
+		);
+	}
+
+	private static List<Arguments> validBody() {
+		return List.of(
+			Arguments.of("test@abc.com", "password123!@#"),
+			Arguments.of("abc@naver.com", "123Test!@#"),
+			Arguments.of("abc@com", "!!!!123test")
 		);
 	}
 }

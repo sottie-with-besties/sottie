@@ -4,50 +4,48 @@ import static com.sottie.app.user.model.UserTest.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
 
 @ExtendWith(MockitoExtension.class)
-public class GetUserServiceTest {
+public class AddUserServiceTest {
 
 	@InjectMocks
-	private GetUserService getUserService;
+	private AddUserService addUserService;
 
 	@Mock
 	private UserRepository userRepository;
 
 	@Test
-	void 사용자조회_성공() {
+	void 사용자추가_성공() {
 		//given
-		doReturn(Optional.of(user()))
+		doReturn(false)
 			.when(userRepository)
-			.findByEmailAndPassword("email", "password");
+			.existsByEmail("test@gmail.com");
 		//when
-		User result = getUserService.getUserForLogin("email", "password");
+		addUserService.addUserForSignUp(user());
 
 		//then
-		assertThat(result).isNotNull();
+		verify(userRepository, times(1)).save(any());
 
 	}
 
 	@Test
-	void 사용자조회_실패() {
+	void 사용자추기_실패() {
 		//when
-		doReturn(Optional.empty())
+		doReturn(true)
 			.when(userRepository)
-			.findByEmailAndPassword("email", "password");
+			.existsByEmail("test@gmail.com");
 
 		//then
-		assertThatThrownBy(() -> getUserService.getUserForLogin("email", "password"))
+		assertThatThrownBy(() -> addUserService.addUserForSignUp(user()))
 			.isInstanceOf(CommonException.class);
 	}
+
 }

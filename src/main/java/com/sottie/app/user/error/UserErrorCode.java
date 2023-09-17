@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public enum UserErrorCode implements ErrorCode {
 
 	USER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "User Unauthorized"),
+	USER_ALREADY_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "User already exists"),
 	;
 	private final HttpStatus httpStatus;
 
