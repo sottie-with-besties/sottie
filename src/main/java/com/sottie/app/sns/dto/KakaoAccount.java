@@ -1,4 +1,4 @@
-package com.sottie.app.login.dto;
+package com.sottie.app.sns.dto;
 
 import java.time.LocalDateTime;
 

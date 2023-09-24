@@ -1,4 +1,4 @@
-package com.sottie.app.login.feign;
+package com.sottie.app.sns.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sottie.app.login.dto.NaverProfile;
-import com.sottie.app.login.dto.NaverToken;
-import com.sottie.app.login.dto.ResponseNaver;
+import com.sottie.app.sns.dto.NaverProfile;
+import com.sottie.app.sns.dto.NaverToken;
+import com.sottie.app.sns.dto.ResponseNaver;
 
 @FeignClient(name = "naverFeignClient", url = "https://openapi.naver.com/v1/nid")
 public interface NaverFeignClient {

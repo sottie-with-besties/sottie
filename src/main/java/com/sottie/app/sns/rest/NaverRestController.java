@@ -1,4 +1,4 @@
-package com.sottie.app.login.rest;
+package com.sottie.app.sns.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sottie.app.login.dto.NaverProfile;
-import com.sottie.app.login.dto.NaverToken;
-import com.sottie.app.login.dto.ResponseNaver;
-import com.sottie.app.login.feign.NaverFeignClient;
+import com.sottie.app.sns.dto.NaverProfile;
+import com.sottie.app.sns.dto.NaverToken;
+import com.sottie.app.sns.dto.ResponseNaver;
+import com.sottie.app.sns.feign.NaverFeignClient;
 
 @RestController
 @RequestMapping(value = "/naver")
-public class NaverLoginController {
+public class NaverRestController {
 
 	@Autowired
 	private NaverFeignClient naverFeignClient;
