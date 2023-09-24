@@ -1,11 +1,11 @@
-package com.sottie.app.login.feign;
+package com.sottie.app.sns.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import com.sottie.app.login.dto.ResponseKakaoProfile;
+import com.sottie.app.sns.dto.ResponseKakaoProfile;
 
 @FeignClient(name = "kakaoFeignClient", url = "https://kapi.kakao.com/v2/user")
 public interface KakaoFeignClient {

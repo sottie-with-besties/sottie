@@ -1,4 +1,4 @@
-package com.sottie.app.login.rest;
+package com.sottie.app.sns.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

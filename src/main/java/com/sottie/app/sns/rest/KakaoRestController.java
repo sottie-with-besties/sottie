@@ -1,4 +1,4 @@
-package com.sottie.app.login.rest;
+package com.sottie.app.sns.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sottie.app.login.dto.ResponseKakaoProfile;
-import com.sottie.app.login.feign.KakaoFeignClient;
+import com.sottie.app.sns.dto.ResponseKakaoProfile;
+import com.sottie.app.sns.feign.KakaoFeignClient;
 
 @RestController
 @RequestMapping(value = "/kakao")
-public class KakaoLoginController {
+public class KakaoRestController {
 
 	@Autowired
 	private KakaoFeignClient kakaoFeignClient;
