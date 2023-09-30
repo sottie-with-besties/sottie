@@ -28,4 +28,17 @@ class UserRepositoryTest {
 		assertThat(result).isNotEqualTo(Optional.empty());
 	}
 
+	@Test
+	void user_id존재여부확인() {
+
+		//given
+		User user = user();
+		userRepository.save(user);
+		//when
+		boolean result = userRepository.existsByEmail("test@gmail.com");
+
+		//then
+		assertThat(result).isTrue();
+	}
+
 }
