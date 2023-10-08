@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sottie.app.sns.dto.ResponseKakaoProfile;
 import com.sottie.app.sns.feign.KakaoFeignClient;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/kakao")
 public class KakaoRestController {
 
-	@Autowired
-	private KakaoFeignClient kakaoFeignClient;
+	private final KakaoFeignClient kakaoFeignClient;
 
 	@GetMapping(value = "getProfile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseKakaoProfile getProfile(@RequestParam String token) {
