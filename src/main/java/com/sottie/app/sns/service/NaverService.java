@@ -2,18 +2,19 @@ package com.sottie.app.sns.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sottie.app.sns.dto.NaverProfile;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class NaverService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	public void loginProcess(NaverProfile naverProfile) {
 

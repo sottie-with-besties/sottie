@@ -15,16 +15,19 @@ import com.sottie.app.sns.dto.ResponseNaver;
 import com.sottie.app.sns.feign.NaverFeignClient;
 import com.sottie.app.sns.service.NaverService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/naver")
 public class NaverRestController {
 
-	@Autowired
-	private NaverService naverService;
+	private final NaverService naverService;
 
-	@Autowired
-	private NaverFeignClient naverFeignClient;
+	private final NaverFeignClient naverFeignClient;
 
+	@Operation(summary = "네이버 아이디로 로그인 체크", description = "네이버 아이디로 로그인 체크. 회원가입 및 로그인 진행")
 	@PostMapping(value = "loginProcess")
 	public String loginProcess(@RequestBody NaverProfile naverProfile) {
 		naverService.loginProcess(naverProfile);
