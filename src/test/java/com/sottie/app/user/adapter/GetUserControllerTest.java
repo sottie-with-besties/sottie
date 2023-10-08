@@ -49,7 +49,7 @@ public class GetUserControllerTest {
 	@MethodSource("invalidBody")
 	void 사용자조회실패_invalidBody(String email, String password) throws Exception {
 		//given
-		LoginUserRequest loginUserRequest = LoginUserRequest.builder()
+		DefaultUserRequest defaultUserRequest = DefaultUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
@@ -58,7 +58,7 @@ public class GetUserControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(loginUserRequest))
+				.content(new ObjectMapper().writeValueAsString(defaultUserRequest))
 		);
 
 		//then

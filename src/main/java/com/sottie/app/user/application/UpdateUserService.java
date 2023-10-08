@@ -3,9 +3,9 @@ package com.sottie.app.user.application;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sottie.app.user.error.UserErrorCode;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
+import com.sottie.errors.CommonErrorCode;
 import com.sottie.errors.CommonException;
 
 import lombok.RequiredArgsConstructor;
@@ -13,14 +13,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AddUserService implements Encryptor {
+public class UpdateUserService implements Encryptor {
 
 	private final UserRepository userRepository;
 
-	public User addUserForSignUp(User newUser) {
-		if (userRepository.existsByEmail(newUser.getEmail())) {
-			throw CommonException.builder(UserErrorCode.USER_ALREADY_EXISTS).build();
-		}
-		return userRepository.save(newUser);
+	public void resetPassword(String email, String password) {
+		User user = userRepository.findByEmail(email)
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+		user.setPassword(encrypt(password));
 	}
 }

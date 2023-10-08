@@ -1,8 +1,10 @@
 package com.sottie.app.user.adapter;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sottie.app.user.application.GetUserService;
 import com.sottie.app.user.model.User;
@@ -10,14 +12,37 @@ import com.sottie.app.user.model.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 class GetUserController {
 
 	private final GetUserService userService;
 
-	@PostMapping("/sottie/login/users")
-	public User loginUser(@RequestBody @Valid LoginUserRequest loginUserRequest) {
-		return userService.getUserForLogin(loginUserRequest.email(), loginUserRequest.password());
+	@PostMapping("/sottie/users/login")
+	public ResponseEntity<User> loginUser(@RequestBody @Valid DefaultUserRequest defaultUserRequest) {
+		User result = userService.getUserForLogin(defaultUserRequest.email(), defaultUserRequest.password());
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@PostMapping("/sottie/users/id_exist")
+	public boolean checkUserIdExist(@RequestBody @Valid GetUserByEmailRequest getUserByEmailRequest) {
+		return userService.isExistingUserByEmail(getUserByEmailRequest.email());
+
+	}
+
+	@PostMapping("/sottie/users/phone")
+	public ResponseEntity<UserIdResponse> findUserByPhoneNumber(
+		@RequestBody @Valid GetUserByPhoneRequest getUserByPhoneRequest) {
+		UserIdResponse result = UserIdResponse.from(
+			userService.getUserByPhoneNumber(getUserByPhoneRequest.phoneNumber()));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@PostMapping("/sottie/users/email")
+	public ResponseEntity<UserIdResponse> findUserByUserEmail(
+		@RequestBody @Valid GetUserByEmailRequest getUserByEmailRequest) {
+		UserIdResponse result = UserIdResponse.from(userService.getUserByEmail(getUserByEmailRequest.email()));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 }

@@ -24,12 +24,12 @@ public class SignupUserRequestTest {
 		ValidatorFactory validatorFactory = buildDefaultValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
+		DefaultUserRequest defaultUserRequest = DefaultUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
 
-		Set<ConstraintViolation<SignUpUserRequest>> violations = validator.validate(signUpUserRequest);
+		Set<ConstraintViolation<DefaultUserRequest>> violations = validator.validate(defaultUserRequest);
 
 		assertThat(violations.size() == 0).isEqualTo(true);
 	}
