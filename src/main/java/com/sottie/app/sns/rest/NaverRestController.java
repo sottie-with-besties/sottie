@@ -3,6 +3,8 @@ package com.sottie.app.sns.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,13 +13,23 @@ import com.sottie.app.sns.dto.NaverProfile;
 import com.sottie.app.sns.dto.NaverToken;
 import com.sottie.app.sns.dto.ResponseNaver;
 import com.sottie.app.sns.feign.NaverFeignClient;
+import com.sottie.app.sns.service.NaverService;
 
 @RestController
 @RequestMapping(value = "/naver")
 public class NaverRestController {
 
 	@Autowired
+	private NaverService naverService;
+
+	@Autowired
 	private NaverFeignClient naverFeignClient;
+
+	@PostMapping(value = "loginProcess")
+	public String loginProcess(@RequestBody NaverProfile naverProfile) {
+		naverService.loginProcess(naverProfile);
+		return "로그인 성공/실패 코드 리턴?";
+	}
 
 	@GetMapping(value = "getProfile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseNaver<NaverProfile> getProfile(@RequestParam String token) {

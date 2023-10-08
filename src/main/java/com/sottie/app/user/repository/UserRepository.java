@@ -8,5 +8,5 @@ import com.sottie.app.user.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	Optional<User> findBySnsTypeAndSnsId();
+	Optional<User> findByIdentifier(String id);
 }
