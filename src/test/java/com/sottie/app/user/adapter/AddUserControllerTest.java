@@ -24,7 +24,7 @@ import com.sottie.app.user.application.AddUserService;
 import com.sottie.errors.GlobalExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
-public class AddUserControllerTest {
+class AddUserControllerTest {
 
 	@InjectMocks
 	private AddUserController controller;

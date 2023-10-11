@@ -30,12 +30,12 @@ public class GetUserService implements Encryptor {
 
 	public User getUserByEmail(String email) {
 		return userRepository.findByEmail(email)
-			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_ALREADY_EXISTS).build());
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 	}
 
 	public User getUserByPhoneNumber(String phoneNumber) {
 		return userRepository.findByPhoneNumber(phoneNumber)
-			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_ALREADY_EXISTS).build());
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 	}
 
 	public boolean isExistingUserByEmail(String email) {
