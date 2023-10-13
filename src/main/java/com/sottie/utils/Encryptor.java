@@ -1,4 +1,4 @@
-package com.sottie.app.user.application;
+package com.sottie.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

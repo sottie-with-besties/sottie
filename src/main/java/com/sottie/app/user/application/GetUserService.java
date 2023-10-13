@@ -8,6 +8,7 @@ import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonErrorCode;
 import com.sottie.errors.CommonException;
+import com.sottie.utils.Encryptor;
 
 import lombok.RequiredArgsConstructor;
 
