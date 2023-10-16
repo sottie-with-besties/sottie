@@ -1,4 +1,4 @@
-package com.sottie.app.sns.rest;
+package com.sottie.app.sns.adapter;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +15,6 @@ public class SnsLoginController {
 	@GetMapping(value = "naverLoginCallback")
 	public String naverLoginCallback(Model model) {
 		return "naverLoginCallback";
-	}
-
-	@GetMapping(value = "kakaoLogin")
-	public String kakaoLogin(Model model) {
-		return "kakaoLogin";
-	}
-
-	@GetMapping(value = "kakaoLoginCallback")
-	public String kakaoLoginCallback(Model model) {
-		return "kakaoLoginCallback";
 	}
 
 }

@@ -1,7 +1,8 @@
-package com.sottie.app.sms.service;
+package com.sottie.app.sms.application;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
+
+import com.sottie.utils.RandomUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,16 +18,13 @@ public class SmsService {
 
 	// 인증 코드 문자 발송
 	public String sendVerifyCode(String phoneNumber) {
-		String verifyCode = getVerifyCode();
+		String verifyCode = RandomUtils.getVerifyCode();
 		String message = "인증번호는 [" + verifyCode + "] 입니다.";
 		boolean sendResult = send(phoneNumber, message);
 
 		return sendResult ? verifyCode : null;
 	}
 
-	// 6자리 인증 코드 생성
-	private String getVerifyCode() {
-		return String.valueOf(RandomUtils.nextInt(100000, 999999));
-	}
+
 
 }

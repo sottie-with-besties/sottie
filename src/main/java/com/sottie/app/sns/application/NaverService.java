@@ -1,4 +1,4 @@
-package com.sottie.app.sns.service;
+package com.sottie.app.sns.application;
 
 import java.util.Optional;
 

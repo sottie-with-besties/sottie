@@ -1,11 +1,11 @@
-package com.sottie.app.sms.rest;
+package com.sottie.app.sms.adapter;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sottie.app.sms.service.SmsService;
+import com.sottie.app.sms.application.SmsService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
