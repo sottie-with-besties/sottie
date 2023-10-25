@@ -24,7 +24,7 @@ import com.sottie.app.user.application.AddUserService;
 import com.sottie.errors.GlobalExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
-public class AddUserControllerTest {
+class AddUserControllerTest {
 
 	@InjectMocks
 	private AddUserController controller;
@@ -49,7 +49,7 @@ public class AddUserControllerTest {
 	@MethodSource("invalidBody")
 	void 사용자추가실패_invalidBody(String email, String password) throws Exception {
 		//given
-		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
+		DefaultUserRequest defaultUserRequest = DefaultUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
@@ -58,7 +58,7 @@ public class AddUserControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(signUpUserRequest))
+				.content(new ObjectMapper().writeValueAsString(defaultUserRequest))
 		);
 
 		//then
@@ -69,7 +69,7 @@ public class AddUserControllerTest {
 	@MethodSource("validBody")
 	void 사용자추가성공_validBody(String email, String password) throws Exception {
 		//given
-		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
+		DefaultUserRequest defaultUserRequest = DefaultUserRequest.builder()
 			.email(email)
 			.password(password)
 			.build();
@@ -78,7 +78,7 @@ public class AddUserControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(signUpUserRequest))
+				.content(new ObjectMapper().writeValueAsString(defaultUserRequest))
 		);
 
 		//then

@@ -6,19 +6,40 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sottie.app.user.error.UserErrorCode;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
+import com.sottie.errors.CommonErrorCode;
 import com.sottie.errors.CommonException;
+import com.sottie.utils.Encryptor;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetUserService {
+public class GetUserService implements Encryptor {
 
 	private final UserRepository userRepository;
 
 	public User getUserForLogin(String email, String password) {
-		return userRepository.findByEmailAndPassword(email, password)
-			.orElseThrow(() -> CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build());
+		User user = userRepository.findByEmail(email)
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+		if (isMatched(password, user.getPassword())) {
+			return user;
+		} else {
+			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
+		}
+	}
+
+	public User getUserByEmail(String email) {
+		return userRepository.findByEmail(email)
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+	}
+
+	public User getUserByPhoneNumber(String phoneNumber) {
+		return userRepository.findByPhoneNumber(phoneNumber)
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+	}
+
+	public boolean isExistingUserByEmail(String email) {
+		return userRepository.existsByEmail(email);
 	}
 }

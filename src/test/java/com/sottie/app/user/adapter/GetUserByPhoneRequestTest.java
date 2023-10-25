@@ -17,28 +17,28 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
 @ExtendWith(MockitoExtension.class)
-public class SignupUserRequestTest {
+class GetUserByPhoneRequestTest {
 	@ParameterizedTest
-	@MethodSource("validBody")
-	void 생성자테스트(String email, String password) {
+	@MethodSource("invalidBody")
+	void 생성자테스트_유효하지않음(String phoneNumber) {
 		ValidatorFactory validatorFactory = buildDefaultValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		SignUpUserRequest signUpUserRequest = SignUpUserRequest.builder()
-			.email(email)
-			.password(password)
+		GetUserByPhoneRequest getUserByPhoneRequest = GetUserByPhoneRequest.builder()
+			.phoneNumber(phoneNumber)
 			.build();
 
-		Set<ConstraintViolation<SignUpUserRequest>> violations = validator.validate(signUpUserRequest);
+		Set<ConstraintViolation<GetUserByPhoneRequest>> violations = validator.validate(getUserByPhoneRequest);
 
-		assertThat(violations.size() == 0).isEqualTo(true);
+		assertThat(!violations.isEmpty()).isEqualTo(true);
 	}
 
-	private static List<Arguments> validBody() {
+	private static List<Arguments> invalidBody() {
 		return List.of(
-			Arguments.of("test@abc.com", "password213!@"), //invalid email
-			Arguments.of("abc@gmail.com", "!!!1234test"),  //blank test
-			Arguments.of("abc@com", "test123#@!") //invalid password
+			Arguments.of("0106543123"), //size invalid
+			Arguments.of(""),  //blank test
+			Arguments.of(" ") //empty test
 		);
 	}
+
 }
