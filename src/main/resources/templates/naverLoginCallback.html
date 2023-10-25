@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+naverLoginCallback.html
+<script type="text/javascript">
+    var naver_id_login = new naver_id_login("5M4LzrK8Xu9tEjVl7HZq", "http://localhost:8080/naverLoginCallback");
+    // 접근 토큰 값 출력
+    alert(naver_id_login.oauthParams.access_token);
+    // 네이버 사용자 프로필 조회
+    naver_id_login.get_naver_userprofile("naverSignInCallback()");
+    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+    function naverSignInCallback() {
+      console.log(naver_id_login);
+      console.log(naver_id_login.getProfileData('id'));
+      console.log(naver_id_login.getProfileData('name'));
+      console.log(naver_id_login.getProfileData('nickname'));
+      console.log(naver_id_login.getProfileData('email'));
+      console.log(naver_id_login.getProfileData('birthday'));
+      console.log(naver_id_login.getProfileData('age'));
+      console.log(naver_id_login.getProfileData('gender'));
+      console.log(naver_id_login.getProfileData('birthyear'));
+      console.log(naver_id_login.getProfileData('mobile'));
+
+<!--    이용자 식별자 : 64자 이내로 구성된 BASE64 형식의 문자열-->
+<!--    (2021년 5월 1일 이후 생성된 애플리케이션부터 적용. 기존 INT64 규격의 숫자)-->
+<!--    이름 : 10자 이내로 구성된 문자열-->
+<!--    닉네임 : 20자 이내로 구성된 문자열-->
+<!--    프로필 이미지 : 255자 이내로 구성된 URL 형태의 문자열-->
+<!--    연락처 이메일 주소 : 이메일 규격의 문자열-->
+<!--    생일 : 월-일 (MM-DD) 형태의 문자열-->
+<!--    연령대 : 연령 구간에 따라 0-9 / 10-19 / 20-29 / 30-39 / 40-49 / 50-59 / 60- 으로 표현된 문자열-->
+<!--    성별 : M/F (남성/여성) 으로 표된 문자-->
+<!--    출생연도 : 연(YYYY) 형태의 문자열-->
+<!--    휴대전화번호 : 대쉬(-)를 포함한 휴대전화번호 문자열-->
+
+<!--    이용자 식별자 : abcdefgABCDEFG1234567-->
+<!--    이름 : 네이버-->
+<!--    닉네임 : 네이버닉네임-->
+<!--    프로필 이미지 : https://phinf.pstatic.net/.../image.jpg-->
+<!--    연락처 이메일 주소 : naveridlogin@naver.com-->
+<!--    생일 : 08-15-->
+<!--    연령대 : 20-29-->
+<!--    성별 : F-->
+<!--    출생연도 : 1900-->
+<!--    휴대전화번호 : 010-0000-0000-->
+    }
+</script>
+<br/><br/>
+</body>
+</html>

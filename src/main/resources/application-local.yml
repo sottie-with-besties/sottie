@@ -1,0 +1,33 @@
+spring:
+  # DB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sottie
+    username: 'sottie'
+    password: 'sottie123!'
+    # JPA
+    jpa:
+      hibernate.ddl-auto: none
+      generate-ddl: false
+      show-sql: true
+      database: mysql
+      database-platform: org.hibernate.dialect.MySQLDialect
+      properties:
+        hibernate:
+          format_sql: true
+  mvc:
+    view:
+      prefix: src/main/resources/templates/
+      subfix: .html
+
+sns:
+  naver:
+    client:
+      id: '5M4LzrK8Xu9tEjVl7HZq'
+      secret: 'tyWLI8HoDC'
+  kakao:
+    native: '3583e392ad6e1c6d39f53cc5addfa183'
+    restapi: 'c90a3557086aed9adac4cb5a4d96ce3c'
+    javascript: '9c7547c961759c59d63a0654a860a664'
+    admin: '53108b4edf64ecfab2cd3aa3340f242a'
+    secret: 't2A2G8tkByBW6K6HCuaLXvYrp93xPZXe'
