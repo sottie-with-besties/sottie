@@ -26,5 +26,5 @@ public class Friend extends BaseEntity {
 	@Column(length = 30)
 	private String alias;
 
-	private boolean blockYn;
+	private boolean blocked;
 }
