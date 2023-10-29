@@ -4,6 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record FriendProfile(
+
+	Long userId,
+
 	String alias,
 
 	String photo,

@@ -32,6 +32,7 @@ public class GetFriendService {
 				friend -> {
 					Profile profile = profileService.getProfileByUser(friend.getFriendId());
 					profileList.add(FriendProfile.builder()
+						.userId(friend.getFriendId())
 						.alias(friend.getAlias())
 						.photo(profile.getPhoto())
 						.moodStatus(profile.getMoodStatus())
