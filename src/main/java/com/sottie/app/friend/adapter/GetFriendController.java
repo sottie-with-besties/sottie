@@ -31,4 +31,5 @@ class GetFriendController {
 		List<FriendProfile> result = getFriendService.searchFriendProfileListByAlias(userId, alias);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
 }
