@@ -12,4 +12,5 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 
 	List<Friend> findByUserIdAndAliasAndBlocked(Long userId, String alias, boolean blocked);
 
+	void deleteByUserIdAndFriendIdAndBlocked(Long userId, Long friendId, boolean blocked);
 }

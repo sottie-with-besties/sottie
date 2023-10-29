@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-record AddFriendRequest(
+record DefaultFriendRequest(
 	@NotNull
 	Long userId,
 
