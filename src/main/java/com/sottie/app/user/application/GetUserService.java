@@ -39,7 +39,11 @@ public class GetUserService implements Encryptor {
 			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 	}
 
-	public boolean isExistingUserByEmail(String email) {
+	public Boolean isExistingUserByEmail(String email) {
 		return userRepository.existsByEmail(email);
+	}
+
+	public Boolean isExistingNickName(String nickName) {
+		return userRepository.existsByNickName(nickName);
 	}
 }

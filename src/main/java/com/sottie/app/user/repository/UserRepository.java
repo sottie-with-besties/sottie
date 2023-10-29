@@ -8,8 +8,7 @@ import com.sottie.app.user.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	boolean existsByEmail(String email);
-
+	Boolean existsByEmail(String email);
 
 	Optional<User> findByIdentifier(String id);
 
@@ -17,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByPhoneNumber(String phoneNumber);
 
+	Boolean existsByNickName(String nickName);
 }
