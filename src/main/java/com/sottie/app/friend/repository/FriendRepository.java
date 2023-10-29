@@ -9,4 +9,7 @@ import com.sottie.app.friend.model.Friend;
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
 	List<Friend> findByUserIdAndBlocked(Long userId, boolean blocked);
+
+	List<Friend> findByUserIdAndAliasAndBlocked(Long userId, String alias, boolean blocked);
+
 }

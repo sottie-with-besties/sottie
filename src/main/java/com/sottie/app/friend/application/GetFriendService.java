@@ -42,4 +42,23 @@ public class GetFriendService {
 
 		return profileList;
 	}
+
+	public List<FriendProfile> searchFriendProfileListByAlias(Long userId, String alias) {
+		List<FriendProfile> profileList = new ArrayList<>();
+		repository.findByUserIdAndAliasAndBlocked(userId, alias, false).stream()
+			.forEach(
+				friend -> {
+					Profile profile = profileService.getProfileByUser(friend.getFriendId());
+					profileList.add(FriendProfile.builder()
+						.userId(friend.getFriendId())
+						.alias(friend.getAlias())
+						.photo(profile.getPhoto())
+						.moodStatus(profile.getMoodStatus())
+						.introPhrase(profile.getIntroPhrase()).build());
+				}
+			);
+
+		return profileList;
+
+	}
 }
