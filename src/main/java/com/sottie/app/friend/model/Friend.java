@@ -24,6 +24,7 @@ public class Friend extends BaseEntity {
 
 	private Long friendId;
 
+	@Setter
 	@Column(length = 30)
 	private String alias;
 
