@@ -28,7 +28,8 @@ public class User extends BaseEntity {
 	@Email
 	private String email;
 
-	private String nickName;
+	@Builder.Default
+	private String nickName = "System";
 
 	@Setter
 	@NotBlank
