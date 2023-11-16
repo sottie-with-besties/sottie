@@ -1,17 +1,10 @@
-#spring:
-#  # DB
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/sottie
-#    username: 'sottie'
-#    password: 'sottie123!'
 spring:
   # DB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sottie-db-1.copiluggzaxh.ap-northeast-2.rds.amazonaws.com:3306/sottie_dev
+    url: jdbc:mysql://localhost:3306/sottie
     username: 'sottie'
-    password: 'sottie1234!'
+    password: 'sottie123!'
     # JPA
     jpa:
       hibernate.ddl-auto: none
