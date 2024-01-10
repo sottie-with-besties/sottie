@@ -29,8 +29,8 @@ public abstract class BaseEntity implements Serializable {
 	@UpdateTimestamp
 	private LocalDateTime modifiedDate;
 	@Builder.Default
-	private String registeredBy = "system";
+	private Long registeredBy = 0L;
 	@Builder.Default
-	private String modifiedBy = "system";
+	private Long modifiedBy = 0L;
 
 }
