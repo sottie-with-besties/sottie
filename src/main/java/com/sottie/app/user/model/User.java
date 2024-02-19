@@ -2,10 +2,9 @@ package com.sottie.app.user.model;
 
 import com.sottie.app.base.domain.BaseEntity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import com.sottie.app.gathering.model.Gathering;
+import com.sottie.app.gathering.model.GatheringUser;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -15,11 +14,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
 @Table(name = "st_user")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 public class User extends BaseEntity {
 
@@ -45,4 +47,7 @@ public class User extends BaseEntity {
 	private String birthYear;
 
 	private boolean phoneAuthenticated;
+
+	@OneToMany(mappedBy = "user")
+	private List<GatheringUser> gatheringUsers;
 }
