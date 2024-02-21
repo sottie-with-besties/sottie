@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 @Getter
 @Builder
-@Table(name = "st_user_gathring_map")
+@Table(name = "st_gathering_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class GatheringUser extends BaseEntity {
