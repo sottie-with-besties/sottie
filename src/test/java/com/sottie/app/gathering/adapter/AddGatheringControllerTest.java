@@ -131,7 +131,7 @@ class AddGatheringControllerTest {
 		);
 
 		//then
-		result.andExpect(status().isOk());
+		result.andExpect(status().isCreated());
 	}
 
 	private static List<Arguments> invalidBody() {
@@ -149,13 +149,13 @@ class AddGatheringControllerTest {
 //		.ageRestrictionYn(ageRestrictionYn)
 //		.mannerRestrictionYn(mannerRestrictionYn)
 		return List.of(
-			Arguments.of(GatheringCategory.FRIENDSHIP, "chimactime!", 10L, "xxx xxx xxx", 6, 3, 3, 25, 30, 37.5, true, true) //invalid email
+			Arguments.of(GatheringCategory.FRIENDSHIP, "chimactime!", 10L, "xxx xxx xxx", 6, 3, 3, 25, 30, 37, GenderCategory.NONE, true, true) //invalid email
 		);
 	}
 
 	private static List<Arguments> validBody() {
 		return List.of(
-			Arguments.of(GatheringCategory.FRIENDSHIP, "chimactime!", 10L, "xxx xxx xxx", 6, 3, 3, 25, 30, 37.5, true, true) //invalid email
+			Arguments.of(GatheringCategory.FRIENDSHIP, "chimactime!", 10L, "xxx xxx xxx", 6, 3, 3, 25, 30, 37, GenderCategory.NONE, true, true) //invalid email
 		);
 	}
 }
