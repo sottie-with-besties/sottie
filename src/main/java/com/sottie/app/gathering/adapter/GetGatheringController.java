@@ -19,7 +19,7 @@ class GetGatheringController {
 
 	private final GetGatheringService getGatheringService;
 
-	@GetMapping("/sottie/gatherings")
+	@GetMapping("/sottie/gathering")
 	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
 		List<Gathering> result = getGatheringService.getGatherings(
 				defaultGatheringRequest.gatheringCategory(),
