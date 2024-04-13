@@ -42,4 +42,9 @@ public class GetUserService implements Encryptor {
 	public boolean isExistingUserByEmail(String email) {
 		return userRepository.existsByEmail(email);
 	}
+
+	public User getUserById(Long userId) {
+		return userRepository.findById(userId)
+			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+	}
 }

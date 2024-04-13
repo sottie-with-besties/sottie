@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -23,8 +24,10 @@ public class Friend extends BaseEntity {
 
 	private Long friendId;
 
+	@Setter
 	@Column(length = 30)
 	private String alias;
 
-	private boolean blockYn;
+	@Setter
+	private boolean blocked;
 }

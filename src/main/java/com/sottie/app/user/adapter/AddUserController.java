@@ -18,7 +18,7 @@ class AddUserController {
 
 	private final AddUserService addUserService;
 
-	@PostMapping("/sottie/signup/users")
+	@PostMapping("/sottie/users/signup")
 	public ResponseEntity<User> signUpUser(@RequestBody @Valid DefaultUserRequest defaultUserRequest) {
 		User result = addUserService.addUserForSignUp(defaultUserRequest.to());
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
