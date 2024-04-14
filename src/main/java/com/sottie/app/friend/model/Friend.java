@@ -25,7 +25,7 @@ public class Friend extends BaseEntity {
 	private Long friendId;
 
 	@Setter
-	@Column(length = 30)
+	@Column(length = 30, columnDefinition = "사용자가 지정한 친구의 명칭(기본 명칭은 친구가 설정한 nickName)")
 	private String alias;
 
 	@Setter

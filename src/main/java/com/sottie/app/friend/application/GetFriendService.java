@@ -27,7 +27,7 @@ public class GetFriendService {
 
 	public List<FriendProfile> getFriendProfileList(Long userId) {
 		List<FriendProfile> profileList = new ArrayList<>();
-		repository.findByUserIdAndBlocked(userId, false).stream()
+		repository.findByUserIdAndBlocked(userId, false)
 			.forEach(
 				friend -> {
 					Profile profile = profileService.getProfileByUser(friend.getFriendId());

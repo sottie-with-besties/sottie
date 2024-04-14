@@ -31,17 +31,17 @@ class GetUserController {
 	}
 
 	@PostMapping("/sottie/users/phone")
-	public ResponseEntity<UserIdResponse> findUserByPhoneNumber(
+	public ResponseEntity<UserEmailResponse> findUserByPhoneNumber(
 		@RequestBody @Valid GetUserByPhoneRequest getUserByPhoneRequest) {
-		UserIdResponse result = UserIdResponse.from(
+		UserEmailResponse result = UserEmailResponse.from(
 			userService.getUserByPhoneNumber(getUserByPhoneRequest.phoneNumber()));
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@PostMapping("/sottie/users/email")
-	public ResponseEntity<UserIdResponse> findUserByUserEmail(
+	public ResponseEntity<UserEmailResponse> findUserByUserEmail(
 		@RequestBody @Valid GetUserByEmailRequest getUserByEmailRequest) {
-		UserIdResponse result = UserIdResponse.from(userService.getUserByEmail(getUserByEmailRequest.email()));
+		UserEmailResponse result = UserEmailResponse.from(userService.getUserByEmail(getUserByEmailRequest.email()));
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
