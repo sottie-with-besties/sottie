@@ -3,10 +3,12 @@ package com.sottie.app.gathering.adapter;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
+import com.sottie.app.user.model.User;
 import lombok.Builder;
 
 @Builder
-record DefaultGatheringRequest(
+public record DefaultGatheringRequest(
+	Long id,
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
@@ -22,9 +24,10 @@ record DefaultGatheringRequest(
 	Boolean ageRestrictionYn
 	) {
 
-	Gathering to() {
+	public Gathering to(Long userId) {
 		return Gathering.builder()
 			.gatheringCategory(this.gatheringCategory)
+			.host(userId)
 			.title(this.title)
 			.locationId(this.locationId)
 			.contents(this.contents)

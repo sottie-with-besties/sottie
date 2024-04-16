@@ -20,7 +20,7 @@ class DeleteGatheringController {
 
 	@DeleteMapping("/sottie/gathering")
 	public void deleteGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		deleteGatheringService.deleteGathering(defaultGatheringRequest.to());
+		deleteGatheringService.deleteGathering(defaultGatheringRequest);
 		return;
 	}
 

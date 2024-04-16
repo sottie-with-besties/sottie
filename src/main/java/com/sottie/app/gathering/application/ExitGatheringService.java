@@ -1,13 +1,22 @@
 package com.sottie.app.gathering.application;
 
+import com.sottie.app.gathering.adapter.DefaultGatheringRequest;
+import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
+import com.sottie.app.user.repository.UserRepository;
+import com.sottie.errors.CommonException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -15,23 +24,48 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ExitGatheringService {
 
+	private final HttpServletRequest httpServletRequest;
+	private final UserRepository userRepository;
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public Gathering exitGathering(Gathering gathering) {
-		// TODO Session User 가져오기
-		User user = new User();
+	public Gathering exitGathering(DefaultGatheringRequest defaultGatheringRequest) {
+		// user session
+		HttpSession session = httpServletRequest.getSession(false);
+		Long loginUserId = null;
+		if (session != null) {
+			loginUserId = (Long) session.getAttribute("userId");
+		} else {
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+		}
+		Optional<User> optUser = userRepository.findById(loginUserId);
 
-		// peopleNum 감소
-		// user 가 female 일 경우 femaleNum 감소
-		// user 가 male 일 경우 maleNum 감소
-		gathering.minusPeopleNum(user);
 
-		// 참여를 표시한 사용자를 리스트에서 제거 (맵핑 테이블에서 데이터 제거)
-		GatheringUser gatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
-		gatheringUserRepository.delete(gatheringUser);
+		if (optUser.isPresent()) {
+			Optional<Gathering> optGathering = gatheringRepository.findById(defaultGatheringRequest.id());
 
-		return gatheringRepository.save(gathering);
+			if (optGathering.isPresent()) {
+				Gathering gathering = optGathering.get();
+				User user = optUser.get();
+
+				// peopleNum 감소
+				// user 가 female 일 경우 femaleNum 감소
+				// user 가 male 일 경우 maleNum 감소
+				gathering.minusPeopleNum(user);
+
+				// 참여를 표시한 사용자를 리스트에서 제거 (맵핑 테이블에서 데이터 제거)
+				GatheringUser gatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
+				gatheringUserRepository.delete(gatheringUser);
+
+				return gatheringRepository.save(gathering);
+
+			} else {
+				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+			}
+
+		} else {
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+		}
 	}
 
 }

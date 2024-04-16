@@ -19,7 +19,7 @@ class JoinGatheringController {
 
 	@PostMapping("/sottie/gathering/join")
 	public ResponseEntity<Gathering> joinGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		Gathering result = joinGatheringService.joinGathering(defaultGatheringRequest.to());
+		Gathering result = joinGatheringService.joinGathering(defaultGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 

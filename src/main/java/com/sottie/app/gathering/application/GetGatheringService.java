@@ -30,12 +30,12 @@ public class GetGatheringService {
 			Boolean ageRestrictionYn) {
 
 		Specification<Gathering> spec = Specification.where(GatheringSpecification.equalGatheringCategory(gatheringCategory));
-		spec = spec.and(GatheringSpecification.likeTitle(title)
-				.and(GatheringSpecification.equalLocationId(locationId))
-				.and(GatheringSpecification.equalPeopleNum(peopleNum))
-				.and(GatheringSpecification.restrictGender(genderRestriction))
-				.and(GatheringSpecification.restrictManner(mannerRestrictionYn))
-				.and(GatheringSpecification.restrictAge(ageRestrictionYn))
+		spec = spec.or(GatheringSpecification.likeTitle(title)
+				.or(GatheringSpecification.equalLocationId(locationId))
+				.or(GatheringSpecification.equalPeopleNum(peopleNum))
+				.or(GatheringSpecification.restrictGender(genderRestriction))
+				.or(GatheringSpecification.restrictManner(mannerRestrictionYn))
+				.or(GatheringSpecification.restrictAge(ageRestrictionYn))
 		);
 
 		return gatheringRepository.findAll(spec);

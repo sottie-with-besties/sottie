@@ -25,8 +25,7 @@ public class Gathering extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GatheringCategory gatheringCategory;
 
-    @JoinColumn(name = "user_id")
-    private User host;
+    private Long host;
 
     private String title;
 

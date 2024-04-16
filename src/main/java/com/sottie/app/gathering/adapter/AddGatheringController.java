@@ -18,7 +18,7 @@ class AddGatheringController {
 
 	@PostMapping("/sottie/gathering")
 	public ResponseEntity<Gathering> addGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		Gathering result = addGatheringService.addGathering(defaultGatheringRequest.to());
+		Gathering result = addGatheringService.addGathering(defaultGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 

@@ -1,26 +1,52 @@
 package com.sottie.app.gathering.application;
 
+import com.sottie.app.gathering.adapter.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GenderCategory;
 import com.sottie.app.gathering.repository.GatheringRepository;
+import com.sottie.app.user.model.User;
+import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AddGatheringService {
 
+	private final HttpServletRequest httpServletRequest;
+	private final UserRepository userRepository;
 	private final GatheringRepository gatheringRepository;
 
-	public Gathering addGathering(Gathering gathering) {
-		checkAddGatheringValidation(gathering);
-		return gatheringRepository.save(gathering);
+
+	public Gathering addGathering(DefaultGatheringRequest defaultGatheringRequest) {
+
+		// user session
+		HttpSession session = httpServletRequest.getSession(false);
+		Long loginUserId = null;
+		if (session != null) {
+			loginUserId = (Long) session.getAttribute("userId");
+		} else {
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+		}
+		Optional<User> optUser = userRepository.findById(loginUserId);
+
+		if (optUser.isPresent()) {
+			Gathering gathering = defaultGatheringRequest.to(optUser.get().getId());
+			checkAddGatheringValidation(gathering);
+
+			return gatheringRepository.save(gathering);
+		} else {
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+		}
 	}
 
 	private void checkAddGatheringValidation(Gathering gathering) {
