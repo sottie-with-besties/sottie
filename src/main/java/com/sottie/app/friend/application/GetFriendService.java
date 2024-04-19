@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetFriendService {
 
-	private final FriendRepository repository;
+	private final FriendRepository friendRepository;
 	private final GetProfileService profileService;
 
 	//Todo @juyoung
@@ -27,7 +27,7 @@ public class GetFriendService {
 
 	public List<FriendProfile> getFriendProfileList(Long userId) {
 		List<FriendProfile> profileList = new ArrayList<>();
-		repository.findByUserIdAndBlocked(userId, false)
+		friendRepository.findByUserIdAndBlocked(userId, false)
 			.forEach(
 				friend -> {
 					Profile profile = profileService.getProfileByUser(friend.getFriendId());
@@ -45,7 +45,7 @@ public class GetFriendService {
 
 	public List<FriendProfile> searchFriendProfileListByAlias(Long userId, String alias) {
 		List<FriendProfile> profileList = new ArrayList<>();
-		repository.findByUserIdAndAliasAndBlocked(userId, alias, false).stream()
+		friendRepository.findByUserIdAndAliasAndBlocked(userId, alias, false).stream()
 			.forEach(
 				friend -> {
 					Profile profile = profileService.getProfileByUser(friend.getFriendId());

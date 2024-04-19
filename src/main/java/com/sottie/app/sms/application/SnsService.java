@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SmsService {
+public class SnsService {
 
 	// 문자 전송
 	public boolean send(String phoneNumber, String message) {
