@@ -35,13 +35,13 @@ public class Gathering extends BaseEntity {
     private Integer maleNum;
 
     @Setter
-    private Integer joinPeopleNum = 0;
+    private Integer joinPeopleNum;
 
     @Setter
-    private Integer joinFemaleNum = 0;
+    private Integer joinFemaleNum;
 
     @Setter
-    private Integer joinMaleNum = 0;
+    private Integer joinMaleNum;
 
     private Integer mannerTemperature;
 
