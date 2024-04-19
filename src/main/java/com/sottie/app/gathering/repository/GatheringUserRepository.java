@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GatheringUserRepository extends JpaRepository<GatheringUser, Long>, JpaSpecificationExecutor<GatheringUser> {
 
-    GatheringUser findByGatheringAndUser(Gathering gathering, User user);
+    Optional<GatheringUser> findByGatheringAndUser(Gathering gathering, User user);
 
     List<GatheringUser> findByGathering(Gathering gathering);
 }

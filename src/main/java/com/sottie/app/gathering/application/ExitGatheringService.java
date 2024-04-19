@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +24,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class ExitGatheringService {
-
 	private final HttpServletRequest httpServletRequest;
 	private final UserRepository userRepository;
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public Gathering exitGathering(DefaultGatheringRequest defaultGatheringRequest) {
+	public void exitGathering(DefaultGatheringRequest defaultGatheringRequest) {
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
 		Long loginUserId = null;
@@ -40,7 +40,6 @@ public class ExitGatheringService {
 		}
 		Optional<User> optUser = userRepository.findById(loginUserId);
 
-
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(defaultGatheringRequest.id());
 
@@ -48,16 +47,18 @@ public class ExitGatheringService {
 				Gathering gathering = optGathering.get();
 				User user = optUser.get();
 
-				// peopleNum 감소
-				// user 가 female 일 경우 femaleNum 감소
-				// user 가 male 일 경우 maleNum 감소
-				gathering.minusPeopleNum(user);
+				// 참여를 표시한 사용자 리스트에 추가 (맵핑 테이블에 데이터 추가)
+				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
+				if (optGatheringUser.isPresent()) {
+					gatheringUserRepository.delete(optGatheringUser.get());
 
-				// 참여를 표시한 사용자를 리스트에서 제거 (맵핑 테이블에서 데이터 제거)
-				GatheringUser gatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
-				gatheringUserRepository.delete(gatheringUser);
+					// peopleNum 감소
+					// user 가 female 일 경우 femaleNum 감소
+					// user 가 male 일 경우 maleNum 감소
+					gathering.minusPeopleNum(user);
 
-				return gatheringRepository.save(gathering);
+					gatheringRepository.save(gathering);
+				}
 
 			} else {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();

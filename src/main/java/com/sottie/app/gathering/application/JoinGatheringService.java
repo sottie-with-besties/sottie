@@ -28,9 +28,7 @@ public class JoinGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public Gathering joinGathering(DefaultGatheringRequest defaultGatheringRequest) {
-
-
+	public void joinGathering(DefaultGatheringRequest defaultGatheringRequest) {
 
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
@@ -42,7 +40,6 @@ public class JoinGatheringService {
 		}
 		Optional<User> optUser = userRepository.findById(loginUserId);
 
-
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(defaultGatheringRequest.id());
 
@@ -50,16 +47,19 @@ public class JoinGatheringService {
 				Gathering gathering = optGathering.get();
 				User user = optUser.get();
 
-				// peopleNum 감소
-				// user 가 female 일 경우 femaleNum 감소
-				// user 가 male 일 경우 maleNum 감소
-				gathering.plusPeopleNum(user);
-
 				// 참여를 표시한 사용자 리스트에 추가 (맵핑 테이블에 데이터 추가)
-				GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
-				gatheringUserRepository.save(gatheringUser);
+				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
+				if (optGatheringUser.isEmpty()) {
+					GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
+					gatheringUserRepository.save(gatheringUser);
 
-				return gatheringRepository.save(gathering);
+					// peopleNum 감소
+					// user 가 female 일 경우 femaleNum 감소
+					// user 가 male 일 경우 maleNum 감소
+					gathering.plusPeopleNum(user);
+
+					gatheringRepository.save(gathering);
+				}
 
 			} else {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();

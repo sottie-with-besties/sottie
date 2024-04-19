@@ -17,9 +17,9 @@ class ExitGatheringController {
 	private final ExitGatheringService exitGatheringService;
 
 	@PostMapping("/sottie/gathering/exit")
-	public ResponseEntity<Gathering> exitGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		Gathering result = exitGatheringService.exitGathering(defaultGatheringRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(result);
+	public ResponseEntity exitGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
+		exitGatheringService.exitGathering(defaultGatheringRequest);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 }

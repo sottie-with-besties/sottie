@@ -23,9 +23,9 @@ public class GatheringUser extends BaseEntity {
 
     public static GatheringUser mappingGatheringUser(User user, Gathering gathering) {
         GatheringUser gatheringUser = GatheringUser.builder()
-                                                            .user(user)
-                                                            .gathering(gathering)
-                                                            .build();
+                                                    .user(user)
+                                                    .gathering(gathering)
+                                                    .build();
         return gatheringUser;
     }
 }
