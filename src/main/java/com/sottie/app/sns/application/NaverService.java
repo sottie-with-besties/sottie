@@ -22,7 +22,7 @@ public class NaverService {
 		Optional<User> user = userRepository.findByIdentifier(naverProfile.getId());
 
 		// 존재하지 않으면 회원가입
-		if (!user.isPresent()) {
+		if (user.isEmpty()) {
 			User userInfo = User.builder()
 				.name(naverProfile.getName())
 				.email(naverProfile.getEmail())
