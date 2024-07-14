@@ -1,5 +1,6 @@
 package com.sottie.app.user.adapter;
 
+import com.sottie.app.user.model.Gender;
 import com.sottie.app.user.model.User;
 
 import jakarta.validation.constraints.Email;
@@ -9,6 +10,13 @@ import lombok.Builder;
 
 @Builder
 record DefaultUserRequest(
+
+	String name,
+	String phoneNumber,
+	Gender gender,
+	String identifier,
+	String birthYear,
+	boolean phoneAuthenticated,
 	@NotBlank
 	@Email
 	String email,
@@ -19,8 +27,14 @@ record DefaultUserRequest(
 
 	User to() {
 		return User.builder()
-			.email(this.email)
-			.password(this.password)
-			.build();
+				.name(this.name)
+				.phoneNumber(this.phoneNumber)
+				.gender(this.gender)
+				.birthYear(this.birthYear)
+				.identifier(this.identifier)
+				.phoneAuthenticated(this.phoneAuthenticated)
+				.email(this.email)
+				.password(this.password)
+				.build();
 	}
 }
