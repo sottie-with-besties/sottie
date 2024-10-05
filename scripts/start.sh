@@ -1,5 +1,5 @@
 PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/프로젝트 이름.jar"
+JAR_FILE="$PROJECT_ROOT/sottie.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
