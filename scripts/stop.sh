@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/sottie.jar" # 여기서 프로젝트 이름은 일단 원하는 프로젝트 이름으로 설정해주세요. 밑에서 추가 설명하겠습니다.
+PROJECT_ROOT="/home/ubuntu/app/build/libs"
+JAR_FILE="$PROJECT_ROOT/sottie-0.0.1-SNAPSHOT.jar" # 여기서 프로젝트 이름은 일단 원하는 프로젝트 이름으로 설정해주세요. 밑에서 추가 설명하겠습니다.
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
