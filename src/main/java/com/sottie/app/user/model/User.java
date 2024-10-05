@@ -2,7 +2,6 @@ package com.sottie.app.user.model;
 
 import com.sottie.app.base.domain.BaseEntity;
 
-import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
