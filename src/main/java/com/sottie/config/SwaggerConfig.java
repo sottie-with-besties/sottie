@@ -34,7 +34,7 @@ public class SwaggerConfig {
 			.version("1.0")
 			.contact(contact)
 			.description("info description")
-			.termsOfService("https://localhost:8080/terms")
+			.termsOfService("/terms")
 			.license(mitLicense);
 
 		return new OpenAPI().info(info).servers(List.of(server));
