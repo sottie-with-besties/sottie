@@ -3,3 +3,15 @@ spring:
     name: sottie
   profiles:
     active: local
+
+sottie:
+  authentication:
+    token-key: acc-token
+    refresh-token-key: ref-token
+    secret-key: f8f181df711ece486e0bc0d6d4a45e9209eccf1d7ff44555bd2e20d4da8d115830a2704ca42a7116490efe64dbc11f73bec4598aef19bb09f24443e8175eac3c
+    access-valid-seconds: 60
+    refresh-valid-seconds: 1800
+#
+#logging:
+#  level:
+#    root: trace
