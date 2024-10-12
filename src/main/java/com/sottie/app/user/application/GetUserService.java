@@ -40,9 +40,9 @@ public class GetUserService implements Encryptor {
 
 			// 유저 키값 필요
 			jwtProvider.generate(user.getId(), "USER");
-			Authentication sottieAuthentication = new SottieAuthentication();
-			new UsernamePasswordAuthenticationToken(user.getId(), null, null);
-			sottieAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), null, List.of(() -> "ROLE_USER")));
+			SottieAuthentication sottieAuthentication = new SottieAuthentication();
+			sottieAuthentication.addAuthorities(() -> "ROLE_USER");
+			sottieAuthenticationManager.authenticate(sottieAuthentication);
 			// 기존 session 파기
 //			httpServletRequest.getSession().invalidate();
 //

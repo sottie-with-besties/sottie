@@ -54,4 +54,8 @@ public class SottieAuthentication implements Authentication {
     public void setProcessId(String processId) {
         this.processId = processId;
     }
+
+    public void addAuthorities(GrantedAuthority roles) {
+        this.roles.add(roles);
+    }
 }
