@@ -31,6 +31,9 @@ public class SecurityConfig {
     private final JwtProvider tokenProvider;
 
     private final AntPathRequestMatcher[] WHITE_LIST_URL = {
+            new AntPathRequestMatcher("/"),
+            new AntPathRequestMatcher("/v3/api-docs/**"),
+            new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/sottie/users/**")
     };
 
