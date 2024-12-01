@@ -2,6 +2,7 @@ package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.GetGatheringService;
 import com.sottie.app.gathering.model.Gathering;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,16 +20,10 @@ class GetGatheringsController {
 
 	private final GetGatheringService getGatheringService;
 
+	// TODO 왜 파라미터 null 로 들어오는지 확인해야함
 	@GetMapping("/sottie/gatherings")
-	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		List<Gathering> result = getGatheringService.getGatherings(
-				defaultGatheringRequest.gatheringCategory(),
-				defaultGatheringRequest.title(),
-				defaultGatheringRequest.locationId(),
-				defaultGatheringRequest.peopleNum(),
-				defaultGatheringRequest.genderRestriction(),
-				defaultGatheringRequest.mannerRestrictionYn(),
-				defaultGatheringRequest.ageRestrictionYn());
+	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Valid @Nullable DefaultGatheringRequest defaultGatheringRequest) {
+		List<Gathering> result = getGatheringService.getGatherings(defaultGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

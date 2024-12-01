@@ -1,11 +1,11 @@
 package com.sottie.app.gathering.application;
 
+import com.sottie.app.gathering.adapter.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.specification.GatheringSpecification;
-import com.sottie.app.user.model.Gender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -20,24 +20,32 @@ public class GetGatheringService {
 
 	private final GatheringRepository gatheringRepository;
 
-	public List<Gathering> getGatherings(
-			GatheringCategory gatheringCategory,
-			String title,
-			Long locationId,
-			Integer peopleNum,
-			GenderCategory genderRestriction,
-			Boolean mannerRestrictionYn,
-			Boolean ageRestrictionYn) {
+	public List<Gathering> getGatherings(DefaultGatheringRequest defaultGatheringRequest) {
 
-		Specification<Gathering> spec = Specification.where(GatheringSpecification.equalGatheringCategory(gatheringCategory));
-		spec = spec.or(GatheringSpecification.likeTitle(title)
-				.or(GatheringSpecification.equalLocationId(locationId))
-				.or(GatheringSpecification.equalPeopleNum(peopleNum))
-				.or(GatheringSpecification.restrictGender(genderRestriction))
-				.or(GatheringSpecification.restrictManner(mannerRestrictionYn))
-				.or(GatheringSpecification.restrictAge(ageRestrictionYn))
-		);
+		if (defaultGatheringRequest == null) {
+			return gatheringRepository.findAll();
 
-		return gatheringRepository.findAll(spec);
+		} else {
+
+			GatheringCategory gatheringCategory = defaultGatheringRequest.gatheringCategory();
+			String title = defaultGatheringRequest.title();
+			Long locationId = defaultGatheringRequest.locationId();
+			Integer peopleNum = defaultGatheringRequest.peopleNum();
+			GenderCategory genderRestriction = defaultGatheringRequest.genderRestriction();
+			Boolean mannerRestrictionYn = defaultGatheringRequest.mannerRestrictionYn();
+			Boolean ageRestrictionYn = defaultGatheringRequest.ageRestrictionYn();
+
+			Specification<Gathering> spec = Specification.where(GatheringSpecification.equalGatheringCategory(gatheringCategory));
+			spec = spec.or(GatheringSpecification.likeTitle(title)
+					.or(GatheringSpecification.equalLocationId(locationId))
+					.or(GatheringSpecification.equalPeopleNum(peopleNum))
+					.or(GatheringSpecification.restrictGender(genderRestriction))
+					.or(GatheringSpecification.restrictManner(mannerRestrictionYn))
+					.or(GatheringSpecification.restrictAge(ageRestrictionYn))
+			);
+			return gatheringRepository.findAll(spec);
+		}
+
+
 	}
 }
