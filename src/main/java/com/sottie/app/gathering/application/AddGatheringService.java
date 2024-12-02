@@ -86,11 +86,7 @@ public class AddGatheringService {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 
-		} else if (gathering.getMannerRestrictionYn().equals(Boolean.TRUE)) {
-			if (gathering.getMannerTemperature().equals(0)) {
-				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
-			}
-		} else if (gathering.getAgeRestrictionYn().equals(Boolean.TRUE)) {
+		}else if (gathering.getAgeRestriction().equals(Boolean.TRUE)) {
 			if (gathering.getAgeTo().equals(0) && gathering.getAgeFrom().equals(0)) {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}

@@ -7,6 +7,7 @@ import com.sottie.app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,24 +27,28 @@ public class Gathering extends BaseEntity {
 
     private Long locationId;
 
+    private LocalDateTime gatheringDate;
+
+    private LocalDateTime searchStartDate;
+
+    private LocalDateTime searchEndDate;
+
     private String contents;
 
     private Integer peopleNum;
 
+    @Setter
+    private Integer currentPeopleNum;
+
     private Integer femaleNum;
+
+    @Setter
+    private Integer currentFemaleNum;
 
     private Integer maleNum;
 
     @Setter
-    private Integer joinPeopleNum;
-
-    @Setter
-    private Integer joinFemaleNum;
-
-    @Setter
-    private Integer joinMaleNum;
-
-    private Integer mannerTemperature;
+    private Integer currentMaleNum;
 
     private Integer ageTo;
 
@@ -52,9 +57,9 @@ public class Gathering extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GenderCategory genderRestriction;
 
-    private Boolean ageRestrictionYn;
+    private Boolean ageRestriction;
 
-    private Boolean mannerRestrictionYn;
+    private Boolean mannerRestriction;
 
     @OneToMany(mappedBy = "gathering")
     private List<GatheringUser> gatheringUsers;
@@ -64,21 +69,21 @@ public class Gathering extends BaseEntity {
     // DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
     public void plusPeopleNum(User user) {
         if (user.getGender().equals(Gender.MALE)) {
-            this.setJoinMaleNum(this.getJoinMaleNum() + 1);
+            this.setCurrentMaleNum(this.getCurrentMaleNum() + 1);
         } else if (user.getGender().equals(Gender.FEMALE)) {
-            this.setJoinFemaleNum(this.getJoinFemaleNum() + 1);
+            this.setCurrentFemaleNum(this.getCurrentFemaleNum() + 1);
         }
-        this.setJoinPeopleNum(this.getJoinPeopleNum() + 1);
+        this.setCurrentPeopleNum(this.getCurrentPeopleNum() + 1);
     }
 
     // TODO
     // DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
     public void minusPeopleNum(User user) {
         if (user.getGender().equals(Gender.MALE)) {
-            this.setJoinMaleNum(this.getJoinMaleNum() - 1);
+            this.setCurrentMaleNum(this.getCurrentMaleNum() - 1);
         } else if (user.getGender().equals(Gender.FEMALE)) {
-            this.setJoinFemaleNum(this.getJoinFemaleNum() - 1);
+            this.setCurrentFemaleNum(this.getCurrentFemaleNum() - 1);
         }
-        this.setJoinPeopleNum(this.getJoinPeopleNum() - 1);
+        this.setCurrentPeopleNum(this.getCurrentPeopleNum() - 1);
     }
 }

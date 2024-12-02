@@ -3,8 +3,10 @@ package com.sottie.app.gathering.adapter;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
-import com.sottie.app.user.model.User;
 import lombok.Builder;
+
+import java.time.LocalDateTime;
+
 
 @Builder
 public record DefaultGatheringRequest(
@@ -12,18 +14,34 @@ public record DefaultGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
+
+	LocalDateTime gatheringDate,
+
+	LocalDateTime searchStartDate,
+
+	LocalDateTime searchEndDate,
 	String contents,
 	Integer peopleNum,
+
+	Integer currentPeopleNum,
 	Integer femaleNum,
+
+	Integer currentFemaleNum,
 	Integer maleNum,
+
+	Integer currentMaleNum,
 	Integer ageTo,
 	Integer ageFrom,
-	Integer mannerTemperature,
 	GenderCategory genderRestriction,
-	Boolean mannerRestrictionYn,
-	Boolean ageRestrictionYn
+	Boolean mannerRestriction,
+	Boolean ageRestriction
 	) {
 
+
+	/**
+	 * 모집글 생성시 사용
+	 * @param userId
+	 */
 	public Gathering to(Long userId) {
 		return Gathering.builder()
 			.gatheringCategory(this.gatheringCategory)
@@ -34,15 +52,11 @@ public record DefaultGatheringRequest(
 			.peopleNum(this.peopleNum)
 			.femaleNum(this.femaleNum)
 			.maleNum(this.maleNum)
-			.joinPeopleNum(0)
-			.joinFemaleNum(0)
-			.joinMaleNum(0)
 			.ageTo(this.ageTo)
 			.ageFrom(this.ageFrom)
-			.mannerTemperature(this.mannerTemperature)
 			.genderRestriction(this.genderRestriction)
-			.ageRestrictionYn(this.ageRestrictionYn)
-			.mannerRestrictionYn(this.mannerRestrictionYn)
+			.ageRestriction(this.ageRestriction)
+			.mannerRestriction(this.mannerRestriction)
 			.build();
 	}
 }
