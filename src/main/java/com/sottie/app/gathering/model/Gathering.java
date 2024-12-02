@@ -29,9 +29,10 @@ public class Gathering extends BaseEntity {
 
     private LocalDateTime gatheringDate;
 
-    private LocalDateTime searchStartDate;
-
-    private LocalDateTime searchEndDate;
+    // TODO 아래 필드는 Entity 에는 필요 없음, 검색 파라미터에만 필요
+//    private LocalDateTime searchStartDate;
+//
+//    private LocalDateTime searchEndDate;
 
     private String contents;
 

@@ -1,6 +1,6 @@
 package com.sottie.app.gathering.application;
 
-import com.sottie.app.gathering.adapter.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;

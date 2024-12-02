@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 
 import com.sottie.app.gathering.application.AddGatheringService;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,10 +59,9 @@ class AddGatheringControllerTest {
 							Integer maleNum,
 							Integer ageTo,
 							Integer ageFrom,
-							Integer mannerTemperature,
 							GenderCategory genderRestriction,
-							Boolean mannerRestrictionYn,
-							Boolean ageRestrictionYn) throws Exception {
+							Boolean mannerRestriction,
+							Boolean ageRestriction) throws Exception {
 		//given
 		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
 				.gatheringCategory(gatheringCategory)
@@ -73,10 +73,9 @@ class AddGatheringControllerTest {
 				.maleNum(maleNum)
 				.ageTo(ageTo)
 				.ageFrom(ageFrom)
-				.mannerTemperature(mannerTemperature)
 				.genderRestriction(genderRestriction)
-				.ageRestrictionYn(ageRestrictionYn)
-				.mannerRestrictionYn(mannerRestrictionYn)
+				.ageRestriction(ageRestriction)
+				.mannerRestriction(mannerRestriction)
 				.build();
 
 		//when
@@ -101,10 +100,9 @@ class AddGatheringControllerTest {
 						   Integer maleNum,
 						   Integer ageTo,
 						   Integer ageFrom,
-						   Integer mannerTemperature,
 						   GenderCategory genderRestriction,
-						   Boolean mannerRestrictionYn,
-						   Boolean ageRestrictionYn) throws Exception {
+						   Boolean mannerRestriction,
+						   Boolean ageRestriction) throws Exception {
 
 		//given
 		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
@@ -117,10 +115,9 @@ class AddGatheringControllerTest {
 				.maleNum(maleNum)
 				.ageTo(ageTo)
 				.ageFrom(ageFrom)
-				.mannerTemperature(mannerTemperature)
 				.genderRestriction(genderRestriction)
-				.ageRestrictionYn(ageRestrictionYn)
-				.mannerRestrictionYn(mannerRestrictionYn)
+				.ageRestriction(ageRestriction)
+				.mannerRestriction(mannerRestriction)
 				.build();
 
 		//when

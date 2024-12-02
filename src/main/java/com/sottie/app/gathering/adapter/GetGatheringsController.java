@@ -1,6 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.GetGatheringService;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;

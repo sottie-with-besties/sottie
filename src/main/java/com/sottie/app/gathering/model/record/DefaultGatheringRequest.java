@@ -1,4 +1,4 @@
-package com.sottie.app.gathering.adapter;
+package com.sottie.app.gathering.model.record;
 
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
@@ -7,7 +7,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-
+// TODO 모집글을 찾을때, 만들때, 검색할때 records 나누기 (헷갈림)
 @Builder
 public record DefaultGatheringRequest(
 	Long id,

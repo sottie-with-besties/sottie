@@ -1,6 +1,6 @@
 package com.sottie.app.gathering.application;
 
-import com.sottie.app.gathering.adapter.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
@@ -32,8 +32,8 @@ public class GetGatheringService {
 			Long locationId = defaultGatheringRequest.locationId();
 			Integer peopleNum = defaultGatheringRequest.peopleNum();
 			GenderCategory genderRestriction = defaultGatheringRequest.genderRestriction();
-			Boolean mannerRestrictionYn = defaultGatheringRequest.mannerRestrictionYn();
-			Boolean ageRestrictionYn = defaultGatheringRequest.ageRestrictionYn();
+			Boolean mannerRestrictionYn = defaultGatheringRequest.mannerRestriction();
+			Boolean ageRestrictionYn = defaultGatheringRequest.ageRestriction();
 
 			Specification<Gathering> spec = Specification.where(GatheringSpecification.equalGatheringCategory(gatheringCategory));
 			spec = spec.or(GatheringSpecification.likeTitle(title)

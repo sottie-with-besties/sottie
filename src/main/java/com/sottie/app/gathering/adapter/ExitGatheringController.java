@@ -1,7 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.ExitGatheringService;
-import com.sottie.app.gathering.model.Gathering;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

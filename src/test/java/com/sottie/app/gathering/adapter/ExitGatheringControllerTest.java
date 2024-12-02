@@ -2,6 +2,7 @@ package com.sottie.app.gathering.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sottie.app.gathering.application.AddGatheringService;
+import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
 import com.sottie.errors.GlobalExceptionHandler;
@@ -57,10 +58,9 @@ class ExitGatheringControllerTest {
 							Integer maleNum,
 							Integer ageTo,
 							Integer ageFrom,
-							Integer mannerTemperature,
 							GenderCategory genderRestriction,
-							Boolean mannerRestrictionYn,
-							Boolean ageRestrictionYn) throws Exception {
+							Boolean mannerRestriction,
+							Boolean ageRestriction) throws Exception {
 		//given
 		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
 				.gatheringCategory(gatheringCategory)
@@ -72,10 +72,9 @@ class ExitGatheringControllerTest {
 				.maleNum(maleNum)
 				.ageTo(ageTo)
 				.ageFrom(ageFrom)
-				.mannerTemperature(mannerTemperature)
 				.genderRestriction(genderRestriction)
-				.ageRestrictionYn(ageRestrictionYn)
-				.mannerRestrictionYn(mannerRestrictionYn)
+				.ageRestriction(ageRestriction)
+				.mannerRestriction(mannerRestriction)
 				.build();
 
 		//when
@@ -100,10 +99,9 @@ class ExitGatheringControllerTest {
 						   Integer maleNum,
 						   Integer ageTo,
 						   Integer ageFrom,
-						   Integer mannerTemperature,
 						   GenderCategory genderRestriction,
-						   Boolean mannerRestrictionYn,
-						   Boolean ageRestrictionYn) throws Exception {
+						   Boolean mannerRestriction,
+						   Boolean ageRestriction) throws Exception {
 
 		//given
 		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
@@ -116,10 +114,9 @@ class ExitGatheringControllerTest {
 				.maleNum(maleNum)
 				.ageTo(ageTo)
 				.ageFrom(ageFrom)
-				.mannerTemperature(mannerTemperature)
 				.genderRestriction(genderRestriction)
-				.ageRestrictionYn(ageRestrictionYn)
-				.mannerRestrictionYn(mannerRestrictionYn)
+				.ageRestriction(ageRestriction)
+				.mannerRestriction(mannerRestriction)
 				.build();
 
 		//when
