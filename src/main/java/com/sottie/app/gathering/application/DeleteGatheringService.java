@@ -4,6 +4,7 @@ import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
+import com.sottie.app.gathering.model.record.DeleteGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
@@ -28,7 +29,7 @@ public class DeleteGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public void deleteGathering(DefaultGatheringRequest defaultGatheringRequest) {
+	public void deleteGathering(DeleteGatheringRequest deleteGatheringRequest) {
 
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
@@ -42,7 +43,7 @@ public class DeleteGatheringService {
 
 		if (optUser.isPresent()) {
 
-			Optional<Gathering> optGathering = gatheringRepository.findById(defaultGatheringRequest.id());
+			Optional<Gathering> optGathering = gatheringRepository.findById(deleteGatheringRequest.id());
 
 			if (optGathering.isPresent()) {
 				Gathering gathering = optGathering.get();

@@ -1,6 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.AddGatheringService;
+import com.sottie.app.gathering.model.record.AddGatheringRequest;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import jakarta.validation.Valid;
@@ -18,8 +19,8 @@ class AddGatheringController {
 	private final AddGatheringService addGatheringService;
 
 	@PostMapping("/sottie/gathering")
-	public ResponseEntity<Gathering> addGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		Gathering result = addGatheringService.addGathering(defaultGatheringRequest);
+	public ResponseEntity<Gathering> addGathering(@RequestBody @Valid AddGatheringRequest addGatheringRequest) {
+		Gathering result = addGatheringService.addGathering(addGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 

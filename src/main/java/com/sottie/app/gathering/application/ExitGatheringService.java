@@ -4,6 +4,7 @@ import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
+import com.sottie.app.gathering.model.record.ExitGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
@@ -27,7 +28,7 @@ public class ExitGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public void exitGathering(DefaultGatheringRequest defaultGatheringRequest) {
+	public void exitGathering(ExitGatheringRequest exitGatheringRequest) {
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
 		Long loginUserId = null;
@@ -39,7 +40,7 @@ public class ExitGatheringService {
 		Optional<User> optUser = userRepository.findById(loginUserId);
 
 		if (optUser.isPresent()) {
-			Optional<Gathering> optGathering = gatheringRepository.findById(defaultGatheringRequest.id());
+			Optional<Gathering> optGathering = gatheringRepository.findById(exitGatheringRequest.id());
 
 			if (optGathering.isPresent()) {
 				Gathering gathering = optGathering.get();

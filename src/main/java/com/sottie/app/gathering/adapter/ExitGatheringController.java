@@ -2,6 +2,7 @@ package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.ExitGatheringService;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.record.ExitGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,8 @@ class ExitGatheringController {
 	private final ExitGatheringService exitGatheringService;
 
 	@PostMapping("/sottie/gathering/exit")
-	public ResponseEntity exitGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		exitGatheringService.exitGathering(defaultGatheringRequest);
+	public ResponseEntity exitGathering(@RequestBody @Valid ExitGatheringRequest exitGatheringRequest) {
+		exitGatheringService.exitGathering(exitGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 

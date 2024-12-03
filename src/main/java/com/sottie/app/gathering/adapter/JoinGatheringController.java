@@ -2,6 +2,7 @@ package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.JoinGatheringService;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.record.JoinGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,8 @@ class JoinGatheringController {
 	private final JoinGatheringService joinGatheringService;
 
 	@PostMapping("/sottie/gathering/join")
-	public ResponseEntity joinGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		joinGatheringService.joinGathering(defaultGatheringRequest);
+	public ResponseEntity joinGathering(@RequestBody @Valid JoinGatheringRequest joinGatheringRequest) {
+		joinGatheringService.joinGathering(joinGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 

@@ -1,5 +1,6 @@
 package com.sottie.app.gathering.application;
 
+import com.sottie.app.gathering.model.record.AddGatheringRequest;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
@@ -25,7 +26,7 @@ public class AddGatheringService {
 	private final GatheringRepository gatheringRepository;
 
 
-	public Gathering addGathering(DefaultGatheringRequest defaultGatheringRequest) {
+	public Gathering addGathering(AddGatheringRequest addGatheringRequest) {
 
 		// user session
 		//TODO 테스트 위한 임시 주석
@@ -38,7 +39,7 @@ public class AddGatheringService {
 		}
 
 
-		Gathering gathering = defaultGatheringRequest.to(0L);
+		Gathering gathering = addGatheringRequest.to(0L);
 		checkAddGatheringValidation(gathering);
 
 		return gatheringRepository.save(gathering);

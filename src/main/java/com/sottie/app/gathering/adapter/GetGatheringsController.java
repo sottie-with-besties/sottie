@@ -3,6 +3,7 @@ package com.sottie.app.gathering.adapter;
 import com.sottie.app.gathering.application.GetGatheringService;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
+import com.sottie.app.gathering.model.record.GetGatheringRequest;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ class GetGatheringsController {
 
 	// TODO 왜 파라미터 null 로 들어오는지 확인해야함
 	@GetMapping("/sottie/gatherings")
-	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Valid @Nullable DefaultGatheringRequest defaultGatheringRequest) {
-		List<Gathering> result = getGatheringService.getGatherings(defaultGatheringRequest);
+	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Valid @Nullable GetGatheringRequest getGatheringRequest) {
+		List<Gathering> result = getGatheringService.getGatherings(getGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

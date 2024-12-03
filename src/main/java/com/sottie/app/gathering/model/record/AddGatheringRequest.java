@@ -9,27 +9,16 @@ import java.time.LocalDateTime;
 
 
 @Builder
-public record DefaultGatheringRequest(
-	Long id,
+public record AddGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
 
 	LocalDateTime gatheringDate,
-
-	LocalDateTime searchStartDate,
-
-	LocalDateTime searchEndDate,
 	String contents,
 	Integer peopleNum,
-
-	Integer currentPeopleNum,
 	Integer femaleNum,
-
-	Integer currentFemaleNum,
 	Integer maleNum,
-
-	Integer currentMaleNum,
 	Integer ageTo,
 	Integer ageFrom,
 	GenderCategory genderRestriction,
@@ -38,16 +27,13 @@ public record DefaultGatheringRequest(
 	) {
 
 
-	/**
-	 * 모집글 생성시 사용
-	 * @param userId
-	 */
 	public Gathering to(Long userId) {
 		return Gathering.builder()
 			.gatheringCategory(this.gatheringCategory)
 			.host(userId)
 			.title(this.title)
 			.locationId(this.locationId)
+			.gatheringDate(this.gatheringDate)
 			.contents(this.contents)
 			.peopleNum(this.peopleNum)
 			.femaleNum(this.femaleNum)

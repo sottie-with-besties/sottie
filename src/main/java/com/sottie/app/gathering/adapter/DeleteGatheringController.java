@@ -2,6 +2,7 @@ package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.DeleteGatheringService;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.record.DeleteGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,8 +16,8 @@ class DeleteGatheringController {
 	private final DeleteGatheringService deleteGatheringService;
 
 	@DeleteMapping("/sottie/gathering")
-	public void deleteGathering(@RequestBody @Valid DefaultGatheringRequest defaultGatheringRequest) {
-		deleteGatheringService.deleteGathering(defaultGatheringRequest);
+	public void deleteGathering(@RequestBody @Valid DeleteGatheringRequest deleteGatheringRequest) {
+		deleteGatheringService.deleteGathering(deleteGatheringRequest);
 		return;
 	}
 

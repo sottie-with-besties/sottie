@@ -9,13 +9,10 @@ import java.time.LocalDateTime;
 
 
 @Builder
-public record DefaultGatheringRequest(
-	Long id,
+public record GetGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
-
-	LocalDateTime gatheringDate,
 
 	LocalDateTime searchStartDate,
 
@@ -38,8 +35,8 @@ public record DefaultGatheringRequest(
 	) {
 
 
-	/**
-	 * 모집글 생성시 사용
+    /**
+     * 모집글 생성시 사용
 	 * @param userId
 	 */
 	public Gathering to(Long userId) {

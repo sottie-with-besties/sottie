@@ -10,6 +10,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
+
 
 @RequiredArgsConstructor
 public class GatheringSpecification {
@@ -23,6 +25,7 @@ public class GatheringSpecification {
         };
     }
 
+    // TODO 제목 검색은 따로 해야할듯
     public static Specification<Gathering> likeTitle(String title){
         return new Specification<Gathering>() {
             @Override
@@ -37,6 +40,15 @@ public class GatheringSpecification {
             @Override
             public Predicate toPredicate(Root<Gathering> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get("locationId"), locationId);
+            }
+        };
+    }
+
+    public static Specification<Gathering> betweenGatheringDate(LocalDateTime searchStartTime, LocalDateTime searchEndTime) {
+        return new Specification<Gathering>() {
+            @Override
+            public Predicate toPredicate(Root<Gathering> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.between(root.get("gatheringDate"), searchStartTime, searchEndTime);
             }
         };
     }
