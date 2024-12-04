@@ -65,7 +65,6 @@ public class Gathering extends BaseEntity {
 
     private Boolean mannerRestriction;
 
-    @Transient // TODO test 임시 transient
     @OneToMany(mappedBy = "gathering")
     private List<GatheringUser> gatheringUsers;
 
