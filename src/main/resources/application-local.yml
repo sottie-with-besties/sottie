@@ -5,6 +5,11 @@
 #    url: jdbc:mysql://localhost:3306/sottie
 #    username: 'sottie'
 #    password: 'sottie123!'
+logging:
+  name: log/sottie-error.log
+  level:
+    root: debug
+    
 spring:
   # DB
   datasource:
