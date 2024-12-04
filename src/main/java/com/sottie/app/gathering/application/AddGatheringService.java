@@ -11,18 +11,19 @@ import com.sottie.errors.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AddGatheringService {
 
 	private final HttpServletRequest httpServletRequest;
-	private final UserRepository userRepository;
 	private final GatheringRepository gatheringRepository;
 
 
@@ -63,30 +64,42 @@ public class AddGatheringService {
 	}
 
 	private void checkAddGatheringValidation(Gathering gathering) {
+
 		if (gathering.getGatheringCategory() == null) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
 		} else if (gathering.getTitle().isEmpty()) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
 		} else if (gathering.getLocationId() == null || gathering.getLocationId().equals(0L)) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
 		} else if (gathering.getPeopleNum() == null || gathering.getPeopleNum().equals(0)) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
+			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+
+		} else if (!gathering.getPeopleNum().equals(gathering.getFemaleNum() + gathering.getMaleNum())) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
 		} else if (gathering.getGenderRestriction().equals(GenderCategory.FEMALE)) {
 			if ((!Objects.equals(gathering.getFemaleNum(), gathering.getPeopleNum()))) {
+				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 
 		} else if (gathering.getGenderRestriction().equals(GenderCategory.MALE)) {
 			if ((!Objects.equals(gathering.getMaleNum(), gathering.getPeopleNum()))) {
+				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 
 		}else if (gathering.getAgeRestriction().equals(Boolean.TRUE)) {
 			if (gathering.getAgeTo().equals(0) && gathering.getAgeFrom().equals(0)) {
+				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 		}

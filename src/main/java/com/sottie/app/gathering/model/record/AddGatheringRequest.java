@@ -13,14 +13,13 @@ public record AddGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
-
 	LocalDateTime gatheringDate,
 	String contents,
 	Integer peopleNum,
 	Integer femaleNum,
 	Integer maleNum,
-	Integer ageTo,
 	Integer ageFrom,
+	Integer ageTo,
 	GenderCategory genderRestriction,
 	Boolean mannerRestriction,
 	Boolean ageRestriction
@@ -36,10 +35,13 @@ public record AddGatheringRequest(
 			.gatheringDate(this.gatheringDate)
 			.contents(this.contents)
 			.peopleNum(this.peopleNum)
+			.currentPeopleNum(0)
 			.femaleNum(this.femaleNum)
+			.currentFemaleNum(0)
 			.maleNum(this.maleNum)
-			.ageTo(this.ageTo)
+			.currentMaleNum(0)
 			.ageFrom(this.ageFrom)
+			.ageTo(this.ageTo)
 			.genderRestriction(this.genderRestriction)
 			.ageRestriction(this.ageRestriction)
 			.mannerRestriction(this.mannerRestriction)

@@ -13,9 +13,7 @@ public record GetGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
-
 	LocalDateTime searchStartDate,
-
 	LocalDateTime searchEndDate,
 	String contents,
 	Integer peopleNum,
@@ -27,8 +25,8 @@ public record GetGatheringRequest(
 	Integer maleNum,
 
 	Integer currentMaleNum,
-	Integer ageTo,
 	Integer ageFrom,
+	Integer ageTo,
 	GenderCategory genderRestriction,
 	Boolean mannerRestriction,
 	Boolean ageRestriction
