@@ -45,7 +45,7 @@ public record DefaultGatheringRequest(
 	public Gathering to(Long userId) {
 		return Gathering.builder()
 			.gatheringCategory(this.gatheringCategory)
-			.host(userId)
+			.hostId(userId)
 			.title(this.title)
 			.locationId(this.locationId)
 			.contents(this.contents)

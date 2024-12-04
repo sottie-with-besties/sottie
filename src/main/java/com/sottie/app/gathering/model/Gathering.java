@@ -6,6 +6,7 @@ import com.sottie.app.user.model.Gender;
 import com.sottie.app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,12 +22,13 @@ public class Gathering extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GatheringCategory gatheringCategory;
 
-    private Long host;
+    private Long hostId;
 
     private String title;
 
     private Long locationId;
 
+    @CreationTimestamp
     private LocalDateTime gatheringDate;
 
     // TODO 아래 필드는 Entity 에는 필요 없음, 검색 파라미터에만 필요

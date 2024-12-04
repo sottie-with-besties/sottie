@@ -1,6 +1,5 @@
 package com.sottie.app.gathering.application;
 
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
@@ -63,7 +62,7 @@ public class DeleteGatheringService {
 	}
 
 	private void checkDeleteGatheringValidation(Gathering gathering, User logInUser) {
-		if (!gathering.getHost().equals(logInUser.getId())) {
+		if (!gathering.getHostId().equals(logInUser.getId())) {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 	}

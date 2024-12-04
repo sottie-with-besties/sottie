@@ -20,8 +20,8 @@ class GetGatheringsController {
 
 	private final GetGatheringService getGatheringService;
 
-	// TODO 왜 파라미터 null 로 들어오는지 확인해야함
-	@GetMapping("/sottie/gatherings")
+	// TODO Response DTO 로 변경하기
+	@PostMapping("/sottie/gatherings")
 	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Nullable GetGatheringRequest getGatheringRequest) {
 		List<Gathering> result = getGatheringService.getGatherings(getGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
