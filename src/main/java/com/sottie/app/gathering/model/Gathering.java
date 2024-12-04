@@ -7,6 +7,8 @@ import com.sottie.app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +30,6 @@ public class Gathering extends BaseEntity {
 
     private Long locationId;
 
-    @CreationTimestamp
     private LocalDateTime gatheringDate;
 
     // TODO 아래 필드는 Entity 에는 필요 없음, 검색 파라미터에만 필요
@@ -64,6 +65,7 @@ public class Gathering extends BaseEntity {
 
     private Boolean mannerRestriction;
 
+    @Transient // TODO test 임시 transient
     @OneToMany(mappedBy = "gathering")
     private List<GatheringUser> gatheringUsers;
 
