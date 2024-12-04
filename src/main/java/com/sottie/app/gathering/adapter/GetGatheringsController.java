@@ -21,7 +21,7 @@ class GetGatheringsController {
 	private final GetGatheringService getGatheringService;
 
 	// TODO Response DTO 로 변경하기
-	@PostMapping("/sottie/gatherings")
+	@GetMapping("/sottie/gatherings")
 	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Nullable GetGatheringRequest getGatheringRequest) {
 		List<Gathering> result = getGatheringService.getGatherings(getGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
