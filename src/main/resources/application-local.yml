@@ -6,10 +6,10 @@
 #    username: 'sottie'
 #    password: 'sottie123!'
 logging:
-  name: log/sottie-error.log
+  path: ./log/sottie-error.log
   level:
     root: debug
-    
+
 spring:
   # DB
   datasource:
