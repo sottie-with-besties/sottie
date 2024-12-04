@@ -6,9 +6,6 @@ import com.sottie.app.user.model.Gender;
 import com.sottie.app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +21,7 @@ public class Gathering extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GatheringCategory gatheringCategory;
 
-    private Long hostId;
+    private Long host;
 
     private String title;
 

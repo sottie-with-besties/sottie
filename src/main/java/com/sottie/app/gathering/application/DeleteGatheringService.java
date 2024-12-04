@@ -62,7 +62,7 @@ public class DeleteGatheringService {
 	}
 
 	private void checkDeleteGatheringValidation(Gathering gathering, User logInUser) {
-		if (!gathering.getHostId().equals(logInUser.getId())) {
+		if (!gathering.getHost().equals(logInUser.getId())) {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 	}
