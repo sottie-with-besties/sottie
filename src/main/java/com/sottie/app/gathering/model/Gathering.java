@@ -54,9 +54,9 @@ public class Gathering extends BaseEntity {
     @Setter
     private Integer currentMaleNum;
 
-    private Integer ageTo;
-
     private Integer ageFrom;
+
+    private Integer ageTo;
 
     @Enumerated(EnumType.STRING)
     private GenderCategory genderRestriction;
