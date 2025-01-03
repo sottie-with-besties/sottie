@@ -22,10 +22,9 @@ public class GatheringUser extends BaseEntity {
     private Gathering gathering;
 
     public static GatheringUser mappingGatheringUser(User user, Gathering gathering) {
-        GatheringUser gatheringUser = GatheringUser.builder()
-                                                    .user(user)
-                                                    .gathering(gathering)
-                                                    .build();
-        return gatheringUser;
+        return GatheringUser.builder()
+                .user(user)
+                .gathering(gathering)
+                .build();
     }
 }

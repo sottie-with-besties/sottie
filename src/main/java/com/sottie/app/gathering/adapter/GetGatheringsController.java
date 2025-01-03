@@ -1,6 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.GetGatheringService;
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.record.GetGatheringRequest;
@@ -22,8 +23,8 @@ class GetGatheringsController {
 
 	// TODO Response DTO 로 변경하기
 	@GetMapping("/sottie/gatherings")
-	public ResponseEntity<List<Gathering>> getGatherings (@RequestBody @Nullable GetGatheringRequest getGatheringRequest) {
-		List<Gathering> result = getGatheringService.getGatherings(getGatheringRequest);
+	public ResponseEntity<List<GatheringDto>> getGatherings (@RequestBody @Nullable GetGatheringRequest getGatheringRequest) {
+		List<GatheringDto> result = getGatheringService.getGatherings(getGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

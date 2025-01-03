@@ -3,6 +3,7 @@ package com.sottie.app.gathering.application;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.GetGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.specification.GatheringSpecification;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +24,16 @@ public class GetGatheringService {
 
 	private final GatheringRepository gatheringRepository;
 
-	public List<Gathering> getGatherings(GetGatheringRequest getGatheringRequest) {
+	public List<GatheringDto> getGatherings(GetGatheringRequest getGatheringRequest) {
+
+		List<GatheringDto> gatheringDtos = new ArrayList<>();
 
 		if (getGatheringRequest == null) {
-			return gatheringRepository.findAll();
+
+			List<Gathering> gatherings = gatheringRepository.findAll();
+			for (Gathering gathering : gatherings) {
+				gatheringDtos.add(GatheringDto.from(gathering));
+			}
 
 		} else {
 
@@ -47,9 +56,14 @@ public class GetGatheringService {
 					.or(GatheringSpecification.restrictAge(ageRestrictionYn))
 					.or(GatheringSpecification.betweenGatheringDate(searchStartTime, searchEndTime))
 			);
-			return gatheringRepository.findAll(spec);
+
+			List<Gathering> gatherings = gatheringRepository.findAll(spec);
+			for (Gathering gathering : gatherings) {
+				gatheringDtos.add(GatheringDto.from(gathering));
+			}
+
 		}
-
-
+		return gatheringDtos;
 	}
+
 }

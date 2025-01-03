@@ -1,6 +1,7 @@
 package com.sottie.app.gathering.application;
 
 import com.sottie.app.gathering.model.GatheringUser;
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.CreateGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
@@ -33,7 +34,7 @@ public class CreateGatheringService {
 	private final GatheringUserRepository gatheringUserRepository;
 
 
-	public Gathering addGathering(CreateGatheringRequest createGatheringRequest) {
+	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
@@ -59,7 +60,10 @@ public class CreateGatheringService {
 			// user 가 male 일 경우 maleNum 증가
 			gathering.plusPeopleNum(user);
 
-			return gatheringRepository.save(gathering);
+			gatheringRepository.save(gathering);
+
+			return GatheringDto.from(gathering);
+
 		} else {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}

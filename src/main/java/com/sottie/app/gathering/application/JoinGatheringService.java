@@ -1,5 +1,6 @@
 package com.sottie.app.gathering.application;
 
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
@@ -29,7 +30,7 @@ public class JoinGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public void joinGathering(JoinGatheringRequest joinGatheringRequest) {
+	public GatheringDto joinGathering(JoinGatheringRequest joinGatheringRequest) {
 
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
@@ -60,6 +61,11 @@ public class JoinGatheringService {
 					gathering.plusPeopleNum(user);
 
 					gatheringRepository.save(gathering);
+
+					return GatheringDto.from(gathering);
+
+				} else {
+					throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 				}
 
 			} else {

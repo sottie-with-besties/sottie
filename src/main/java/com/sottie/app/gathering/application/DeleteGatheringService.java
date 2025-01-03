@@ -3,6 +3,7 @@ package com.sottie.app.gathering.application;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.DeleteGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.repository.GatheringUserRepository;
@@ -28,7 +29,7 @@ public class DeleteGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	public void deleteGathering(DeleteGatheringRequest deleteGatheringRequest) {
+	public GatheringDto deleteGathering(DeleteGatheringRequest deleteGatheringRequest) {
 
 		// user session
 		HttpSession session = httpServletRequest.getSession(false);
@@ -51,6 +52,8 @@ public class DeleteGatheringService {
 
 				gatheringUserRepository.deleteAll(gatheringUsers);
 				gatheringRepository.delete(gathering);
+
+				return GatheringDto.from(gathering);
 
 			} else {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
