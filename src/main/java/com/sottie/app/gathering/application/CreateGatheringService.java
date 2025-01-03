@@ -1,11 +1,13 @@
 package com.sottie.app.gathering.application;
 
-import com.sottie.app.gathering.model.record.AddGatheringRequest;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
+import com.sottie.app.gathering.model.GatheringUser;
+import com.sottie.app.gathering.model.record.CreateGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GenderCategory;
 import com.sottie.app.gathering.repository.GatheringRepository;
+import com.sottie.app.gathering.repository.GatheringUserRepository;
+import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,54 +18,54 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AddGatheringService {
+public class CreateGatheringService {
 
 	private final HttpServletRequest httpServletRequest;
 	private final GatheringRepository gatheringRepository;
+	private final UserRepository userRepository;
+
+	private final GatheringUserRepository gatheringUserRepository;
 
 
-	public Gathering addGathering(AddGatheringRequest addGatheringRequest) {
+	public Gathering addGathering(CreateGatheringRequest createGatheringRequest) {
 
 		// user session
-		//TODO 테스트 위한 임시 주석
 		HttpSession session = httpServletRequest.getSession(false);
 		Long loginUserId = null;
 		if (session != null) {
 			loginUserId = (Long) session.getAttribute("userId");
 		} else {
-//			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 
+		Optional<User> optUser = userRepository.findById(loginUserId);
 
-		Gathering gathering = addGatheringRequest.to(0L);
-		checkAddGatheringValidation(gathering);
+		if (optUser.isPresent()) {
+			User user = optUser.get();
+			Gathering gathering = createGatheringRequest.to(user.getId());
+			checkCreateGatheringValidation(gathering);
 
-		return gatheringRepository.save(gathering);
+			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
+			gatheringUserRepository.save(gatheringUser);
 
-		//TODO 테스트 위한 임시 주석
-//		Optional<User> optUser = userRepository.findById(loginUserId);
-//
-//		if (optUser.isPresent()) {
-//			Gathering gathering = defaultGatheringRequest.to(optUser.get().getId());
-//			checkAddGatheringValidation(gathering);
-//
-//			return gatheringRepository.save(gathering);
-//		} else {
-//			Gathering gathering = defaultGatheringRequest.to(0L);
-//			checkAddGatheringValidation(gathering);
-//
-//			return gatheringRepository.save(gathering);
-//
-//			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
-//		}
+			// peopleNum 증가
+			// user 가 female 일 경우 femaleNum 증가
+			// user 가 male 일 경우 maleNum 증가
+			gathering.plusPeopleNum(user);
+
+			return gatheringRepository.save(gathering);
+		} else {
+			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+		}
 	}
 
-	private void checkAddGatheringValidation(Gathering gathering) {
+	private void checkCreateGatheringValidation(Gathering gathering) {
 
 		if (gathering.getGatheringCategory() == null) {
 			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());

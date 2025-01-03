@@ -5,7 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-import com.sottie.app.gathering.application.AddGatheringService;
+import com.sottie.app.gathering.application.CreateGatheringService;
+import com.sottie.app.gathering.model.record.CreateGatheringRequest;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
@@ -27,13 +28,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sottie.errors.GlobalExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
-class AddGatheringControllerTest {
+class CreateGatheringControllerTest {
 
 	@InjectMocks
-	private AddGatheringController controller;
+	private CreateGatheringController controller;
 
 	@Mock
-	private AddGatheringService service;
+	private CreateGatheringService service;
 
 	private MockMvc mockMvc;
 
@@ -63,7 +64,7 @@ class AddGatheringControllerTest {
 							Boolean mannerRestriction,
 							Boolean ageRestriction) throws Exception {
 		//given
-		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
+		CreateGatheringRequest createGatheringRequest = CreateGatheringRequest.builder()
 				.gatheringCategory(gatheringCategory)
 				.title(title)
 				.locationId(locationId)
@@ -82,7 +83,7 @@ class AddGatheringControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(defaultUserRequest))
+				.content(new ObjectMapper().writeValueAsString(createGatheringRequest))
 		);
 
 		//then
@@ -105,7 +106,7 @@ class AddGatheringControllerTest {
 						   Boolean ageRestriction) throws Exception {
 
 		//given
-		DefaultGatheringRequest defaultUserRequest = DefaultGatheringRequest.builder()
+		CreateGatheringRequest createGatheringRequest = CreateGatheringRequest.builder()
 				.gatheringCategory(gatheringCategory)
 				.title(title)
 				.locationId(locationId)
@@ -124,7 +125,7 @@ class AddGatheringControllerTest {
 		ResultActions result = mockMvc.perform(
 			post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(defaultUserRequest))
+				.content(new ObjectMapper().writeValueAsString(createGatheringRequest))
 		);
 
 		//then
@@ -132,19 +133,6 @@ class AddGatheringControllerTest {
 	}
 
 	private static List<Arguments> invalidBody() {
-//		.gatheringCategory(gatheringCategory)
-//		.title(title)
-//		.locationId(locationId)
-//		.contents(contents)
-//		.peopleNum(peopleNum)
-//		.femaleNum(femaleNum)
-//		.maleNum(maleNum)
-//		.ageTo(ageTo)
-//		.ageFrom(ageFrom)
-//		.mannerTemperature(mannerTemperature)
-//		.genderRestriction(genderRestriction)
-//		.ageRestrictionYn(ageRestrictionYn)
-//		.mannerRestrictionYn(mannerRestrictionYn)
 		return List.of(
 			Arguments.of(GatheringCategory.FRIENDSHIP, "chimactime!", 10L, "xxx xxx xxx", 6, 3, 3, 25, 30, 37, GenderCategory.NONE, true, true) //invalid email
 		);

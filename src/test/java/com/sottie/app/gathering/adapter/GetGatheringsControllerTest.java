@@ -1,7 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sottie.app.gathering.application.AddGatheringService;
+import com.sottie.app.gathering.application.CreateGatheringService;
 import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
@@ -29,10 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GetGatheringsControllerTest {
 
 	@InjectMocks
-	private AddGatheringController controller;
+	private CreateGatheringController controller;
 
 	@Mock
-	private AddGatheringService service;
+	private CreateGatheringService service;
 
 	private MockMvc mockMvc;
 

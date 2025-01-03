@@ -54,9 +54,9 @@ public class JoinGatheringService {
 					GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
 					gatheringUserRepository.save(gatheringUser);
 
-					// peopleNum 감소
-					// user 가 female 일 경우 femaleNum 감소
-					// user 가 male 일 경우 maleNum 감소
+					// peopleNum 증가
+					// user 가 female 일 경우 femaleNum 증가
+					// user 가 male 일 경우 maleNum 증가
 					gathering.plusPeopleNum(user);
 
 					gatheringRepository.save(gathering);

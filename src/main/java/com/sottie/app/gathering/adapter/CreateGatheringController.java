@@ -1,8 +1,7 @@
 package com.sottie.app.gathering.adapter;
 
-import com.sottie.app.gathering.application.AddGatheringService;
-import com.sottie.app.gathering.model.record.AddGatheringRequest;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
+import com.sottie.app.gathering.application.CreateGatheringService;
+import com.sottie.app.gathering.model.record.CreateGatheringRequest;
 import com.sottie.app.gathering.model.Gathering;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-class AddGatheringController {
+class CreateGatheringController {
 
-	private final AddGatheringService addGatheringService;
+	private final CreateGatheringService createGatheringService;
 
 	@PostMapping("/sottie/gathering")
-	public ResponseEntity<Gathering> addGathering(@RequestBody @Valid AddGatheringRequest addGatheringRequest) {
-		Gathering result = addGatheringService.addGathering(addGatheringRequest);
+	public ResponseEntity<Gathering> createGathering(@RequestBody @Valid CreateGatheringRequest createGatheringRequest) {
+		Gathering result = createGatheringService.addGathering(createGatheringRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 

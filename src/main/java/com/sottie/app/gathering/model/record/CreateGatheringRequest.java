@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 
 @Builder
-public record AddGatheringRequest(
+public record CreateGatheringRequest(
 	GatheringCategory gatheringCategory,
 	String title,
 	Long locationId,
