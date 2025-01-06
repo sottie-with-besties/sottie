@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,6 +35,7 @@ public class CreateGatheringService {
 
 	private final GatheringUserRepository gatheringUserRepository;
 
+	private static final long GATHERING_TIME_LIMIT = 168L;
 
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
@@ -50,7 +53,9 @@ public class CreateGatheringService {
 		if (optUser.isPresent()) {
 			User user = optUser.get();
 			Gathering gathering = createGatheringRequest.to(user.getId());
+
 			checkCreateGatheringValidation(gathering);
+			checkGatheringDateValidation(createGatheringRequest.gatheringDate());
 
 			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
 			gatheringUserRepository.save(gatheringUser);
@@ -109,5 +114,17 @@ public class CreateGatheringService {
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 		}
+	}
+
+	// 현 시각부터 7일 이내의 시간을 설정하게끔 강제 (프론트에서 비활성화 우선)
+	private boolean checkGatheringDateValidation(LocalDateTime gatheringDate) {
+
+		Duration between = Duration.between(gatheringDate, LocalDateTime.now());
+
+		if (between.toHours() > GATHERING_TIME_LIMIT) {
+			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
+			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+		}
+		return true;
 	}
 }
