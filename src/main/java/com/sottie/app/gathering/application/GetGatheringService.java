@@ -8,6 +8,7 @@ import com.sottie.app.gathering.model.record.GetGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.specification.GatheringSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class GetGatheringService {
 
 		if (getGatheringRequest == null) {
 
-			List<Gathering> gatherings = gatheringRepository.findAll();
+			List<Gathering> gatherings = gatheringRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedDate"));
 			for (Gathering gathering : gatherings) {
 				gatheringDtos.add(GatheringDto.from(gathering));
 			}
