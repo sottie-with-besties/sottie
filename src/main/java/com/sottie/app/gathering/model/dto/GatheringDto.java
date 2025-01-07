@@ -5,6 +5,7 @@ import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GatheringUser;
 import com.sottie.app.gathering.model.GenderCategory;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class GatheringDto {
 
     private Long id;

@@ -15,4 +15,6 @@ public interface GatheringUserRepository extends JpaRepository<GatheringUser, Lo
     Optional<GatheringUser> findByGatheringAndUser(Gathering gathering, User user);
 
     List<GatheringUser> findByGathering(Gathering gathering);
+
+    List<GatheringUser> findByUser(User user);
 }

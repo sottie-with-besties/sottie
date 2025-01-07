@@ -13,6 +13,7 @@ public enum UserErrorCode implements ErrorCode {
 
 	USER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "User Unauthorized"),
 	USER_ALREADY_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "User already exists"),
+	CANNOT_FIND_USER(HttpStatus.INTERNAL_SERVER_ERROR, "Can not find user")
 	;
 	private final HttpStatus httpStatus;
 

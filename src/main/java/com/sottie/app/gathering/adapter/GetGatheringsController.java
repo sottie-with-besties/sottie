@@ -28,4 +28,10 @@ class GetGatheringsController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
+	@GetMapping("sottie/gatherings/{userId}")
+	public ResponseEntity<List<GatheringDto>> getJoinedGatherings (@PathVariable Long userId) {
+		List<GatheringDto> result = getGatheringService.getJoinedGatherings(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.sottie.app.gathering.model;
 
 import com.sottie.app.base.domain.BaseEntity;
+import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,5 +27,9 @@ public class GatheringUser extends BaseEntity {
                 .user(user)
                 .gathering(gathering)
                 .build();
+    }
+
+    public GatheringDto toGatheringDto() {
+        return GatheringDto.from(this.gathering);
     }
 }
