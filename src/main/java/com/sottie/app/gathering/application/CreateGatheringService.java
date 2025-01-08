@@ -39,19 +39,23 @@ public class CreateGatheringService {
 
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
+		// TODO @연식 님 Token 방식 적용 필요 부분
 		// user session
-		HttpSession session = httpServletRequest.getSession(false);
-		Long loginUserId = null;
-		if (session != null) {
-			loginUserId = (Long) session.getAttribute("userId");
-		} else {
-			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
-		}
+//		HttpSession session = httpServletRequest.getSession(false);
+//		Long loginUserId = null;
+//		if (session != null) {
+//			loginUserId = (Long) session.getAttribute("userId");
+//		} else {
+//			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+//		}
 
-		Optional<User> optUser = userRepository.findById(loginUserId);
+		// TODO 테스트 위해서 user 고정
+//		Optional<User> optUser = userRepository.findById(loginUserId);
+		Optional<User> optUser = userRepository.findById(17L);
 
 		if (optUser.isPresent()) {
 			User user = optUser.get();
+
 			Gathering gathering = createGatheringRequest.to(user.getId());
 
 			checkCreateGatheringValidation(gathering);

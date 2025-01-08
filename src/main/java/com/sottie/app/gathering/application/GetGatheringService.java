@@ -77,6 +77,11 @@ public class GetGatheringService {
 		return gatheringDtos;
 	}
 
+	/**
+	 * 현재 join 한 gathering 목록을 가져옴
+	 * @param userId
+	 * @return List<GatheringDto>
+	 */
 	public List<GatheringDto> getJoinedGatherings(Long userId) {
 		Optional<User> userOpt = userRepository.findById(userId);
 		if (userOpt.isPresent()) {
