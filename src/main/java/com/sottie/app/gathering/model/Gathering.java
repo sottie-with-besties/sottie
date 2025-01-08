@@ -57,12 +57,8 @@ public class Gathering extends BaseEntity {
 
     private Boolean mannerRestriction;
 
-    @OneToMany(mappedBy = "gathering")
-    private List<GatheringUser> gatheringUsers;
 
-
-    // TODO
-    // DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
+    // TODO DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
     public void plusPeopleNum(User user) {
         if (user.getGender().equals(Gender.MALE)) {
             this.setCurrentMaleNum(this.getCurrentMaleNum() + 1);
@@ -72,8 +68,7 @@ public class Gathering extends BaseEntity {
         this.setCurrentPeopleNum(this.getCurrentPeopleNum() + 1);
     }
 
-    // TODO
-    // DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
+    // TODO DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
     public void minusPeopleNum(User user) {
         if (user.getGender().equals(Gender.MALE)) {
             this.setCurrentMaleNum(this.getCurrentMaleNum() - 1);

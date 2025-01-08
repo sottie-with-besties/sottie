@@ -87,7 +87,6 @@ public class GetGatheringService {
 				gatheringDtos.add(gatheringUser.toGatheringDto());
 			}
 
-			// TODO 오우.. gathering <> gatheringUser <> User 관계 다시 정립해야할듯. 데이터크기 박살..!
 			return gatheringDtos;
 		} else {
 			throw CommonException.builder(UserErrorCode.USER_ALREADY_EXISTS).build();

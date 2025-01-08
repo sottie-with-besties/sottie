@@ -60,8 +60,6 @@ public class GatheringDto {
 
     private Boolean mannerRestriction;
 
-    private List<GatheringUser> gatheringUsers;
-
     public static GatheringDto from(Gathering gathering) {
         return new GatheringDto(
             gathering.getId(),
@@ -85,8 +83,7 @@ public class GatheringDto {
             gathering.getAgeTo(),
             gathering.getGenderRestriction(),
             gathering.getAgeRestriction(),
-            gathering.getMannerRestriction(),
-            gathering.getGatheringUsers()
+            gathering.getMannerRestriction()
         );
     }
 }
