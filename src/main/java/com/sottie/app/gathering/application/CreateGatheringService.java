@@ -61,15 +61,15 @@ public class CreateGatheringService {
 			checkCreateGatheringValidation(gathering);
 			checkGatheringDateValidation(createGatheringRequest.gatheringDate());
 
-			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
-			gatheringUserRepository.save(gatheringUser);
-
 			// peopleNum 증가
 			// user 가 female 일 경우 femaleNum 증가
 			// user 가 male 일 경우 maleNum 증가
 			gathering.plusPeopleNum(user);
 
-			gatheringRepository.save(gathering);
+			Gathering saved = gatheringRepository.save(gathering);
+
+			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, saved);
+			gatheringUserRepository.save(gatheringUser);
 
 			return GatheringDto.from(gathering);
 
@@ -79,6 +79,8 @@ public class CreateGatheringService {
 	}
 
 	private void checkCreateGatheringValidation(Gathering gathering) {
+
+		checkGenderRestriction(gathering);
 
 		if (gathering.getGatheringCategory() == null) {
 			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
@@ -114,6 +116,15 @@ public class CreateGatheringService {
 
 		}else if (gathering.getAgeRestriction().equals(Boolean.TRUE)) {
 			if (gathering.getAgeTo().equals(0) && gathering.getAgeFrom().equals(0)) {
+				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+			}
+		}
+	}
+
+	private void checkGenderRestriction(Gathering gathering) {
+		if (gathering.getMaleNum() > 0 && gathering.getFemaleNum() > 0) {
+			if (!gathering.getGenderRestriction().equals(GenderCategory.MIX)) {
 				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
