@@ -7,6 +7,7 @@ import com.sottie.app.gathering.model.dto.GatheringDto;
 import com.sottie.app.gathering.model.record.DeleteGatheringRequest;
 import com.sottie.app.gathering.repository.GatheringRepository;
 import com.sottie.app.gathering.repository.GatheringUserRepository;
+import com.sottie.app.user.error.UserErrorCode;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
@@ -31,15 +32,19 @@ public class DeleteGatheringService {
 
 	public GatheringDto deleteGathering(DeleteGatheringRequest deleteGatheringRequest) {
 
+		// TODO @연식 님 Token 방식 적용 필요 부분
 		// user session
-		HttpSession session = httpServletRequest.getSession(false);
-		Long loginUserId = null;
-		if (session != null) {
-			loginUserId = (Long) session.getAttribute("userId");
-		} else {
-			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
-		}
-		Optional<User> optUser = userRepository.findById(loginUserId);
+//		HttpSession session = httpServletRequest.getSession(false);
+//		Long loginUserId = null;
+//		if (session != null) {
+//			loginUserId = (Long) session.getAttribute("userId");
+//		} else {
+//			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
+//		}
+
+		// TODO 테스트 위해서 user 고정
+//		Optional<User> optUser = userRepository.findById(loginUserId);
+		Optional<User> optUser = userRepository.findById(17L);
 
 		if (optUser.isPresent()) {
 
@@ -50,6 +55,8 @@ public class DeleteGatheringService {
 				checkDeleteGatheringValidation(gathering, optUser.get());
 				List<GatheringUser> gatheringUsers = gatheringUserRepository.findByGathering(gathering);
 
+				// 현재 정책은 Host 가 모임글 삭제시 다른 참여자(user)도 취소가 자동으로 이루어짐
+				// 다른 참여자에게 모임글이 삭제되었다는 push 알림 필요할듯
 				gatheringUserRepository.deleteAll(gatheringUsers);
 				gatheringRepository.delete(gathering);
 

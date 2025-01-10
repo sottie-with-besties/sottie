@@ -46,7 +46,7 @@ public class CreateGatheringService {
 //		if (session != null) {
 //			loginUserId = (Long) session.getAttribute("userId");
 //		} else {
-//			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+//			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
 //		}
 
 		// TODO 테스트 위해서 user 고정
