@@ -12,7 +12,6 @@ import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -59,7 +58,6 @@ public class CreateGatheringService {
 			Gathering gathering = createGatheringRequest.to(user.getId());
 
 			checkCreateGatheringValidation(gathering);
-			checkGatheringDateValidation(createGatheringRequest.gatheringDate());
 
 			// peopleNum 증가
 			// user 가 female 일 경우 femaleNum 증가
@@ -80,13 +78,22 @@ public class CreateGatheringService {
 
 	private void checkCreateGatheringValidation(Gathering gathering) {
 
+		// 필수 값 Validation Check
+		checkNotNullValidation(gathering);
+
+		// 성별 제한 Valid Check
 		checkGenderRestriction(gathering);
 
-		if (gathering.getGatheringCategory() == null) {
-			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+		// 나이 제한 Valid Check
+		checkGatheringAgeRestriction(gathering);
 
-		} else if (gathering.getTitle().isEmpty()) {
+		// 약속 시간 제한 Valid Check
+		checkGatheringDate(gathering);
+
+	}
+
+	private void checkNotNullValidation(Gathering gathering) {
+		if (gathering.getTitle().isEmpty()) {
 			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
@@ -98,48 +105,66 @@ public class CreateGatheringService {
 			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 
-		} else if (!gathering.getPeopleNum().equals(gathering.getFemaleNum() + gathering.getMaleNum())) {
-			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
-
-		} else if (gathering.getGenderRestriction().equals(GenderCategory.FEMALE)) {
-			if ((!Objects.equals(gathering.getFemaleNum(), gathering.getPeopleNum()))) {
-				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
-			}
-
-		} else if (gathering.getGenderRestriction().equals(GenderCategory.MALE)) {
-			if ((!Objects.equals(gathering.getMaleNum(), gathering.getPeopleNum()))) {
-				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
-			}
-
-		}else if (gathering.getAgeRestriction().equals(Boolean.TRUE)) {
-			if (gathering.getAgeTo().equals(0) && gathering.getAgeFrom().equals(0)) {
-				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
-			}
 		}
 	}
 
 	private void checkGenderRestriction(Gathering gathering) {
-		if (gathering.getMaleNum() > 0 && gathering.getFemaleNum() > 0) {
-			if (!gathering.getGenderRestriction().equals(GenderCategory.MIX)) {
-				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
-				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
+
+		if (Objects.isNull(gathering.getGatheringCategory())) {
+			log.error(GatheringErrorCode.INVALID_GENDER_RESTRICTION.getMessage());
+			throw CommonException.builder(GatheringErrorCode.INVALID_GENDER_RESTRICTION).build();
+		}
+
+		if (gathering.getGenderRestriction().equals(GenderCategory.MIX)) {
+			if (gathering.getMaleNum().equals(0) ||  gathering.getFemaleNum().equals(0)) {
+				log.error(GatheringErrorCode.INVALID_GENDER_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_GENDER_RESTRICTION).build();
+			}
+
+		} else if (gathering.getGenderRestriction().equals(GenderCategory.MALE)) {
+			if ((!Objects.equals(gathering.getMaleNum(), gathering.getPeopleNum()))) {
+				log.error(GatheringErrorCode.INVALID_GENDER_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_GENDER_RESTRICTION).build();
+			}
+
+		} else if (gathering.getGenderRestriction().equals(GenderCategory.FEMALE)) {
+			if ((!Objects.equals(gathering.getFemaleNum(), gathering.getPeopleNum()))) {
+				log.error(GatheringErrorCode.INVALID_GENDER_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_GENDER_RESTRICTION).build();
+			}
+
+		} else if (gathering.getGenderRestriction().equals(GenderCategory.NONE)) {
+			if (!(gathering.getMaleNum().equals(0) && gathering.getFemaleNum().equals(0))) {
+				log.error(GatheringErrorCode.INVALID_GENDER_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_GENDER_RESTRICTION).build();
 			}
 		}
 	}
 
 	// 현 시각부터 7일 이내의 시간을 설정하게끔 강제 (프론트에서 비활성화 우선)
-	private boolean checkGatheringDateValidation(LocalDateTime gatheringDate) {
+	private void checkGatheringDate(Gathering gathering) {
 
-		Duration between = Duration.between(gatheringDate, LocalDateTime.now());
+		Duration between = Duration.between(gathering.getGatheringDate(), LocalDateTime.now());
 
 		if (between.toHours() > GATHERING_TIME_LIMIT) {
 			log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 		}
-		return true;
+	}
+
+	private void checkGatheringAgeRestriction(Gathering gathering) {
+
+		if (gathering.getAgeRestriction().equals(Boolean.TRUE)) {
+			if (gathering.getAgeTo().equals(0) || gathering.getAgeFrom().equals(0)) {
+				log.error(GatheringErrorCode.INVALID_AGE_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_AGE_RESTRICTION).build();
+			}
+
+		} else if (gathering.getAgeRestriction().equals(Boolean.FALSE)) {
+			if (!gathering.getAgeTo().equals(0) || !gathering.getAgeFrom().equals(0)) {
+				log.error(GatheringErrorCode.INVALID_AGE_RESTRICTION.getMessage());
+				throw CommonException.builder(GatheringErrorCode.INVALID_AGE_RESTRICTION).build();
+			}
+		}
 	}
 }

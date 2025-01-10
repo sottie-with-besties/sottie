@@ -11,6 +11,10 @@ public enum GatheringErrorCode implements ErrorCode {
 
 	GATHERING_INSUFFICIENT_INFORMATION(HttpStatus.INTERNAL_SERVER_ERROR, "Gathering insufficient information"),
 
+	INVALID_GENDER_RESTRICTION(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid gender restriction"),
+
+	INVALID_AGE_RESTRICTION(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid age restriction"),
+
 	NOT_HOST_USER(HttpStatus.INTERNAL_SERVER_ERROR, "not host user")
 	;
 	private final HttpStatus httpStatus;
