@@ -1,5 +1,6 @@
 package com.sottie.security;
 
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
+@Builder
 public class SottieUser implements UserDetails, Serializable {
     @Serial
     private static final long serialVersionUID = 174726374856727L;

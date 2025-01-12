@@ -1,18 +1,26 @@
 package com.sottie.security.interceptor;
 
+import com.sottie.authentication.JwtProvider;
+import com.sottie.authentication.SottieAuthentication;
 import com.sottie.security.Permission;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.util.Arrays;
 
+@Slf4j
+@RequiredArgsConstructor
 public class PermissionInterceptor implements HandlerInterceptor {
 
+    private final JwtProvider tokenProvider;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -41,4 +49,13 @@ public class PermissionInterceptor implements HandlerInterceptor {
 //        throw new IllegalAccessException("권한이 없습니다.");
     }
 
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        String token = tokenProvider.generate((SottieAuthentication) SecurityContextHolder.getContext().getAuthentication());
+        response.setHeader("acc-token", token);
+        response.setHeader("ref-token", token);
+        response.setHeader("Content-Type", "application/json");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+    }
 }

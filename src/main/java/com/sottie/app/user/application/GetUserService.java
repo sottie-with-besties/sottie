@@ -3,8 +3,11 @@ package com.sottie.app.user.application;
 import com.sottie.authentication.JwtProvider;
 import com.sottie.authentication.SottieAuthentication;
 import com.sottie.authentication.SottieAuthenticationManager;
+import com.sottie.authentication.SottieAuthenticationRequestToken;
+import com.sottie.processor.ProcessInfoUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,21 +40,12 @@ public class GetUserService implements Encryptor {
 			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 		if (isMatched(password, user.getPassword())) {
 
-
-
 			// 유저 키값 필요
-			jwtProvider.generate(user.getId(), "USER");
-			SottieAuthentication sottieAuthentication = new SottieAuthentication();
-			sottieAuthentication.addAuthorities(() -> "ROLE_USER");
-			sottieAuthenticationManager.authenticate(sottieAuthentication);
-			// 기존 session 파기
-//			httpServletRequest.getSession().invalidate();
-//
-//			// session 이 있으면 가져오고 없으면 session 을 생성해서 return (default = true)
-//			HttpSession session = httpServletRequest.getSession(true);
-//			session.setAttribute("userId", user.getId());
-//			session.setMaxInactiveInterval(1800);
-
+			SottieAuthenticationRequestToken authenticationRequestToken = SottieAuthenticationRequestToken.builder()
+					.userName(user.getId().toString())
+					.build();
+			log.info("sottieAuthentication.getName() ::: {}", authenticationRequestToken.getUserName());
+			sottieAuthenticationManager.authenticate(authenticationRequestToken);
 
 			return user;
 		} else {

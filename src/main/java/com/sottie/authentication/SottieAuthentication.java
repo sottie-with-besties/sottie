@@ -1,15 +1,24 @@
 package com.sottie.authentication;
 
+import com.sottie.security.SottieUser;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
 
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class SottieAuthentication implements Authentication {
 
     private String processId;
-    private List<GrantedAuthority> roles;
+    private String name;
+    private Object details;
+    private List<? extends GrantedAuthority> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,7 +33,7 @@ public class SottieAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return null;
+        return this.details;
     }
 
     @Override
@@ -44,7 +53,7 @@ public class SottieAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return "";
+        return this.name;
     }
 
     public String getProcessId() {
@@ -55,7 +64,18 @@ public class SottieAuthentication implements Authentication {
         this.processId = processId;
     }
 
-    public void addAuthorities(GrantedAuthority roles) {
-        this.roles.add(roles);
+    public void setAuthorities(List<? extends GrantedAuthority> roles) {
+        this.roles = roles;
     }
+
+    public void setDetails(Object details) {
+        if (!(details instanceof SottieUser)) {
+            throw new IllegalArgumentException("허용되지 않은 사용자 유형");
+        }
+        this.details = details;
+    }
+
+//    public void addAuthorities(Collection<? extends GrantedAuthority> roles) {
+//    }
+
 }
