@@ -40,8 +40,8 @@ public class JwtSecurityFilter extends GenericFilterBean {
             log.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
         } else {
 
-            ((HttpServletResponse) response).setHeader(ACCESS_TOKEN, tokenProvider.generate(-1L, "ANONYMOUS"));
-            ((HttpServletResponse) response).setHeader(REFRESH_TOKEN, tokenProvider.generate(-1L, "ANONYMOUS"));
+            ((HttpServletResponse) response).setHeader(ACCESS_TOKEN, tokenProvider.generate("-1", "ANONYMOUS"));
+            ((HttpServletResponse) response).setHeader(REFRESH_TOKEN, tokenProvider.generate("-1", "ANONYMOUS"));
             SecurityContextHolder.getContext().setAuthentication(SottieAuthentication.builder()
                                                                 .processId(ProcessInfoUtils.getCurrentProcessId())
                                                                 .roles(List.of(() -> "ROLE_ANONYMOUS"))

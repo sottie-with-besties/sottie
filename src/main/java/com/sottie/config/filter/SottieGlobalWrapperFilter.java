@@ -37,12 +37,10 @@ public class SottieGlobalWrapperFilter extends GenericFilterBean implements Orde
             SottieAppRequestContextHolder.set(new HttpServletRequestWrapper(req), new HttpServletResponseWrapper(res));
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
             chain.doFilter(request, responseWrapper);
-//            chain.doFilter(request, responseWrapper);
             responseWrapper.copyBodyToResponse();
         } finally {
             SottieAppRequestContextHolder.clear();
         }
-        chain.doFilter(request, response);
     }
 
     @Override

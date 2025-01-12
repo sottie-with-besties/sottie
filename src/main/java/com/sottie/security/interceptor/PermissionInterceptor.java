@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasRole = Arrays.stream(permission.roles())
-                .anyMatch(role -> authentication.getAuthorities().stream()
+                .anyMatch(role -> authentication != null && authentication.getAuthorities().stream()
                         .anyMatch(authority -> authority.getAuthority().equals("ROLE_" + role))
                 );
 
@@ -51,11 +50,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        String token = tokenProvider.generate((SottieAuthentication) SecurityContextHolder.getContext().getAuthentication());
-        response.setHeader("acc-token", token);
-        response.setHeader("ref-token", token);
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            String token = tokenProvider.generate((SottieAuthentication) authentication);
+            response.setHeader("acc-token", token);
+            response.setHeader("ref-token", token);
+        }
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }
