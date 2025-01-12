@@ -41,7 +41,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
 	implementation("io.jsonwebtoken:jjwt-gson:0.12.6")
-	implementation("org.slf4j:slf4j-api:1.7.25")
+	implementation("org.slf4j:slf4j-api:1.7.36")
 }
 
 tasks.withType<Test> {
