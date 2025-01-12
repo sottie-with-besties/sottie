@@ -32,6 +32,7 @@ dependencies {
 	implementation("com.okta.spring:okta-spring-boot-starter:3.0.5")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.projectlombok:lombok")
