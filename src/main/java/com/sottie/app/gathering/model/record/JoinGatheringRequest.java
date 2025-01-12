@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record JoinGatheringRequest(
-	Long id,
+	Long gatheringId,
 	Long userId
 	) {
 

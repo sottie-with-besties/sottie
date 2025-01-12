@@ -1,7 +1,6 @@
 package com.sottie.app.gathering.application;
 
 import com.sottie.app.gathering.model.dto.GatheringDto;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
@@ -12,7 +11,6 @@ import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +42,10 @@ public class JoinGatheringService {
 
 		// TODO 테스트 위해서 user 고정
 //		Optional<User> optUser = userRepository.findById(loginUserId);
-		Optional<User> optUser = userRepository.findById(17L);
+		Optional<User> optUser = userRepository.findById(joinGatheringRequest.userId()); // FEMALE TEST
 
 		if (optUser.isPresent()) {
-			Optional<Gathering> optGathering = gatheringRepository.findById(joinGatheringRequest.id());
+			Optional<Gathering> optGathering = gatheringRepository.findById(joinGatheringRequest.gatheringId());
 
 			if (optGathering.isPresent()) {
 				Gathering gathering = optGathering.get();

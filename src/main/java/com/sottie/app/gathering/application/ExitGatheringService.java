@@ -43,10 +43,10 @@ public class ExitGatheringService {
 
 		// TODO 테스트 위해서 user 고정
 //		Optional<User> optUser = userRepository.findById(loginUserId);
-		Optional<User> optUser = userRepository.findById(17L);
+		Optional<User> optUser = userRepository.findById(7L); // FEMALE TEST
 
 		if (optUser.isPresent()) {
-			Optional<Gathering> optGathering = gatheringRepository.findById(exitGatheringRequest.id());
+			Optional<Gathering> optGathering = gatheringRepository.findById(exitGatheringRequest.gatheringId());
 
 			if (optGathering.isPresent()) {
 				Gathering gathering = optGathering.get();
