@@ -1,8 +1,11 @@
 package com.sottie.config.security;
 
 import com.sottie.authentication.JwtProvider;
+import com.sottie.authentication.SottieAuthentication;
 import com.sottie.authentication.SottieAuthenticationManager;
+import com.sottie.authentication.SottieAuthenticationRequestToken;
 import com.sottie.config.filter.JwtSecurityFilter;
+import com.sottie.processor.SottieAuthenticationProcessor;
 import com.sottie.properties.SottieProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final JwtProvider tokenProvider;
+    private final SottieAuthenticationProcessor<SottieAuthenticationRequestToken, SottieAuthentication> sottieAuthenticationProcessor;
 
     private final AntPathRequestMatcher[] WHITE_LIST_URL = {
             new AntPathRequestMatcher("/"),
@@ -64,6 +68,6 @@ public class SecurityConfig {
 
     @Bean
     public SottieAuthenticationManager authenticationManager(SottieProperties properties) throws Exception {
-        return new SottieAuthenticationManager(properties);
+        return new SottieAuthenticationManager(properties, sottieAuthenticationProcessor, tokenProvider);
     }
 }

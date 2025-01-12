@@ -2,47 +2,62 @@ package com.sottie.authentication;
 
 import com.sottie.properties.SottieProperties;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.security.StandardSecureDigestAlgorithms;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.*;
 import io.jsonwebtoken.security.SecurityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
-import java.io.InputStream;
 import java.security.Key;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
+import static io.jsonwebtoken.io.Decoders.*;
+
+@Slf4j
 @Component
 public class JwtProvider {
 
-    private static final Logger log = LoggerFactory.getLogger(JwtProvider.class);
     private final Key secretKey;
     private final Long expireIn;
 
     public JwtProvider(SottieProperties sottieProperties) {
-        byte[] keyBytes = Decoders.BASE64.decode(sottieProperties.getAuthentication().getSecretKey());
+        byte[] keyBytes = null;
+        try {
+            keyBytes = Decoders.BASE64.decode(sottieProperties.getAuthentication().getSecretKey());
+        } catch (IllegalArgumentException e) {
+            String defaultSecretKey = "defaultSecretKey12345678901234567890"; // 32바이트 키
+            keyBytes = defaultSecretKey.getBytes();
+        }
+
         secretKey = Keys.hmacShaKeyFor(keyBytes);
         expireIn = sottieProperties.getAuthentication().getAccessValidSeconds() * 1000;
     }
 
-    public String generate(Long userId) {
-        return generate(userId, "USER");
+
+    public String generate(SottieAuthentication authentication) {
+        return generate(StringUtils.hasText(authentication.getName()) ? Long.parseLong(authentication.getName()) : -1L, authentication.getDetails(), "USER");
     }
 
-    public String generate(Long userId, String... roles) {
-        Arrays.stream(roles).map(role -> "ROLE_" + role);
-        Claims claims = Jwts.claims()
-                .add("userId", userId)
-                .add("roles", roles)
-                .build();
+    public String generate(Long userId) {
+        return generate(userId, null, "USER");
+    }
 
+    public String generate(Long userId, Object details, String... roles) {
+        Arrays.stream(roles).map(role -> "ROLE_" + role);
+        ClaimsBuilder claimsBuilder = Jwts.claims()
+                .add("userId", userId)
+                .add("roles", roles);
+
+        if (details != null) {
+            claimsBuilder.add("details", details);
+        }
+
+        Claims claims = claimsBuilder.build();
         Date now = new Date();
         Date expireAt = new Date(now.getTime() + expireIn);
 
@@ -64,9 +79,13 @@ public class JwtProvider {
                 .parseSignedClaims(token)
                 .getPayload();
 
-        SottieAuthentication authentication = new SottieAuthentication();
-        authentication.setAuthenticated(true);
-        authentication.setProcessId(claims.getId());
+        SottieAuthentication authentication = SottieAuthentication.builder()
+                .processId(claims.getId())
+                .name(claims.get("userId").toString())
+                .roles(claims.get("roles", List.class))
+                .build();
+//        authentication.setAuthenticated(true);
+//        authentication.setProcessId(claims.getId());
         log.info("token info ::: {}", claims.get("roles"));
         return authentication;
     }
@@ -84,7 +103,7 @@ public class JwtProvider {
                 .build()
                 .parseSignedClaims(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+        } catch (SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             log.error("만료된 JWT 토큰입니다.");
