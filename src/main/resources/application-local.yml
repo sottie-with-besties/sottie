@@ -22,6 +22,7 @@ spring:
       properties:
         hibernate:
           format_sql: true
+          show_sql: true
   mvc:
     view:
       prefix: src/main/resources/templates/
@@ -38,6 +39,12 @@ sns:
     javascript: '9c7547c961759c59d63a0654a860a664'
     admin: '53108b4edf64ecfab2cd3aa3340f242a'
     secret: 't2A2G8tkByBW6K6HCuaLXvYrp93xPZXe'
+
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true # jpa 쿼리 로그 출력
 
 logging:
   level:
