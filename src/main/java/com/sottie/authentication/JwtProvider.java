@@ -1,22 +1,24 @@
 package com.sottie.authentication;
 
+import com.sottie.processor.ProcessInfoUtils;
 import com.sottie.properties.SottieProperties;
+import com.sottie.security.SottieUser;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.gson.io.GsonDeserializer;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.*;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import static io.jsonwebtoken.io.Decoders.*;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -40,17 +42,22 @@ public class JwtProvider {
 
 
     public String generate(SottieAuthentication authentication) {
-        return generate(StringUtils.hasText(authentication.getName()) ? Long.parseLong(authentication.getName()) : -1L, authentication.getDetails(), "USER");
+        return generate(StringUtils.hasText(authentication.getName()) ? authentication.getName() : null, authentication.getProcessId(), authentication.getDetails(), "ROLE_USER");
     }
 
-    public String generate(Long userId) {
-        return generate(userId, null, "USER");
+    public String generate(String userId, String role) {
+        return generate(userId, null, null, null, role);
     }
 
-    public String generate(Long userId, Object details, String... roles) {
-        Arrays.stream(roles).map(role -> "ROLE_" + role);
+    public String generate(String userId) {
+        return generate(userId, null, null, null, "ROLE_USER");
+    }
+
+    public String generate(String userId, String processId, Object details, String... roles) {
+        processId = StringUtils.hasText(processId) ? processId : ProcessInfoUtils.getCurrentProcessId();
         ClaimsBuilder claimsBuilder = Jwts.claims()
                 .add("userId", userId)
+                .add("processId", processId)
                 .add("roles", roles);
 
         if (details != null) {
@@ -79,10 +86,12 @@ public class JwtProvider {
                 .parseSignedClaims(token)
                 .getPayload();
 
+        List<String> roles = claims.get("roles", List.class);
         SottieAuthentication authentication = SottieAuthentication.builder()
                 .processId(claims.getId())
                 .name(claims.get("userId").toString())
-                .roles(claims.get("roles", List.class))
+                .details(claims.get("details"))
+                .roles(roles.stream().map(SimpleGrantedAuthority::new).toList())
                 .build();
 //        authentication.setAuthenticated(true);
 //        authentication.setProcessId(claims.getId());
@@ -98,6 +107,7 @@ public class JwtProvider {
      */
     public boolean validateToken(String token) {
         try {
+            log.info("acc-token :: {}", token);
             Jwts.parser()
                 .verifyWith((SecretKey) secretKey)
                 .build()

@@ -50,6 +50,10 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
     public R authenticate(@NonNull S authenticationRequestToken) {
         R authentication = this.creeateAuthenticationToken(authenticationRequestToken);
         SottieUser user = this.userDetailProvider.getDetails(authenticationRequestToken);
+        ProcessInfoContextHolder.setCurrentProcessInfo(ProcessInfo.create());
+
+        authentication.setName(user.getUsername());
+        authentication.setProcessId(ProcessInfoUtils.getCurrentProcessId());
         authentication.setDetails(user);
         authentication.setAuthenticated(true);
 

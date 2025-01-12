@@ -56,6 +56,10 @@ public class SottieAuthentication implements Authentication {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getProcessId() {
         return this.processId;
     }
