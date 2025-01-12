@@ -38,3 +38,9 @@ sns:
     javascript: '9c7547c961759c59d63a0654a860a664'
     admin: '53108b4edf64ecfab2cd3aa3340f242a'
     secret: 't2A2G8tkByBW6K6HCuaLXvYrp93xPZXe'
+
+logging:
+  level:
+    root: INFO
+  file:
+    path: /logs
