@@ -50,4 +50,4 @@ logging:
   level:
     root: INFO
   file:
-    path: ./app/logs
+    path:  ~/app/logs
