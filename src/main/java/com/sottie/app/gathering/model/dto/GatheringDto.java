@@ -4,6 +4,7 @@ import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GatheringUser;
 import com.sottie.app.gathering.model.GenderCategory;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -60,6 +61,12 @@ public class GatheringDto {
 
     private Boolean mannerRestriction;
 
+    private Boolean isHide;
+
+    public static boolean isHide(Gathering gathering) {
+        return gathering.getPeopleNum().equals(gathering.getCurrentPeopleNum());
+    }
+
     public static GatheringDto from(Gathering gathering) {
         return new GatheringDto(
             gathering.getId(),
@@ -83,7 +90,8 @@ public class GatheringDto {
             gathering.getAgeTo(),
             gathering.getGenderRestriction(),
             gathering.getAgeRestriction(),
-            gathering.getMannerRestriction()
+            gathering.getMannerRestriction(),
+            isHide(gathering)
         );
     }
 }
