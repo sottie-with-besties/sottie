@@ -12,12 +12,14 @@ import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -67,14 +69,17 @@ public class JoinGatheringService {
 					return GatheringDto.from(gathering);
 
 				} else {
+					log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 					throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 				}
 
 			} else {
+				log.error(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION.getMessage());
 				throw CommonException.builder(GatheringErrorCode.GATHERING_INSUFFICIENT_INFORMATION).build();
 			}
 
 		} else {
+			log.error(GatheringErrorCode.NOT_HOST_USER.getMessage());
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 	}
