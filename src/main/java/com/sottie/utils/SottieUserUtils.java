@@ -6,7 +6,7 @@ import com.sottie.security.SottieUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class SottieUesrUtils {
+public class SottieUserUtils {
     static String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
