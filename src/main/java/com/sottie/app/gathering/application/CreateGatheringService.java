@@ -38,9 +38,9 @@ public class CreateGatheringService {
 
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
-//		Integer userId = SottieUserUtils.getUserIdInt();
+		Integer userId = SottieUserUtils.getUserIdInt();
 
-		Optional<User> optUser = userRepository.findById(7L);
+		Optional<User> optUser = userRepository.findById(userId.longValue());
 
 		if (optUser.isPresent()) {
 			User user = optUser.get();
