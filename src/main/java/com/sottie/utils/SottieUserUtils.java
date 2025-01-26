@@ -7,22 +7,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SottieUserUtils {
-    static String getUserId() {
+    static public String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
 
-    static Integer getUserIdInt() {
+    static public Integer getUserIdInt() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return Integer.parseInt(authentication.getName());
     }
 
-    static String getProcessId() {
+    static public String getProcessId() {
         SottieAuthentication authentication = (SottieAuthentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getProcessId();
     }
 
-    static SottieUser getDetails() {
+    static public SottieUser getDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Gson gson = new Gson();
         String json = gson.toJson(authentication.getDetails()); // LinkedTreeMap을 JSON 문자열로 변환
