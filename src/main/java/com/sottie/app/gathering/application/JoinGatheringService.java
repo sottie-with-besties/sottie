@@ -10,6 +10,7 @@ import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
+import com.sottie.utils.SottieUserUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +33,9 @@ public class JoinGatheringService {
 
 	public GatheringDto joinGathering(JoinGatheringRequest joinGatheringRequest) {
 
-		// TODO @연식 님 Token 방식 적용 필요 부분
-		// user session
-//		HttpSession session = httpServletRequest.getSession(false);
-//		Long loginUserId = null;
-//		if (session != null) {
-//			loginUserId = (Long) session.getAttribute("userId");
-//		} else {
-//			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
-//		}
+		Integer userId = SottieUserUtils.getUserIdInt();
 
-		// TODO 테스트 위해서 user 고정
-//		Optional<User> optUser = userRepository.findById(loginUserId);
-		Optional<User> optUser = userRepository.findById(joinGatheringRequest.userId()); // FEMALE TEST
+		Optional<User> optUser = userRepository.findById(userId.longValue());
 
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(joinGatheringRequest.gatheringId());
@@ -54,9 +45,9 @@ public class JoinGatheringService {
 				User user = optUser.get();
 
 				// 참여를 표시한 사용자 리스트에 추가 (맵핑 테이블에 데이터 추가)
-				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
+				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringIdAndUserId(gathering.getId(), user.getId());
 				if (optGatheringUser.isEmpty()) {
-					GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, gathering);
+					GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user.getId(), gathering.getId());
 					gatheringUserRepository.save(gatheringUser);
 
 					// peopleNum 증가

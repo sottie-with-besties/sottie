@@ -85,11 +85,12 @@ public class GetGatheringService {
 	public List<GatheringDto> getJoinedGatherings(Long userId) {
 		Optional<User> userOpt = userRepository.findById(userId);
 		if (userOpt.isPresent()) {
-			List<GatheringUser> gatheringUsers = userOpt.get().getGatheringUsers();
+			List<GatheringUser> gatheringUsers = gatheringUserRepository.findByUserId(userOpt.get().getId());
 
 			List<GatheringDto> gatheringDtos = new ArrayList<>();
 			for (GatheringUser gatheringUser : gatheringUsers) {
-				gatheringDtos.add(gatheringUser.toGatheringDto());
+				Optional<Gathering> optGathering = gatheringRepository.findById(gatheringUser.getGatheringId());
+				optGathering.ifPresent(gathering -> gatheringDtos.add(GatheringDto.from(gathering)));
 			}
 
 			return gatheringDtos;

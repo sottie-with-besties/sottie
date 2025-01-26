@@ -11,6 +11,7 @@ import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
+import com.sottie.utils.SottieUserUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,26 +32,15 @@ public class CreateGatheringService {
 	private final HttpServletRequest httpServletRequest;
 	private final GatheringRepository gatheringRepository;
 	private final UserRepository userRepository;
-
 	private final GatheringUserRepository gatheringUserRepository;
 
 	private static final long GATHERING_TIME_LIMIT = 168L;
 
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
-		// TODO @연식 님 Token 방식 적용 필요 부분
-		// user session
-//		HttpSession session = httpServletRequest.getSession(false);
-//		Long loginUserId = null;
-//		if (session != null) {
-//			loginUserId = (Long) session.getAttribute("userId");
-//		} else {
-//			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
-//		}
+//		Integer userId = SottieUserUtils.getUserIdInt();
 
-		// TODO 테스트 위해서 user 고정
-//		Optional<User> optUser = userRepository.findById(loginUserId);
-		Optional<User> optUser = userRepository.findById(17L);
+		Optional<User> optUser = userRepository.findById(7L);
 
 		if (optUser.isPresent()) {
 			User user = optUser.get();
@@ -64,9 +54,9 @@ public class CreateGatheringService {
 			// user 가 male 일 경우 maleNum 증가
 			gathering.plusPeopleNum(user);
 
-			Gathering saved = gatheringRepository.save(gathering);
+			Gathering savedGathering = gatheringRepository.save(gathering);
 
-			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user, saved);
+			GatheringUser gatheringUser = GatheringUser.mappingGatheringUser(user.getId(), savedGathering.getId());
 			gatheringUserRepository.save(gatheringUser);
 
 			return GatheringDto.from(gathering);

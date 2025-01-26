@@ -24,8 +24,7 @@ class GetUserController {
 	public ResponseEntity<User> loginUser(@RequestBody @Valid DefaultUserRequest defaultUserRequest) {
 		User result = userService.getUserForLogin(defaultUserRequest.email(), defaultUserRequest.password());
 		result.setPassword(null);
-		ResponseEntity<User> response = ResponseEntity.status(HttpStatus.OK).body(result);
-		return ResponseEntity.ok(result);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@PostMapping("/sottie/users/id_exist")

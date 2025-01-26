@@ -46,7 +46,4 @@ public class User extends BaseEntity {
 	private String birthYear;
 
 	private boolean phoneAuthenticated;
-
-	@OneToMany(mappedBy = "user")
-	private List<GatheringUser> gatheringUsers;
 }

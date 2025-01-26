@@ -14,22 +14,16 @@ import lombok.*;
 @AllArgsConstructor
 public class GatheringUser extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gathering_id")
-    private Gathering gathering;
+    private Long gatheringId;
 
-    public static GatheringUser mappingGatheringUser(User user, Gathering gathering) {
+    public static GatheringUser mappingGatheringUser(Long userId, Long gatheringId) {
         return GatheringUser.builder()
-                .user(user)
-                .gathering(gathering)
+                .userId(userId)
+                .gatheringId(gatheringId)
                 .build();
-    }
-
-    public GatheringDto toGatheringDto() {
-        return GatheringDto.from(this.gathering);
     }
 }

@@ -1,7 +1,6 @@
 package com.sottie.app.gathering.application;
 
 import com.sottie.app.gathering.model.dto.GatheringDto;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.gathering.model.Gathering;
 import com.sottie.app.gathering.model.GatheringUser;
@@ -11,8 +10,8 @@ import com.sottie.app.gathering.repository.GatheringUserRepository;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
+import com.sottie.utils.SottieUserUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,19 +30,9 @@ public class ExitGatheringService {
 
 	public GatheringDto exitGathering(ExitGatheringRequest exitGatheringRequest) {
 
-		// TODO @연식 님 Token 방식 적용 필요 부분
-		// user session
-//		HttpSession session = httpServletRequest.getSession(false);
-//		Long loginUserId = null;
-//		if (session != null) {
-//			loginUserId = (Long) session.getAttribute("userId");
-//		} else {
-//			throw CommonException.builder(UserErrorCode.USER_UNAUTHORIZED).build();
-//		}
+		Integer userId = SottieUserUtils.getUserIdInt();
 
-		// TODO 테스트 위해서 user 고정
-//		Optional<User> optUser = userRepository.findById(loginUserId);
-		Optional<User> optUser = userRepository.findById(7L); // FEMALE TEST
+		Optional<User> optUser = userRepository.findById(userId.longValue());
 
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(exitGatheringRequest.gatheringId());
@@ -53,7 +42,7 @@ public class ExitGatheringService {
 				User user = optUser.get();
 
 				// 참여를 표시한 사용자 리스트에 추가 (맵핑 테이블에 데이터 추가)
-				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringAndUser(gathering, user);
+				Optional<GatheringUser> optGatheringUser = gatheringUserRepository.findByGatheringIdAndUserId(gathering.getId(), user.getId());
 				if (optGatheringUser.isPresent()) {
 					gatheringUserRepository.delete(optGatheringUser.get());
 

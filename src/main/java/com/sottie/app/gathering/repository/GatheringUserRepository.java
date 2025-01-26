@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public interface GatheringUserRepository extends JpaRepository<GatheringUser, Long>, JpaSpecificationExecutor<GatheringUser> {
 
-    Optional<GatheringUser> findByGatheringAndUser(Gathering gathering, User user);
+    Optional<GatheringUser> findByGatheringIdAndUserId(Long gatheringId, Long userId);
 
-    List<GatheringUser> findByGathering(Gathering gathering);
+    List<GatheringUser> findByGatheringId(Long gatheringId);
 
-    List<GatheringUser> findByUser(User user);
+    List<GatheringUser> findByUserId(Long userId);
 }
