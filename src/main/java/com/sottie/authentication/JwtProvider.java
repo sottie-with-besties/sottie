@@ -91,7 +91,7 @@ public class JwtProvider {
                 .processId(claims.getId())
                 .name(claims.get("userId").toString())
                 .details(claims.get("details"))
-                .roles(roles.stream().map(SimpleGrantedAuthority::new).toList())
+                .roles(roles.stream().filter(e-> null != e).map(SimpleGrantedAuthority::new).toList())
                 .build();
 //        authentication.setAuthenticated(true);
 //        authentication.setProcessId(claims.getId());
