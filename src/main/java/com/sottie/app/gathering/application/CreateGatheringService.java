@@ -29,12 +29,11 @@ import java.util.Optional;
 @Transactional
 public class CreateGatheringService {
 
-	private final HttpServletRequest httpServletRequest;
 	private final GatheringRepository gatheringRepository;
 	private final UserRepository userRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
-	private static final long GATHERING_TIME_LIMIT = 168L;
+	private static final int GATHERING_TIME_LIMIT = 168;
 
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 

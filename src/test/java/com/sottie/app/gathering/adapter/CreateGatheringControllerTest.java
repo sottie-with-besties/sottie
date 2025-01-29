@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.sottie.app.gathering.application.CreateGatheringService;
 import com.sottie.app.gathering.model.record.CreateGatheringRequest;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.GatheringCategory;
 import com.sottie.app.gathering.model.GenderCategory;
 import org.junit.jupiter.api.BeforeEach;

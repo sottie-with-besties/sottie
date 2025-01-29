@@ -2,7 +2,6 @@ package com.sottie.app.gathering.adapter;
 
 import com.sottie.app.gathering.application.JoinGatheringService;
 import com.sottie.app.gathering.model.dto.GatheringDto;
-import com.sottie.app.gathering.model.record.DefaultGatheringRequest;
 import com.sottie.app.gathering.model.record.JoinGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
