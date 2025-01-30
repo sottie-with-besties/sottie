@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -37,7 +39,7 @@ public class CreateReviewService {
 
 	private static final long REVIEW_TIME_AVAILABLE = 24;
 
-	public ReviewDto createReview(CreateReviewRequest createReviewRequest) {
+	public List<ReviewDto> createReviews(List<CreateReviewRequest> createReviewRequests) {
 
 		Integer userId = SottieUserUtils.getUserIdInt();
 
@@ -46,13 +48,19 @@ public class CreateReviewService {
 		if (optUser.isPresent()) {
 			User user = optUser.get();
 
-			Review review = createReviewRequest.to();
+			List<ReviewDto> reviewDtos = new ArrayList<>();
 
-			checkCreateReviewValidation(review, user);
+			for (CreateReviewRequest createReviewRequest : createReviewRequests) {
+				Review review = createReviewRequest.to();
 
-			Review savedReview = reviewRepository.save(review);
+				checkCreateReviewValidation(review, user);
 
-			return ReviewDto.from(savedReview);
+				Review savedReview = reviewRepository.save(review);
+
+				reviewDtos.add(ReviewDto.from(savedReview));
+			}
+
+			return reviewDtos;
 
 		} else {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
@@ -108,6 +116,5 @@ public class CreateReviewService {
 			log.error(ReviewErrorCode.REVIEW_INSUFFICIENT_INFORMATION.getMessage());
 			throw CommonException.builder(ReviewErrorCode.REVIEW_INSUFFICIENT_INFORMATION).build();
 		}
-
 	}
 }

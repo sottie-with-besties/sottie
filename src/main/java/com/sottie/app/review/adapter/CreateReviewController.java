@@ -11,16 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 class CreateReviewController {
 
     private final CreateReviewService createReviewService;
 
-    @PostMapping("/sottie/review")
-    public ResponseEntity<ReviewDto> createReview(@RequestBody @Valid CreateReviewRequest createReviewRequest) {
-        ReviewDto result = createReviewService.createReview(createReviewRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    @PostMapping("/sottie/reviews")
+    public ResponseEntity<List<ReviewDto>> createReview(@RequestBody @Valid List<CreateReviewRequest> createReviewRequests) {
+        List<ReviewDto> reviews = createReviewService.createReviews(createReviewRequests);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviews);
     }
 
 }
