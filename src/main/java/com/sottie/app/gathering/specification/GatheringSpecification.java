@@ -25,7 +25,7 @@ public class GatheringSpecification {
         };
     }
 
-    // TODO 제목 검색은 따로 해야할듯
+    // TODO 제목 검색은 따로 해야할듯 (엘라스틱 서치)
     public static Specification<Gathering> likeTitle(String title){
         return new Specification<Gathering>() {
             @Override

@@ -31,6 +31,7 @@ public class JoinGatheringService {
 	private final GatheringRepository gatheringRepository;
 	private final GatheringUserRepository gatheringUserRepository;
 
+	// TODO 캐시/포인트 사용 로직 들어가야함
 	public GatheringDto joinGathering(JoinGatheringRequest joinGatheringRequest) {
 
 		Integer userId = SottieUserUtils.getUserIdInt();

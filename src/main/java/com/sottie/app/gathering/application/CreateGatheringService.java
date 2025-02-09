@@ -35,6 +35,7 @@ public class CreateGatheringService {
 
 	private static final int GATHERING_TIME_LIMIT = 168;
 
+	// TODO 캐시/포인트 사용 로직 들어가야함
 	public GatheringDto createGathering(CreateGatheringRequest createGatheringRequest) {
 
 		Integer userId = SottieUserUtils.getUserIdInt();

@@ -39,6 +39,7 @@ public class CreateReviewService {
 
 	private static final long REVIEW_TIME_AVAILABLE = 24;
 
+	// TODO 매너온도에 리뷰 점수가 반영되는 로직 구현 필요
 	public List<ReviewDto> createReviews(List<CreateReviewRequest> createReviewRequests) {
 
 		Integer userId = SottieUserUtils.getUserIdInt();
