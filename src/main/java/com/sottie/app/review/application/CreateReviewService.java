@@ -42,9 +42,9 @@ public class CreateReviewService {
 	// TODO 매너온도에 리뷰 점수가 반영되는 로직 구현 필요
 	public List<ReviewDto> createReviews(List<CreateReviewRequest> createReviewRequests) {
 
-		Integer userId = SottieUserUtils.getUserIdInt();
+		Long userId = SottieUserUtils.getUserIdLong();
 
-		Optional<User> optUser = userRepository.findById(userId.longValue());
+		Optional<User> optUser = userRepository.findById(userId);
 
 		if (optUser.isPresent()) {
 			User user = optUser.get();

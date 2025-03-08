@@ -34,9 +34,9 @@ public class JoinGatheringService {
 	// TODO 캐시/포인트 사용 로직 들어가야함
 	public GatheringDto joinGathering(JoinGatheringRequest joinGatheringRequest) {
 
-		Integer userId = SottieUserUtils.getUserIdInt();
+		Long userId = SottieUserUtils.getUserIdLong();
 
-		Optional<User> optUser = userRepository.findById(userId.longValue());
+		Optional<User> optUser = userRepository.findById(userId);
 
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(joinGatheringRequest.gatheringId());

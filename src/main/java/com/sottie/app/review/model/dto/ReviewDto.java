@@ -1,8 +1,5 @@
 package com.sottie.app.review.model.dto;
 
-import com.sottie.app.gathering.model.Gathering;
-import com.sottie.app.gathering.model.GatheringCategory;
-import com.sottie.app.gathering.model.GenderCategory;
 import com.sottie.app.review.model.Review;
 import com.sottie.app.review.model.ReviewCategory;
 import lombok.AllArgsConstructor;

@@ -30,9 +30,9 @@ public class ExitGatheringService {
 
 	public GatheringDto exitGathering(ExitGatheringRequest exitGatheringRequest) {
 
-		Integer userId = SottieUserUtils.getUserIdInt();
+		Long userId = SottieUserUtils.getUserIdLong();
 
-		Optional<User> optUser = userRepository.findById(userId.longValue());
+		Optional<User> optUser = userRepository.findById(userId);
 
 		if (optUser.isPresent()) {
 			Optional<Gathering> optGathering = gatheringRepository.findById(exitGatheringRequest.gatheringId());

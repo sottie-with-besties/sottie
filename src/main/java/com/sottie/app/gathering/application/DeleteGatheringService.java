@@ -31,9 +31,9 @@ public class DeleteGatheringService {
 
 	public GatheringDto deleteGathering(DeleteGatheringRequest deleteGatheringRequest) {
 
-		Integer userId = SottieUserUtils.getUserIdInt();
+		Long userId = SottieUserUtils.getUserIdLong();
 
-		Optional<User> optUser = userRepository.findById(userId.longValue());
+		Optional<User> optUser = userRepository.findById(userId);
 
 		if (optUser.isPresent()) {
 

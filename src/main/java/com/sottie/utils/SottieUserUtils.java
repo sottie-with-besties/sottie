@@ -17,6 +17,11 @@ public class SottieUserUtils {
         return Integer.parseInt(authentication.getName());
     }
 
+    static public Long getUserIdLong() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Long.parseLong(authentication.getName());
+    }
+
     static public String getProcessId() {
         SottieAuthentication authentication = (SottieAuthentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getProcessId();
