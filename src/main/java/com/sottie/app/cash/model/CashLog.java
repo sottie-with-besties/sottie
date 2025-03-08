@@ -15,12 +15,24 @@ import lombok.*;
 @AllArgsConstructor
 public class CashLog extends BaseEntity {
 
-    private Long userId;
+    private Long cashId;
 
     @Enumerated(EnumType.STRING)
     private CashStatusCategory cashStatus;
 
     @Enumerated(EnumType.STRING)
     private CashTypeCategory cashType;
+
+    private void setCashId(Long cashId) {
+        this.cashId = cashId;
+    }
+
+    private void setCashStatus(CashStatusCategory cashStatus) {
+        this.cashStatus = cashStatus;
+    }
+
+    private void setCashType(CashTypeCategory cashType) {
+        this.cashType = cashType;
+    }
 
 }

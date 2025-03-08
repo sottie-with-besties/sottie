@@ -14,5 +14,15 @@ import lombok.*;
 public class Cash extends BaseEntity {
 
     private Long userId;
+
     private Integer amount;
+
+    private void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Cash setCalculatedAmount(Integer calculatedTotalAmount) {
+        this.setAmount(calculatedTotalAmount);
+        return this;
+    }
 }
