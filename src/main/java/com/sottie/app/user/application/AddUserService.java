@@ -1,5 +1,7 @@
 package com.sottie.app.user.application;
 
+import com.sottie.app.cash.model.Cash;
+import com.sottie.app.cash.repository.CashRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ public class AddUserService implements Encryptor {
 
 	private final UserRepository userRepository;
 
+	private final CashRepository cashRepository;
+
 	public User addUserForSignUp(User newUser) {
 
 		if (userRepository.existsByEmail(newUser.getEmail())) {
@@ -30,6 +34,12 @@ public class AddUserService implements Encryptor {
 
 		newUser.setPassword(encrypt(newUser.getPassword()));
 
-		return userRepository.save(newUser);
+		User savedUser = userRepository.save(newUser);
+
+		Cash newCashAccount = Cash.createNewCashAccount(savedUser.getId());
+		cashRepository.save(newCashAccount);
+
+		return savedUser;
+
 	}
 }

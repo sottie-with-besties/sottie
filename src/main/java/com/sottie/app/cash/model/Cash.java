@@ -25,4 +25,8 @@ public class Cash extends BaseEntity {
         this.setAmount(calculatedTotalAmount);
         return this;
     }
+
+    public static Cash createNewCashAccount(Long userId) {
+        return new Cash(userId, 10000);
+    }
 }
