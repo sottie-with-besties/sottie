@@ -61,6 +61,9 @@ public class GatheringDto {
 
     private Boolean mannerRestriction;
 
+    // 모집인원이 충족되어 모집글이 리스트상에서 숨김처리 되었는지 여부
+    // 모집인원 충족시 true
+    // 채팅방에서 인원 이탈이 생길경우 다시 false 로 변경
     private Boolean isHide;
 
     public static boolean isHide(Gathering gathering) {

@@ -15,8 +15,9 @@ public enum GatheringErrorCode implements ErrorCode {
 
 	INVALID_AGE_RESTRICTION(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid age restriction"),
 
-	NOT_HOST_USER(HttpStatus.INTERNAL_SERVER_ERROR, "not host user")
-	;
+	NOT_HOST_USER(HttpStatus.INTERNAL_SERVER_ERROR, "not host user"),
+
+	CANNOT_FIND_FRIEND_USER(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot find friend user information");
 	private final HttpStatus httpStatus;
 
 	private final String message;
