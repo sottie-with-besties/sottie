@@ -29,4 +29,25 @@ public class GatheringInvitation extends BaseEntity {
                 .invitationStatus(InvitationStatusCategory.WAITING)
                 .build();
     }
+
+    public GatheringInvitation reactGatheringInvitation(InvitationStatusCategory invitationStatus) {
+        this.setInvitationStatus(invitationStatus);
+        return this;
+    }
+
+    private void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    private void setGatheringId(Long gatheringId) {
+        this.gatheringId = gatheringId;
+    }
+
+    private void setFriendUserId(Long friendUserId) {
+        this.friendUserId = friendUserId;
+    }
+
+    private void setInvitationStatus(InvitationStatusCategory invitationStatus) {
+        this.invitationStatus = invitationStatus;
+    }
 }

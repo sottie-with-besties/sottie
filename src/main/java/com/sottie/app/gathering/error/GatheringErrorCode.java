@@ -17,7 +17,9 @@ public enum GatheringErrorCode implements ErrorCode {
 
 	NOT_HOST_USER(HttpStatus.INTERNAL_SERVER_ERROR, "not host user"),
 
-	CANNOT_FIND_FRIEND_USER(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot find friend user information");
+	CANNOT_FIND_FRIEND_USER(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot find friend user information"),
+
+	CANNOT_FIND_GATHERING_INVITATION(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot find gathering invitation information");
 	private final HttpStatus httpStatus;
 
 	private final String message;

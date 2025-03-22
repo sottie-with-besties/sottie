@@ -3,6 +3,7 @@ package com.sottie.app.gathering.adapter;
 import com.sottie.app.gathering.application.InviteGatheringService;
 import com.sottie.app.gathering.model.dto.GatheringInvitationDto;
 import com.sottie.app.gathering.model.record.InviteGatheringRequest;
+import com.sottie.app.gathering.model.record.ReactInviteGatheringRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ class InviteGatheringController {
 	@PostMapping("/sottie/gathering/invite")
 	public ResponseEntity<GatheringInvitationDto> inviteGathering(@RequestBody @Valid InviteGatheringRequest inviteGatheringRequest) {
 		GatheringInvitationDto result = inviteGatheringService.inviteGathering(inviteGatheringRequest);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@PostMapping("/sottie/gathering/reactInvite")
+	public ResponseEntity<GatheringInvitationDto> reactInviteGathering(@RequestBody @Valid ReactInviteGatheringRequest reactInviteGatheringRequest) {
+		GatheringInvitationDto result = inviteGatheringService.reactInviteGathering(reactInviteGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
