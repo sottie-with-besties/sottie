@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.sottie.app.friend.model.Friend;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
@@ -62,7 +63,6 @@ public class GetFriendService {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 
-
 	}
 
 	public List<FriendProfile> searchFriendProfileListByAlias(String alias) {
@@ -95,5 +95,10 @@ public class GetFriendService {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 
+	}
+
+	public List<Friend> getBlockedFriends(Long userId) {
+
+		return friendRepository.findByUserIdAndBlocked(userId, true);
 	}
 }
