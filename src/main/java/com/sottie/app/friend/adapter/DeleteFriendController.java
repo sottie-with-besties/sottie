@@ -1,5 +1,6 @@
 package com.sottie.app.friend.adapter;
 
+import com.sottie.app.friend.model.record.DefaultFriendRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
