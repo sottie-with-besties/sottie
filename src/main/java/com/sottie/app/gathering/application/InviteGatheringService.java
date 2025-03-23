@@ -48,7 +48,7 @@ public class InviteGatheringService {
 
 				if (optFriendUser.isPresent()) {
 
-					List<FriendProfile> friendProfiles = getFriendService.getFriendProfileList(user.getId());
+					List<FriendProfile> friendProfiles = getFriendService.getFriendProfileList();
 
 					List<Long> friendUserIds = friendProfiles.stream().map(FriendProfile::userId).toList();
 
@@ -93,7 +93,7 @@ public class InviteGatheringService {
 
 				if (optFriendUser.isPresent()) {
 
-					List<FriendProfile> friendProfiles = getFriendService.getFriendProfileList(user.getId());
+					List<FriendProfile> friendProfiles = getFriendService.getFriendProfileList();
 
 					List<Long> friendUserIds = friendProfiles.stream().map(FriendProfile::userId).toList();
 

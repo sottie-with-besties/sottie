@@ -20,9 +20,9 @@ class AddFriendController {
 
 	private final AddFriendService addFriendService;
 
-	@PostMapping("/sottie/friends/add")
+	@PostMapping("/sottie/friends")
 	public ResponseEntity<Friend> addNewFriend(@RequestBody @Valid DefaultFriendRequest defaultFriendRequest) {
-		Friend result = addFriendService.addNewFriend(defaultFriendRequest.userId(), defaultFriendRequest.FriendId());
+		Friend result = addFriendService.addNewFriend(defaultFriendRequest.FriendId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 

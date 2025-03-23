@@ -19,16 +19,15 @@ class GetFriendController {
 
 	private final GetFriendService getFriendService;
 
-	@GetMapping("/sottie/friends/{userId}")
-	public ResponseEntity<List<FriendProfile>> getFriendProfileList(@PathVariable Long userId) {
-		List<FriendProfile> result = getFriendService.getFriendProfileList(userId);
+	@GetMapping("/sottie/friends")
+	public ResponseEntity<List<FriendProfile>> getFriendProfileList() {
+		List<FriendProfile> result = getFriendService.getFriendProfileList();
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("/sottie/friends/{userId}/alias/{alias}")
-	public ResponseEntity<List<FriendProfile>> searchFriendProfileByAlias(
-		@PathVariable Long userId, @PathVariable String alias) {
-		List<FriendProfile> result = getFriendService.searchFriendProfileListByAlias(userId, alias);
+	public ResponseEntity<List<FriendProfile>> searchFriendProfileByAlias(@PathVariable String alias) {
+		List<FriendProfile> result = getFriendService.searchFriendProfileListByAlias(alias);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
