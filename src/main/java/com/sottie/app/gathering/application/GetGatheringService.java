@@ -111,7 +111,9 @@ public class GetGatheringService {
 
 	// TODO 로직 개선 필요 다중 iteration
 	private List<Gathering> markFriendsJoinedGathering(User user, List<Gathering> blockFilteredGatherings) {
+
 		List<Friend> friends = getFriendService.getFriends(user.getId());
+
 		for (Gathering blockFilteredGathering : blockFilteredGatherings) {
 			List<GatheringUser> gatheringUsers = gatheringUserRepository.findByGatheringId(blockFilteredGathering.getId());
 			for (GatheringUser gatheringUser : gatheringUsers) {
@@ -121,6 +123,7 @@ public class GetGatheringService {
 				}
 			}
 		}
+		
 		return blockFilteredGatherings;
 	}
 
