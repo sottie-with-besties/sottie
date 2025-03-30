@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -90,10 +89,15 @@ public class GetGatheringService {
 
 				List<Gathering> gatherings = gatheringRepository.findAll(spec);
 
+				// 차단된 친구 모집글에서 필터링
 				List<Gathering> blockFilteredGatherings = getBlockFilteredGatherings(gatherings, blockedFriends);
 
-				for (Gathering blockFilteredGathering : blockFilteredGatherings) {
-					gatheringDtos.add(GatheringDto.from(blockFilteredGathering));
+				// 친구가 포함된 모집글 표시
+				List<Gathering> friendsJoinedGatherings = markFriendsJoinedGathering(user, blockFilteredGatherings);
+
+				for (Gathering friendsJoinedGathering : friendsJoinedGatherings) {
+
+					gatheringDtos.add(GatheringDto.from(friendsJoinedGathering));
 				}
 
 			}
@@ -103,6 +107,21 @@ public class GetGatheringService {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
 		}
 
+	}
+
+	// TODO 로직 개선 필요 다중 iteration
+	private List<Gathering> markFriendsJoinedGathering(User user, List<Gathering> blockFilteredGatherings) {
+		List<Friend> friends = getFriendService.getFriends(user.getId());
+		for (Gathering blockFilteredGathering : blockFilteredGatherings) {
+			List<GatheringUser> gatheringUsers = gatheringUserRepository.findByGatheringId(blockFilteredGathering.getId());
+			for (GatheringUser gatheringUser : gatheringUsers) {
+				boolean contains = friends.stream().map(Friend::getFriendId).toList().contains(gatheringUser.getUserId());
+				if (contains) {
+					blockFilteredGathering.friendParticipatedGathering();
+				}
+			}
+		}
+		return blockFilteredGatherings;
 	}
 
 	/**
@@ -131,7 +150,7 @@ public class GetGatheringService {
 		}
 	}
 
-	// TODO 로직 개선 필요 다중 iter
+	// TODO 로직 개선 필요 다중 iteration
 	private List<Gathering> getBlockFilteredGatherings(List<Gathering> gatherings, List<Friend> blockedFriends) {
 
 		for (Gathering gathering : gatherings) {

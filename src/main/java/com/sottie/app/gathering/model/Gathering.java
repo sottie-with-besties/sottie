@@ -57,6 +57,10 @@ public class Gathering extends BaseEntity {
 
     private Boolean mannerRestriction;
 
+    @Transient
+    @Setter
+    private Boolean friendYn;
+
 
     // TODO DB 는 현재 restriction 관련 테이블이 별도로 만들어져 있다
     public void plusPeopleNum(User user) {
@@ -76,6 +80,10 @@ public class Gathering extends BaseEntity {
             this.setCurrentFemaleNum(this.getCurrentFemaleNum() - 1);
         }
         this.setCurrentPeopleNum(this.getCurrentPeopleNum() - 1);
+    }
+
+    public void friendParticipatedGathering() {
+        this.setFriendYn(true);
     }
 
 }

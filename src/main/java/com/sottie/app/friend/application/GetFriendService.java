@@ -101,4 +101,8 @@ public class GetFriendService {
 
 		return friendRepository.findByUserIdAndBlocked(userId, true);
 	}
+
+	public List<Friend> getFriends(Long userId) {
+		return friendRepository.findByUserIdAndBlocked(userId, false);
+	}
 }
