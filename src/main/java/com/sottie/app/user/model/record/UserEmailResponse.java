@@ -1,11 +1,11 @@
-package com.sottie.app.user.adapter;
+package com.sottie.app.user.model.record;
 
 import com.sottie.app.user.model.User;
 
 import lombok.Builder;
 
 @Builder
-record UserEmailResponse(
+public record UserEmailResponse(
 
 	String email
 

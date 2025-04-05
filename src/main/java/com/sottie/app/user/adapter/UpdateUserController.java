@@ -1,5 +1,6 @@
 package com.sottie.app.user.adapter;
 
+import com.sottie.app.user.model.record.DefaultUserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

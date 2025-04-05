@@ -1,11 +1,11 @@
-package com.sottie.app.user.adapter;
+package com.sottie.app.user.model.record;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-record GetUserByEmailRequest(
+public record GetUserByEmailRequest(
 
 	@NotBlank
 	@Email

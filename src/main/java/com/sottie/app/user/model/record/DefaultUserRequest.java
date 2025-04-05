@@ -1,4 +1,4 @@
-package com.sottie.app.user.adapter;
+package com.sottie.app.user.model.record;
 
 import com.sottie.app.user.model.Gender;
 import com.sottie.app.user.model.User;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 
 @Builder
-record DefaultUserRequest(
+public record DefaultUserRequest(
 
 	String name,
 	String phoneNumber,
@@ -25,7 +25,7 @@ record DefaultUserRequest(
 		message = "비밀번호는 영문과 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 이상의 비밀번호여야 합니다.")
 	String password) {
 
-	User to() {
+	public User to() {
 		return User.builder()
 				.name(this.name)
 				.phoneNumber(this.phoneNumber)

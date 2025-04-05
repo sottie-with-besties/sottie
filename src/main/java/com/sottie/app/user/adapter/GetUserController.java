@@ -1,5 +1,9 @@
 package com.sottie.app.user.adapter;
 
+import com.sottie.app.user.model.record.DefaultUserRequest;
+import com.sottie.app.user.model.record.GetUserByEmailRequest;
+import com.sottie.app.user.model.record.GetUserByPhoneRequest;
+import com.sottie.app.user.model.record.UserEmailResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +52,7 @@ class GetUserController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@GetMapping("/sottie/users/nickname_exist/{nickName}")
+	@GetMapping("/sottie/users/nickname/{nickName}")
 	public ResponseEntity<Boolean> checkNickNameExist(@PathVariable String nickName) {
 		Boolean result = userService.isExistingNickName(nickName);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
