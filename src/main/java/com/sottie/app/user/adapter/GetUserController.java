@@ -38,10 +38,8 @@ class GetUserController {
 	}
 
 	@PostMapping("/sottie/users/phone")
-	public ResponseEntity<UserEmailResponse> findUserByPhoneNumber(
-		@RequestBody @Valid GetUserByPhoneRequest getUserByPhoneRequest) {
-		UserEmailResponse result = UserEmailResponse.from(
-			userService.getUserByPhoneNumber(getUserByPhoneRequest.phoneNumber()));
+	public ResponseEntity<User> findUserByPhoneNumber(@RequestBody @Valid GetUserByPhoneRequest getUserByPhoneRequest) {
+		User result = userService.getUserByPhoneNumber(getUserByPhoneRequest.phoneNumber());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

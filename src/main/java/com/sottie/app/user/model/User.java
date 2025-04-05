@@ -46,4 +46,6 @@ public class User extends BaseEntity {
 	private String birthYear;
 
 	private boolean phoneAuthenticated;
+
+	private boolean privateMode; // 핸드폰번호로 사용자 찾기 비공개
 }

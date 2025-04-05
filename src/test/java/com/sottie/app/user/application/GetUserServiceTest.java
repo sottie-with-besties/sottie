@@ -108,7 +108,7 @@ class GetUserServiceTest {
 		//given
 		doReturn(Optional.of(user()))
 			.when(userRepository)
-			.findByPhoneNumber("phone");
+			.findByPhoneNumberAndPrivateMode("phone", false);
 		//when
 		User result = getUserService.getUserByPhoneNumber("phone");
 
@@ -122,7 +122,7 @@ class GetUserServiceTest {
 		//given
 		doReturn(Optional.empty())
 			.when(userRepository)
-			.findByPhoneNumber("phone");
+			.findByPhoneNumberAndPrivateMode("phone", false);
 		//when
 		//then
 		assertThatThrownBy(() -> getUserService.getUserByPhoneNumber("phone"))
