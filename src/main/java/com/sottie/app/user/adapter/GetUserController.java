@@ -45,6 +45,9 @@ class GetUserController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
+	/**
+	 * 사용 X
+	 */
 	@PostMapping("/sottie/users/email")
 	public ResponseEntity<UserEmailResponse> findUserByUserEmail(
 		@RequestBody @Valid GetUserByEmailRequest getUserByEmailRequest) {

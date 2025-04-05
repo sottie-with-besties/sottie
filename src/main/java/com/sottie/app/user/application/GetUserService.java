@@ -1,10 +1,12 @@
 package com.sottie.app.user.application;
 
+import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.authentication.JwtProvider;
 import com.sottie.authentication.SottieAuthentication;
 import com.sottie.authentication.SottieAuthenticationManager;
 import com.sottie.authentication.SottieAuthenticationRequestToken;
 import com.sottie.processor.ProcessInfoUtils;
+import com.sottie.utils.SottieUserUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import com.sottie.utils.Encryptor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -59,8 +62,20 @@ public class GetUserService implements Encryptor {
 	}
 
 	public User getUserByPhoneNumber(String phoneNumber) {
-		return userRepository.findByPhoneNumber(phoneNumber)
-			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+
+		Long userId = SottieUserUtils.getUserIdLong();
+
+		Optional<User> optUser = userRepository.findById(userId);
+
+		if (optUser.isPresent()) {
+
+			return userRepository.findByPhoneNumber(phoneNumber)
+					.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+
+		} else {
+			throw CommonException.builder(UserErrorCode.CANNOT_FIND_USER).build();
+		}
+
 	}
 
 	public Boolean isExistingUserByEmail(String email) {

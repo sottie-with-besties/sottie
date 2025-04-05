@@ -1,6 +1,6 @@
 package com.sottie.app.friend.application;
 
-import com.sottie.app.gathering.error.GatheringErrorCode;
+import com.sottie.app.friend.error.FriendErrorCode;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
@@ -35,7 +35,7 @@ public class DeleteFriendService {
 			repository.deleteByUserIdAndFriendIdAndBlocked(user.getId(), friendId, false);
 
 		} else {
-			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+			throw CommonException.builder(FriendErrorCode.CANNOT_FIND_USER).build();
 		}
 	}
 

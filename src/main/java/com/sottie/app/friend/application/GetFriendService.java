@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.sottie.app.friend.error.FriendErrorCode;
 import com.sottie.app.friend.model.Friend;
 import com.sottie.app.gathering.error.GatheringErrorCode;
 import com.sottie.app.user.model.User;
@@ -60,7 +61,7 @@ public class GetFriendService {
 			return profileList;
 
 		} else {
-			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
+			throw CommonException.builder(FriendErrorCode.CANNOT_FIND_USER).build();
 		}
 
 	}
