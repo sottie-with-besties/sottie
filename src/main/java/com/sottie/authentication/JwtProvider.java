@@ -26,6 +26,7 @@ public class JwtProvider {
 
     private final Key secretKey;
     private final Long expireIn;
+    private final Long refExpireIn;
 
     public JwtProvider(SottieProperties sottieProperties) {
         byte[] keyBytes = null;
@@ -38,6 +39,7 @@ public class JwtProvider {
 
         secretKey = Keys.hmacShaKeyFor(keyBytes);
         expireIn = sottieProperties.getAuthentication().getAccessValidSeconds() * 1000;
+        refExpireIn = sottieProperties.getAuthentication().getRefreshValidSeconds() * 1000;
     }
 
 
@@ -56,8 +58,8 @@ public class JwtProvider {
     public String generate(String userId, String processId, Object details, String... roles) {
         processId = StringUtils.hasText(processId) ? processId : ProcessInfoUtils.getCurrentProcessId();
         ClaimsBuilder claimsBuilder = Jwts.claims()
+                .id(processId)
                 .add("userId", userId)
-                .add("processId", processId)
                 .add("roles", roles);
 
         if (details != null) {
@@ -123,5 +125,73 @@ public class JwtProvider {
             log.error("JWT 토큰이 잘못되었습니다.");
         }
         return false;
+    }
+
+
+    public String generateRefreshToken(SottieAuthentication authentication) {
+        String userId = authentication.getName();
+        String processId = StringUtils.hasText(authentication.getProcessId()) ? authentication.getProcessId() : ProcessInfoUtils.getCurrentProcessId();
+
+        ClaimsBuilder claimsBuilder = Jwts.claims()
+                .add("userId", userId)
+                .add("processId", processId);
+
+        Claims claims = claimsBuilder.build();
+        Date now = new Date();
+        Date expireAt = new Date(now.getTime() + refExpireIn); // Use refreshTokenExpireIn
+
+        String refreshToken = Jwts.builder()
+                .claims(claims)
+                .issuedAt(now)
+                .expiration(expireAt)
+                .signWith(secretKey)
+                .compact();
+        log.info("refresh_token :: {}", refreshToken);
+        return refreshToken;
+    }
+
+    /**
+     * Refresh 토큰 검증
+     * @param refreshToken 검증할 Refresh 토큰
+     * @return 토큰의 유효 여부
+     */
+    public boolean validateRefreshToken(String refreshToken) {
+        try {
+            log.info("refresh-token :: {}", refreshToken);
+            Jwts.parser()
+                    .verifyWith((SecretKey) secretKey)
+                    .build()
+                    .parseSignedClaims(refreshToken);
+            return true;
+        } catch (SecurityException | MalformedJwtException e) {
+            log.error("잘못된 Refresh JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            log.error("만료된 Refresh JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            log.error("지원되지 않는 Refresh JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            log.error("Refresh JWT 토큰이 잘못되었습니다.");
+        }
+        return false;
+    }
+
+    public Claims parseToken(String token) {
+        try {
+            log.info("token :: {}", token);
+            return Jwts.parser()
+                    .verifyWith((SecretKey) secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (SecurityException | MalformedJwtException e) {
+            log.error("잘못된 Refresh JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            log.error("만료된 Refresh JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            log.error("지원되지 않는 Refresh JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            log.error("Refresh JWT 토큰이 잘못되었습니다.");
+        }
+        return null;
     }
 }

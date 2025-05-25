@@ -50,4 +50,5 @@ logging:
   level:
     root: INFO
   file:
-    path:  /home/ubuntu/app/logs
+#    path:  /home/ubuntu/app/logs
+    path:  logs

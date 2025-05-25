@@ -33,7 +33,7 @@ public class GetUserService implements Encryptor {
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 		if (isMatched(password, user.getPassword())) {
-
+			user.setPassword(null);
 			// 유저 키값 필요
 			SottieAuthenticationRequestToken authenticationRequestToken = SottieAuthenticationRequestToken.builder()
 					.userName(user.getId().toString())
