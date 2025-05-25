@@ -7,6 +7,7 @@ import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sottie.app.certification.model.Certification;
 import com.sottie.app.user.error.UserErrorCode;
+import com.sottie.app.user.model.Gender;
 import com.sottie.app.user.model.User;
 import com.sottie.app.user.repository.UserRepository;
 import com.sottie.errors.CommonException;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -119,9 +121,9 @@ public class CertificationService {
         if (jsonCertification.get("certified").equals(true)) {
             certification = new Certification(
                     (String) jsonCertification.get("name"),
-                    null,
+                    Gender.valueOf(StringUtils.upperCase((String) jsonCertification.get("gender"))),
                     (String) jsonCertification.get("phone"),
-                    null,
+                    (String) jsonCertification.get("unique_key"),
                     (String) jsonCertification.get("birthday"),
                     true
             );

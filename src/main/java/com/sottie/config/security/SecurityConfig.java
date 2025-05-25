@@ -38,7 +38,8 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/"),
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/swagger-ui/**"),
-            new AntPathRequestMatcher("/sottie/users/**")
+            new AntPathRequestMatcher("/sottie/users/**"),
+            new AntPathRequestMatcher("/sottie/certifications")
     };
 
     // PasswordEncoder는 BCryptPasswordEncoder를 사용
@@ -61,7 +62,7 @@ public class SecurityConfig {
                         .authenticated())
                 // JWT 토큰 필터 추가
                 .addFilterBefore(
-                        new JwtSecurityFilter(tokenProvider),
+                        new JwtSecurityFilter(tokenProvider, sottieAuthenticationProcessor),
                         UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

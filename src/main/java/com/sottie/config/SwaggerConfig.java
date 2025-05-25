@@ -40,10 +40,12 @@ public class SwaggerConfig {
 			.license(mitLicense);
 
 		SecurityRequirement securityRequirement = new SecurityRequirement()
-			.addList("acc-token");
+			.addList("acc-token")
+			.addList("ref-token");
 
 		Components components = new Components()
-				.addSecuritySchemes("acc-token", createAPIKeyScheme());
+				.addSecuritySchemes("acc-token", createAPIKeySchemeAccToken())
+				.addSecuritySchemes("ref-token", createAPIKeySchemeRefToken());
 
 		return new OpenAPI()
 				.addSecurityItem(securityRequirement)
@@ -52,8 +54,15 @@ public class SwaggerConfig {
 				.servers(List.of(server));
 	}
 
-	private SecurityScheme createAPIKeyScheme() {
+	private SecurityScheme createAPIKeySchemeAccToken() {
 		return new SecurityScheme().name("acc-token")
+				.type(SecurityScheme.Type.APIKEY)
+				.in(SecurityScheme.In.HEADER)
+				.bearerFormat("JWT");
+	}
+
+	private SecurityScheme createAPIKeySchemeRefToken() {
+		return new SecurityScheme().name("ref-token")
 				.type(SecurityScheme.Type.APIKEY)
 				.in(SecurityScheme.In.HEADER)
 				.bearerFormat("JWT");

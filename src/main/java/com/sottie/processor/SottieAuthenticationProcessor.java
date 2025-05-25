@@ -7,6 +7,8 @@ import com.sottie.config.SottieUserDetailProvider;
 import com.sottie.properties.SottieProperties;
 import com.sottie.security.SottieUser;
 import com.sottie.utils.SottieWebUtils;
+import jakarta.servlet.http.Cookie; // For Cookie
+import jakarta.servlet.http.HttpServletResponse; // For HttpServletResponse
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +23,6 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
 
     protected SottieProperties authenticationProperties;
     protected SottieUserDetailProvider userDetailProvider;
-
     protected JwtProvider tokenProvider;
 
     @Override
@@ -52,13 +53,19 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
         SottieUser user = this.userDetailProvider.getDetails(authenticationRequestToken);
         ProcessInfoContextHolder.setCurrentProcessInfo(ProcessInfo.create());
 
-        authentication.setName(user.getUsername());
         authentication.setProcessId(ProcessInfoUtils.getCurrentProcessId());
         authentication.setDetails(user);
         authentication.setAuthenticated(true);
 
-        String token = tokenProvider.generate(authentication);
+        String token = tokenProvider.generate(authentication); // Access Token
         setToken(token);
+
+        // Generate and set Refresh Token
+        // Assuming tokenProvider has a method generateRefreshToken
+        // And authenticationProperties has settings for the refresh token cookie
+        String refreshToken = tokenProvider.generateRefreshToken(authentication);
+        setRefreshTokenCookie(refreshToken);
+
 
         return authentication;
     }
@@ -66,10 +73,36 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
     protected R creeateAuthenticationToken(S authenticationRequestToken) {
         R authentication = BeanUtils.instantiateClass(this.authenticateClass);
         authentication.setProcessId(ProcessInfoUtils.getCurrentProcessId());
+        authentication.setName(authenticationRequestToken.getUserName());
         return authentication;
     }
 
     protected void setToken(String token) {
-        SottieWebUtils.getResponse().setHeader(this.authenticationProperties.getAuthentication().getTokenKey(), token);
+        HttpServletResponse response = SottieWebUtils.getResponse();
+        if (response != null) {
+        String tokenKey = this.authenticationProperties.getAuthentication().getTokenKey();
+        response.setHeader(tokenKey, token);
+
+        Cookie accessTokenCookie = new Cookie(tokenKey, token);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setSecure(true); // Should be true if served over HTTPS
+        response.addCookie(accessTokenCookie);
+        }
+    }
+
+    // New method to set Refresh Token as HttpOnly cookie
+    protected void setRefreshTokenCookie(String refreshToken) {
+        HttpServletResponse response = SottieWebUtils.getResponse();
+        if (response != null) {
+            String refreshTokenKey = this.authenticationProperties.getAuthentication().getRefreshTokenKey();
+            response.setHeader(refreshTokenKey, refreshToken);
+
+            Cookie refreshTokenCookie = new Cookie(refreshTokenKey, refreshToken);
+            refreshTokenCookie.setPath("/");
+            refreshTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setSecure(true); // Should be true if served over HTTPS
+            response.addCookie(refreshTokenCookie);
+        }
     }
 }
