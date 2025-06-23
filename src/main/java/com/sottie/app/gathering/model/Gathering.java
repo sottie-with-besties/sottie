@@ -86,4 +86,16 @@ public class Gathering extends BaseEntity {
         this.setFriendYn(true);
     }
 
+    public boolean isNoMoreRoom() {
+        return this.getPeopleNum().equals(this.getCurrentPeopleNum());
+    }
+
+    public boolean isNoRoomForMale() {
+        return this.getMaleNum().equals(this.getCurrentMaleNum());
+    }
+
+    public boolean isNoRoomForFemale() {
+        return this.getFemaleNum().equals(this.getCurrentFemaleNum());
+    }
+
 }

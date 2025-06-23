@@ -19,7 +19,7 @@ class CreateGatheringController {
 
     private final CreateGatheringService createGatheringService;
 
-    @PostMapping("/sottie/gathering")
+    @PostMapping("/sottie/gatherings")
     public ResponseEntity<GatheringDto> createGathering(@RequestBody @Valid CreateGatheringRequest createGatheringRequest) {
         GatheringDto result = createGatheringService.createGathering(createGatheringRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
