@@ -3,6 +3,8 @@ package com.sottie.processor;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,7 +46,9 @@ public class ProcessInfo implements Closeable {
         uuidBytes.putLong(uuid.getMostSignificantBits());
         uuidBytes.putLong(uuid.getLeastSignificantBits());
 
-        return System.currentTimeMillis() + new String(uuidBytes.array());
+        // Use Base64 encoding to prevent character corruption
+        byte[] uuidStr = Base64.getEncoder().encode(uuidBytes.array());
+        return System.currentTimeMillis() + new String(uuidStr, StandardCharsets.UTF_8);
     }
 
     public String getSessionProcessId() {

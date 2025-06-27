@@ -50,12 +50,39 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            String token = tokenProvider.generate((SottieAuthentication) authentication);
-            response.setHeader("acc-token", token);
-            response.setHeader("ref-token", token);
+        try {
+            // 액세스 토큰 추출 및 유효성 검사
+            String accessToken = request.getHeader("acc-token");
+            if (accessToken != null && tokenProvider.validateToken(accessToken)) {
+                // 액세스 토큰이 유효하면 아무 작업도 하지 않음
+                log.debug("액세스 토큰이 아직 유효합니다. 토큰 갱신을 건너뜁니다.");
+                return;
+            }
+
+            // 현재 인증 정보 확인
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            // 액세스 토큰이 없거나 유효하지 않은 경우 리프레시 토큰 확인
+            String refreshToken = request.getHeader("ref-token");
+
+            if (refreshToken != null && tokenProvider.validateToken(refreshToken)) {
+                // 리프레시 토큰이 유효한 경우, 새 액세스 토큰만 발급
+                String newAccessToken = tokenProvider.generate((SottieAuthentication) authentication);
+                response.setHeader("acc-token", newAccessToken);
+                log.debug("액세스 토큰이 갱신되었습니다.");
+            } else if (refreshToken == null || !tokenProvider.validateToken(refreshToken)) {
+                // 리프레시 토큰이 없거나 유효하지 않을 경우, 둘 다 새로 발급
+                String newAccessToken = tokenProvider.generate((SottieAuthentication) authentication);
+                String newRefreshToken = tokenProvider.generateRefreshToken((SottieAuthentication) authentication);
+                response.setHeader("acc-token", newAccessToken);
+                response.setHeader("ref-token", newRefreshToken);
+                log.debug("액세스 토큰과 리프레시 토큰이 모두 갱신되었습니다.");
+            }
+        } catch (Exception e) {
+            // 토큰 갱신 중 오류가 발생해도 요청 처리는 완료되어야 함
+            log.error("토큰 갱신 중 오류 발생: {}", e.getMessage());
+        } finally {
+            HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
         }
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }
