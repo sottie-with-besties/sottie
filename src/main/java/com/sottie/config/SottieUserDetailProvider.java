@@ -23,11 +23,11 @@ public class SottieUserDetailProvider {
     private SottieUser getUser(String userName) {
         SottieUser user = null;
         // TODO 토큰정보 조회
-        Optional<User> u = userRepository.findById(Long.parseLong(userName));
+        Optional<User> info = userRepository.findById(Long.parseLong(userName));
         user = SottieUser.builder()
                 .userId(userName)
-                .authorities(List.of(()->"ROLE_USER"))
-                .verified(u.get().isIdentityVerification())
+                .authorities(List.of(() -> "ROLE_USER"))
+                .verified(info.get().isIdentityVerification())
                 .build();
         return user;
     }
