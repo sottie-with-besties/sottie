@@ -2,14 +2,13 @@ package com.sottie.authentication;
 
 import com.sottie.processor.ProcessInfoUtils;
 import com.sottie.properties.SottieProperties;
-import com.sottie.security.SottieUser;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.gson.io.GsonDeserializer;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,7 +17,6 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -44,7 +42,16 @@ public class JwtProvider {
 
 
     public String generate(SottieAuthentication authentication) {
-        return generate(StringUtils.hasText(authentication.getName()) ? authentication.getName() : null, authentication.getProcessId(), authentication.getDetails(), "ROLE_USER");
+        // 권한을 List<String>으로 변환
+        String[] authoritiesArray = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toArray(String[]::new);
+
+        return generate(StringUtils.hasText(authentication.getName()) ? authentication.getName() : null,
+                authentication.getProcessId(),
+                authentication.getDetails(),
+                authoritiesArray);
+
     }
 
     public String generate(String userId, String role) {

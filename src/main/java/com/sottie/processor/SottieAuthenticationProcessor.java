@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequestToken, R extends SottieAuthentication> implements ApplicationContextAware {
 
@@ -55,6 +57,7 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
 
         authentication.setProcessId(ProcessInfoUtils.getCurrentProcessId());
         authentication.setDetails(user);
+        authentication.setAuthorities(List.of(() -> "ROLE_USER"));
         authentication.setAuthenticated(true);
 
         String token = tokenProvider.generate(authentication); // Access Token
@@ -80,14 +83,14 @@ public class SottieAuthenticationProcessor<S extends SottieAuthenticationRequest
     protected void setToken(String token) {
         HttpServletResponse response = SottieWebUtils.getResponse();
         if (response != null) {
-        String tokenKey = this.authenticationProperties.getAuthentication().getTokenKey();
-        response.setHeader(tokenKey, token);
+            String tokenKey = this.authenticationProperties.getAuthentication().getTokenKey();
+            response.setHeader(tokenKey, token);
 
-        Cookie accessTokenCookie = new Cookie(tokenKey, token);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true); // Should be true if served over HTTPS
-        response.addCookie(accessTokenCookie);
+            Cookie accessTokenCookie = new Cookie(tokenKey, token);
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setHttpOnly(true);
+            accessTokenCookie.setSecure(true); // Should be true if served over HTTPS
+            response.addCookie(accessTokenCookie);
         }
     }
 

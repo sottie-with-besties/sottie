@@ -35,15 +35,15 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("JwtSecurityFilter.doFilter");
 
-        boolean isToken = resolveToken(request);
-        String jwtToken = request.getHeader(ACCESS_TOKEN);
-        if(!isToken) {
-            response.setHeader(ACCESS_TOKEN, tokenProvider.generate("-1", "ANONYMOUS"));
-            response.setHeader(REFRESH_TOKEN, tokenProvider.generate("-1", "ANONYMOUS"));
-            SecurityContextHolder.getContext().setAuthentication(SottieAuthentication.builder()
-                                                                .processId(ProcessInfoUtils.getCurrentProcessId())
-                                                                .roles(List.of(() -> "ROLE_ANONYMOUS"))
-                                                                .build());
+        boolean hasToken = resolveToken(request);
+        if(!hasToken) {
+            SottieAuthentication sottieAuthentication = SottieAuthentication.builder()
+                    .processId(ProcessInfoUtils.getCurrentProcessId())
+                    .roles(List.of(() -> "ROLE_ANONYMOUS"))
+                    .build();
+            response.setHeader(ACCESS_TOKEN, tokenProvider.generate(sottieAuthentication));
+            response.setHeader(REFRESH_TOKEN, tokenProvider.generateRefreshToken(sottieAuthentication));
+            SecurityContextHolder.getContext().setAuthentication(sottieAuthentication);
             log.info("유효한 JWT 토큰이 없습니다. requestURI : {}", request.getRequestURI());
         }
         filterChain.doFilter(request, response);
@@ -77,7 +77,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
                     .userName(claims.get("userId").toString())
                     .build();
             log.info("sottieAuthentication.getName() ::: {}", authenticationRequestToken.getUserName());
-            sottieAuthenticationProcessor.authenticate(authenticationRequestToken);
+            SottieAuthentication authentication = sottieAuthenticationProcessor.authenticate(authenticationRequestToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             return true;
         }
 
