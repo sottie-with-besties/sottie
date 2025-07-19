@@ -26,6 +26,12 @@ class UpdateFriendController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
+	@PostMapping("/sottie/friends/unblock")
+	public ResponseEntity<Void> unblockFriend(@RequestBody @Valid DefaultFriendRequest defaultFriendRequest) {
+		updateFriendService.unblockFriend(defaultFriendRequest.FriendId());
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
 	@PostMapping("/sottie/friends/change_alias")
 	public ResponseEntity<Friend> changeAlias(@RequestBody @Valid ChangeAliasRequest changeAliasRequest) {
 		Friend result = updateFriendService.changeAlias(changeAliasRequest.FriendId(), changeAliasRequest.alias());

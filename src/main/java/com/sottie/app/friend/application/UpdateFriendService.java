@@ -43,6 +43,25 @@ public class UpdateFriendService {
 
 	}
 
+	public void unblockFriend(Long friendId) {
+
+		Long userId = SottieUserUtils.getUserIdLong();
+
+		Optional<User> optUser = userRepository.findById(userId);
+
+		if (optUser.isPresent()) {
+
+			User user = optUser.get();
+
+			Friend friend = findBlockedFriendByUserIdAndFriendId(user.getId(), friendId);
+			friend.setBlocked(false);
+
+		} else {
+			throw CommonException.builder(FriendErrorCode.CANNOT_FIND_USER).build();
+		}
+
+	}
+
 	public Friend changeAlias(Long friendId, String alias) {
 
 		Long userId = SottieUserUtils.getUserIdLong();
@@ -67,5 +86,10 @@ public class UpdateFriendService {
 	public Friend findUnblockedFriendByUserIdAndFriendId(Long userId, Long friendId) {
 		return friendRepository.findByUserIdAndFriendIdAndBlocked(userId, friendId, false)
 			.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
+	}
+
+	public Friend findBlockedFriendByUserIdAndFriendId(Long userId, Long friendId) {
+		return friendRepository.findByUserIdAndFriendIdAndBlocked(userId, friendId, true)
+				.orElseThrow(() -> CommonException.builder(CommonErrorCode.RESOURCE_NOT_FOUND).build());
 	}
 }
