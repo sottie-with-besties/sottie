@@ -112,7 +112,7 @@ public class InviteGatheringService {
 							GatheringInvitation gatheringInvitation = optGatheringInvitation.get().reactGatheringInvitation(reactInviteGatheringRequest.invitationStatus());
 
 							if (gatheringInvitation.getInvitationStatus().equals(InvitationStatusCategory.APPROVED)) {
-								if (!isNoMoreRoomGathering(gathering, user)) {
+								if (!CommonGatheringService.isNoMoreRoomGathering(gathering, user)) {
 									joinGatheringService.joinGathering(JoinGatheringRequest.builder().userId(user.getId())
 											.gatheringId(reactInviteGatheringRequest.gatheringId()).build());
 								} else {
@@ -141,44 +141,6 @@ public class InviteGatheringService {
 
 		} else {
 			throw CommonException.builder(GatheringErrorCode.NOT_HOST_USER).build();
-		}
-	}
-
-	/**
-	 * 초대 응답 값이 APPROVED 일 때, 이미 채팅방 활성화 된 방인지 or 남/녀 인원 빈자리 있는지 확인 필요
-	 */
-	private Boolean isNoMoreRoomGathering(Gathering gathering, User user) {
-
-		GenderCategory genderCategory = gathering.getGenderRestriction();
-		Gender gender = user.getGender();
-
-		if (gathering.isNoMoreRoom()) {
-			return true;
-		}
-
-		switch (genderCategory) {
-			case NONE:
-				return gathering.isNoMoreRoom();
-			case MIX:
-				if (gender.equals(Gender.MALE)) {
-					return gathering.isNoRoomForMale();
-				} else {
-					return gathering.isNoRoomForFemale();
-				}
-			case FEMALE:
-				if (gender.equals(Gender.MALE)) {
-					return true;
-				} else {
-					return gathering.isNoRoomForFemale();
-				}
-			case MALE:
-				if (gender.equals(Gender.FEMALE)) {
-					return true;
-				} else {
-					return gathering.isNoRoomForMale();
-				}
-			default:
-				return true;
 		}
 	}
 
