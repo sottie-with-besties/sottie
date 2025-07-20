@@ -31,7 +31,7 @@ class GetUserController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@PostMapping("/sottie/users/id_exist")
+	@PostMapping("/sottie/users/id-exist")
 	public ResponseEntity<Boolean> checkUserIdExist(@RequestBody @Valid GetUserByEmailRequest getUserByEmailRequest) {
 		Boolean result = userService.isExistingUserByEmail(getUserByEmailRequest.email());
 		return ResponseEntity.status(HttpStatus.OK).body(result);

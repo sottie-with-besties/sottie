@@ -18,7 +18,7 @@ class UpdateUserController {
 
 	private final UpdateUserService updateUserService;
 
-	@PostMapping("/sottie/users/password_reset")
+	@PostMapping("/sottie/users/password-reset")
 	public ResponseEntity<Void> resetPassword(@RequestBody @Valid DefaultUserRequest defaultUserRequest) {
 		updateUserService.resetPassword(defaultUserRequest.email(), defaultUserRequest.password());
 		return ResponseEntity.status(HttpStatus.OK).build();

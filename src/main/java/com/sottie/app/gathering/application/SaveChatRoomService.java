@@ -22,7 +22,7 @@ public class SaveChatRoomService {
 	private final GatheringRepository gatheringRepository;
 
 	public GatheringDto saveChatRoom(Long gatheringId, Long chatRoomId) {
-		
+
 		if (chatRoomId != null) {
 			Optional<Gathering> byId = gatheringRepository.findById(gatheringId);
 			if (byId.isPresent()) {
