@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -57,6 +56,9 @@ public class Gathering extends BaseEntity {
 
     private Boolean mannerRestriction;
 
+    // 채팅방 생성후에 저장되는 채팅방 ID값
+    private Long chatRoomId;
+
     @Transient
     @Setter
     private Boolean friendYn;
@@ -90,12 +92,20 @@ public class Gathering extends BaseEntity {
         return this.getPeopleNum().equals(this.getCurrentPeopleNum());
     }
 
-    public boolean isNoRoomForMale() {
+    public boolean isNoMoreRoomForMale() {
         return this.getMaleNum().equals(this.getCurrentMaleNum());
     }
 
-    public boolean isNoRoomForFemale() {
+    public boolean isNoMoreRoomForFemale() {
         return this.getFemaleNum().equals(this.getCurrentFemaleNum());
+    }
+
+    public void saveChatRoomId(Long chatRoomId) {
+        this.setChatRoomId(chatRoomId);
+    }
+
+    private void setChatRoomId(Long chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
 }

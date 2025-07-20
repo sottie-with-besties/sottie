@@ -122,21 +122,21 @@ public class CommonGatheringService {
 				return gathering.isNoMoreRoom();
 			case MIX:
 				if (gender.equals(Gender.MALE)) {
-					return gathering.isNoRoomForMale();
+					return gathering.isNoMoreRoomForMale();
 				} else {
-					return gathering.isNoRoomForFemale();
+					return gathering.isNoMoreRoomForFemale();
 				}
 			case FEMALE:
 				if (gender.equals(Gender.MALE)) {
 					return true;
 				} else {
-					return gathering.isNoRoomForFemale();
+					return gathering.isNoMoreRoomForFemale();
 				}
 			case MALE:
 				if (gender.equals(Gender.FEMALE)) {
 					return true;
 				} else {
-					return gathering.isNoRoomForMale();
+					return gathering.isNoMoreRoomForMale();
 				}
 			default:
 				return true;

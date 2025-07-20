@@ -24,7 +24,7 @@ class InviteGatheringController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@PostMapping("/sottie/gathering/reactInvite")
+	@PostMapping("/sottie/gathering/invite/react")
 	public ResponseEntity<GatheringInvitationDto> reactInviteGathering(@RequestBody @Valid ReactInviteGatheringRequest reactInviteGatheringRequest) {
 		GatheringInvitationDto result = inviteGatheringService.reactInviteGathering(reactInviteGatheringRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
